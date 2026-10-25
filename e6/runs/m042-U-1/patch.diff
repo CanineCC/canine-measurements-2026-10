@@ -1,0 +1,83 @@
+diff --git a/src/Kennel.Hosting/Projections/ProjectionFold.cs b/src/Kennel.Hosting/Projections/ProjectionFold.cs
+index d513743e..76eae7db 100644
+--- a/src/Kennel.Hosting/Projections/ProjectionFold.cs
++++ b/src/Kennel.Hosting/Projections/ProjectionFold.cs
+@@ -82,40 +82,56 @@ public static class ProjectionFold
+         }
+     }
+ 
++    private const BindingFlags HandlerMethods =
++        BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly;
++
+     private static Plan BuildPlan(Type projection, Type document)
+     {
+         var creators = new Dictionary<Type, Func<object, object, object>>();
+         var appliers = new Dictionary<Type, Func<object, object, object, object?>>();
+-        foreach (var method in projection.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly))
++        foreach (var method in projection.GetMethods(HandlerMethods))
+         {
+             var parameters = method.GetParameters();
+-            if (method.Name == "Create" && parameters.Length == 1 && document.IsAssignableFrom(method.ReturnType))
++            if (IsCreate(method, parameters, document))
+             {
+-                var m = method;
+-                creators[parameters[0].ParameterType] = (p, e) => m.Invoke(m.IsStatic ? null : p, [e])!;
++                creators[parameters[0].ParameterType] = CreateCreator(method);
+             }
+-            else if (method.Name == "Apply" && parameters.Length == 2)
++            else if (method.Name == "Apply" && parameters.Length == 2 && TryGetApplyIndices(parameters, document) is var (eventIndex, documentIndex))
+             {
+-                var (eventIndex, documentIndex) = document.IsAssignableFrom(parameters[1].ParameterType) ? (0, 1)
+-                    : document.IsAssignableFrom(parameters[0].ParameterType) ? (1, 0) : (-1, -1);
+-                if (eventIndex < 0)
+-                {
+-                    continue;
+-                }
+-
+-                var m = method;
+-                var returnsDocument = document.IsAssignableFrom(m.ReturnType);
+-                appliers[parameters[eventIndex].ParameterType] = (p, e, d) =>
+-                {
+-                    var args = new object[2];
+-                    args[eventIndex] = e;
+-                    args[documentIndex] = d;
+-                    var result = m.Invoke(m.IsStatic ? null : p, args);
+-                    return returnsDocument ? result : null;
+-                };
++                appliers[parameters[eventIndex].ParameterType] = CreateApplier(method, eventIndex, documentIndex, document);
+             }
+         }
+ 
+         return new Plan(creators, appliers);
+     }
++
++    private static bool IsCreate(MethodInfo method, ParameterInfo[] parameters, Type document) =>
++        method.Name == "Create" && parameters.Length == 1 && document.IsAssignableFrom(method.ReturnType);
++
++    /// <summary>Which parameter is the event and which the document, or null when neither order fits.</summary>
++    private static (int EventIndex, int DocumentIndex)? TryGetApplyIndices(ParameterInfo[] parameters, Type document)
++    {
++        if (document.IsAssignableFrom(parameters[1].ParameterType))
++        {
++            return (0, 1);
++        }
++
++        return document.IsAssignableFrom(parameters[0].ParameterType) ? (1, 0) : null;
++    }
++
++    private static Func<object, object, object> CreateCreator(MethodInfo method) =>
++        (p, e) => method.Invoke(method.IsStatic ? null : p, [e])!;
++
++    private static Func<object, object, object, object?> CreateApplier(MethodInfo method, int eventIndex, int documentIndex, Type document)
++    {
++        var returnsDocument = document.IsAssignableFrom(method.ReturnType);
++        return (p, e, d) =>
++        {
++            var args = new object[2];
++            args[eventIndex] = e;
++            args[documentIndex] = d;
++            var result = method.Invoke(method.IsStatic ? null : p, args);
++            return returnsDocument ? result : null;
++        };
++    }
+ }

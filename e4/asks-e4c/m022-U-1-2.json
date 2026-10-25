@@ -1,0 +1,41 @@
+{
+ "run": "m022-U-1",
+ "k": 2,
+ "verdict": "REJECT",
+ "text": "REJECT\nThe extracted pieces account for about 13 points of the original 29, so `ChangeFilters` likely still scores about 16. Inverting the `continue` into `if (reported.Add(...))` does not lower the score, because that `if` still costs 3 at the same nesting depth. I couldn't find the repository here, so this is a manual count against Sonar's rules, not a measured result, and I couldn't check that `CiChangeFilter`, `TestInvocation` and `JsInventory.Inventory` are the real type names.",
+ "cost_usd": 0.0488964,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 5642,
+  "output_tokens": 2388,
+  "output_tokens_details": {
+   "thinking_tokens": 1952
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 2388,
+    "cache_read_input_tokens": 5642,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

@@ -1,0 +1,41 @@
+{
+ "run": "m012-G-2",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The extraction keeps every condition and its evaluation order (skip handling, bracket depth clamped at 0, the `;` and declaration checks only at depth 0, the foreign-reference test with the `k == 0` case, and `seen.Add` run only after that test passes), and the loop's estimated cognitive complexity drops to about 14\u201315. I could not build the project or see the surrounding types here (`Foreign`, the `skip` list type), so the build is unconfirmed.",
+ "cost_usd": 0.0284984,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 2640,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 1771,
+  "output_tokens_details": {
+   "thinking_tokens": 1611
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2640,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1771,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 2640,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2640
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

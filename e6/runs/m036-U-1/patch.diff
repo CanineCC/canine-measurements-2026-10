@@ -1,0 +1,98 @@
+diff --git a/engine/src/Scanner/SecurityPosture/D36/SupplyChainProvenanceAnalyzer.TokenSites.cs b/engine/src/Scanner/SecurityPosture/D36/SupplyChainProvenanceAnalyzer.TokenSites.cs
+index f11fc02e..17ba8db3 100644
+--- a/engine/src/Scanner/SecurityPosture/D36/SupplyChainProvenanceAnalyzer.TokenSites.cs
++++ b/engine/src/Scanner/SecurityPosture/D36/SupplyChainProvenanceAnalyzer.TokenSites.cs
+@@ -337,49 +337,61 @@ public sealed partial class SupplyChainProvenanceAnalyzer
+         {
+             ct.ThrowIfCancellationRequested();
+             if (ReadWorkflowText(file) is not { } text) { continue; }
+-            var jobs = WorkflowJobs(text);
+-            if (jobs.Count == 0) { continue; }
++            unused.AddRange(UnusedWriteScopeGrantsInFile(file, text));
++        }
+ 
+-            var inheriting = new List<(string Name, bool Opaque, HashSet<string> Used)>();
+-            foreach (var (name, body, _) in jobs)
+-            {
+-                if (body.Count == 0) { continue; }
+-                var keyIndent = body.Where(l => l.Line.Trim().Length > 0).Min(l => LeadingSpaces(l.Line));
+-                var own = body.FirstOrDefault(l => LeadingSpaces(l.Line) == keyIndent && PermissionsBlock.IsMatch(l.Line));
+-                var (opaque, used) = JobTokenUse(body);
+-                if (own.Line is null)
+-                {
+-                    inheriting.Add((name, opaque, used));
+-                    continue;
+-                }
+-
+-                if (opaque) { continue; }
+-                unused.AddRange(JudgedWriteGrants(body, own)
+-                    .Where(g => !used.Contains(g.Scope))
+-                    .Select(g => new UnusedScopeGrant(file, g.Line, g.Scope, $"job `{name}`")));
+-            }
++        return unused;
++    }
+ 
+-            // A top-level grant is judged only through the jobs that inherit it, and only when every one of them can be
+-            // read; a grant no job inherits is dead, not wide.
+-            if (inheriting.Count == 0 || inheriting.Any(j => j.Opaque) || TopLevelPermissionsIndex(text) is not { } top)
++    private static List<UnusedScopeGrant> UnusedWriteScopeGrantsInFile(string file, string text)
++    {
++        var unused = new List<UnusedScopeGrant>();
++        var jobs = WorkflowJobs(text);
++        if (jobs.Count == 0) { return unused; }
++
++        var inheriting = new List<(string Name, bool Opaque, HashSet<string> Used)>();
++        foreach (var (name, body, _) in jobs)
++        {
++            if (body.Count == 0) { continue; }
++            var keyIndent = body.Where(l => l.Line.Trim().Length > 0).Min(l => LeadingSpaces(l.Line));
++            var own = body.FirstOrDefault(l => LeadingSpaces(l.Line) == keyIndent && PermissionsBlock.IsMatch(l.Line));
++            var (opaque, used) = JobTokenUse(body);
++            if (own.Line is null)
+             {
++                inheriting.Add((name, opaque, used));
+                 continue;
+             }
+ 
+-            List<(int Index, string Line)> lines = text.Replace("\r\n", "\n").Split('\n').Select((l, i) => (i, l)).ToList();
+-            foreach (var (scope, line) in JudgedWriteGrants(lines, lines[top]))
+-            {
+-                var idle = inheriting.Where(j => !j.Used.Contains(scope)).Select(j => j.Name).ToList();
+-                if (idle.Count > 0)
+-                {
+-                    unused.Add(new UnusedScopeGrant(file, line, scope, $"inheriting job(s) {FirstThree(idle, j => $"`{j}`")}"));
+-                }
+-            }
++            if (opaque) { continue; }
++            unused.AddRange(JudgedWriteGrants(body, own)
++                .Where(g => !used.Contains(g.Scope))
++                .Select(g => new UnusedScopeGrant(file, g.Line, g.Scope, $"job `{name}`")));
++        }
++
++        // A top-level grant is judged only through the jobs that inherit it, and only when every one of them can be
++        // read; a grant no job inherits is dead, not wide.
++        if (inheriting.Count > 0 && !inheriting.Any(j => j.Opaque) && TopLevelPermissionsIndex(text) is { } top)
++        {
++            unused.AddRange(UnusedTopLevelGrants(file, text, top, inheriting));
+         }
+ 
+         return unused;
+     }
+ 
++    private static IEnumerable<UnusedScopeGrant> UnusedTopLevelGrants(
++        string file, string text, int top, List<(string Name, bool Opaque, HashSet<string> Used)> inheriting)
++    {
++        List<(int Index, string Line)> lines = text.Replace("\r\n", "\n").Split('\n').Select((l, i) => (i, l)).ToList();
++        foreach (var (scope, line) in JudgedWriteGrants(lines, lines[top]))
++        {
++            var idle = inheriting.Where(j => !j.Used.Contains(scope)).Select(j => j.Name).ToList();
++            if (idle.Count > 0)
++            {
++                yield return new UnusedScopeGrant(file, line, scope, $"inheriting job(s) {FirstThree(idle, j => $"`{j}`")}");
++            }
++        }
++    }
++
+     private static Finding UnusedWriteScopeRow(UnusedScopeGrant grant) =>
+         new(FindingLevel.Warning, "Workflow token grant is wider than its jobs use",
+             $"`{grant.Scope}: write` at {Path.GetFileName(grant.File)}:{grant.Line} is held by {grant.Holder}, and no "

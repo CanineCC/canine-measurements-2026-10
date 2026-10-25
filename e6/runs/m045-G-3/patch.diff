@@ -1,0 +1,156 @@
+diff --git a/src/Kennel.Improve.Orchestrator/Gates/TurnGate.cs b/src/Kennel.Improve.Orchestrator/Gates/TurnGate.cs
+index 4576fb5b..d5a22856 100644
+--- a/src/Kennel.Improve.Orchestrator/Gates/TurnGate.cs
++++ b/src/Kennel.Improve.Orchestrator/Gates/TurnGate.cs
+@@ -347,43 +347,20 @@ public sealed class TurnGate(IGit git, IGateRunner gates, ITurnWorkspace workspa
+         //   any stage runs: a turn that pinned a corpus without a shell's entry would measure that shell's item on nothing.
+         var basePin = await _corpus.PinOfAsync(baseArm.Worktree, ct).ConfigureAwait(false);
+         var headPin = await _corpus.PinOfAsync(wt, ct).ConfigureAwait(false);
+-        if (headPin is not null && headPin != basePin)
++        var moved = headPin is not null && headPin != basePin;
++        if (moved)
+         {
+-            foreach (var m in merged.Where(m => m.CorpusPin is not null && m.CorpusPin != basePin))
++            var lost = await CheckMergedPinAsync(merged, basePin, headPin!, ct).ConfigureAwait(false);
++            if (lost is not null)
+             {
+-                if (!await _corpus.ContainsAsync(headPin, m.CorpusPin!, ct).ConfigureAwait(false))
+-                {
+-                    return new TurnCheck(TurnStage.Bench, $"the merged corpus pin {headPin[..Math.Min(10, headPin.Length)]} does not contain "
+-                        + $"{m.Package.Key}'s pin {m.CorpusPin![..Math.Min(10, m.CorpusPin!.Length)]}: the merge lost a bench entry "
+-                        + "(tools/bench/merge_pins.py takes the pin that contains the other)", null, Broken: true);
+-                }
+-            }
+-        }
+-
+-        var all = only is null;
+-        if (all || only == TurnStage.Prelock)
+-        {
+-            var log = workspace.FileFor(name, "prelock.log");
+-            var step = await gates.RunPrelockAsync(wt, log, ct).ConfigureAwait(false);
+-            if (step != StepOutcome.Green)
+-            {
+-                return StepCheck(TurnStage.Prelock, step, "pre-lock suites", log);
+-            }
+-        }
+-
+-        if (all || only == TurnStage.Guards)
+-        {
+-            var log = workspace.FileFor(name, "guards.log");
+-            var step = await gates.RunGuardsAsync(wt, log, ct).ConfigureAwait(false);
+-            if (step != StepOutcome.Green)
+-            {
+-                return StepCheck(TurnStage.Guards, step, "guards", log);
++                return lost;
+             }
+         }
+ 
+-        if (!all && only != TurnStage.Bench)
++        var early = await RunCheapStagesAsync(wt, name, only, ct).ConfigureAwait(false);
++        if (early is not null)
+         {
+-            return new TurnCheck(TurnStage.None, "", null);
++            return early;
+         }
+ 
+         var head = await git.HeadAsync(wt, ct).ConfigureAwait(false);
+@@ -396,24 +373,15 @@ public sealed class TurnGate(IGit git, IGateRunner gates, ITurnWorkspace workspa
+ 
+         // The base arm at the merged head's corpus pin: the base engine on the units the branches' entries added, every
+         // unit scored on the one corpus commit the head reads (BENCH_CORPUS_PIN).
+-        if (headPin is not null && headPin != basePin)
++        if (moved)
+         {
+-            if (!_baseAtPin.TryGetValue(headPin, out var atPin))
++            var (atPin, failure) = await BaseAtPinAsync(name, baseArm, headPin!, gateLog, ct).ConfigureAwait(false);
++            if (failure is not null)
+             {
+-                var path = workspace.FileFor(name, $"bench-base-at-{headPin[..Math.Min(10, headPin.Length)]}.json");
+-                var scored = await gates.BenchAtPinAsync(baseArm.Worktree, baseArm.Label, null, headPin, path, ct).ConfigureAwait(false);
+-                if (scored is null)
+-                {
+-                    return new TurnCheck(TurnStage.Bench, $"the base arm could not be measured at corpus {headPin[..Math.Min(10, headPin.Length)]}",
+-                        null, Broken: true);
+-                }
+-
+-                atPin = new BenchArm(baseArm.Worktree, baseArm.Label, null, scored, headPin);
+-                _baseAtPin[headPin] = atPin;
+-                gateLog.Add($"  bench {name}: base arm scored at the merged corpus pin {headPin[..Math.Min(10, headPin.Length)]}");
++                return failure;
+             }
+ 
+-            baseArm = atPin;
++            baseArm = atPin!;
+         }
+ 
+         var delta = await BenchPairing.CompareAsync(gates, baseArm, new BenchArm(wt, label, null, arm),
+@@ -443,4 +411,69 @@ public sealed class TurnGate(IGit git, IGateRunner gates, ITurnWorkspace workspa
+             ? new TurnCheck(TurnStage.Bench, UnrelatedPrefix + string.Join("; ", side.Rejected), delta with { Regressions = [] })
+             : new TurnCheck(TurnStage.None, "", delta);
+     }
++
++    private async Task<TurnCheck?> CheckMergedPinAsync(IReadOnlyList<ShellVerdict> merged, string? basePin, string headPin, CancellationToken ct)
++    {
++        foreach (var m in merged.Where(m => m.CorpusPin is not null && m.CorpusPin != basePin))
++        {
++            if (!await _corpus.ContainsAsync(headPin, m.CorpusPin!, ct).ConfigureAwait(false))
++            {
++                return new TurnCheck(TurnStage.Bench, $"the merged corpus pin {headPin[..Math.Min(10, headPin.Length)]} does not contain "
++                    + $"{m.Package.Key}'s pin {m.CorpusPin![..Math.Min(10, m.CorpusPin!.Length)]}: the merge lost a bench entry "
++                    + "(tools/bench/merge_pins.py takes the pin that contains the other)", null, Broken: true);
++            }
++        }
++
++        return null;
++    }
++
++    /// <summary>Runs the prelock and guards stages the request covers; a failure, or the verdict of a run that stops
++    /// short of the bench stage, is returned, null means the bench stage runs next.</summary>
++    private async Task<TurnCheck?> RunCheapStagesAsync(string wt, string name, TurnStage? only, CancellationToken ct)
++    {
++        var all = only is null;
++        if (all || only == TurnStage.Prelock)
++        {
++            var log = workspace.FileFor(name, "prelock.log");
++            var step = await gates.RunPrelockAsync(wt, log, ct).ConfigureAwait(false);
++            if (step != StepOutcome.Green)
++            {
++                return StepCheck(TurnStage.Prelock, step, "pre-lock suites", log);
++            }
++        }
++
++        if (all || only == TurnStage.Guards)
++        {
++            var log = workspace.FileFor(name, "guards.log");
++            var step = await gates.RunGuardsAsync(wt, log, ct).ConfigureAwait(false);
++            if (step != StepOutcome.Green)
++            {
++                return StepCheck(TurnStage.Guards, step, "guards", log);
++            }
++        }
++
++        return !all && only != TurnStage.Bench ? new TurnCheck(TurnStage.None, "", null) : null;
++    }
++
++    private async Task<(BenchArm? Arm, TurnCheck? Failure)> BaseAtPinAsync(string name, BenchArm baseArm, string headPin,
++        List<string> gateLog, CancellationToken ct)
++    {
++        if (_baseAtPin.TryGetValue(headPin, out var cached))
++        {
++            return (cached, null);
++        }
++
++        var shortPin = headPin[..Math.Min(10, headPin.Length)];
++        var path = workspace.FileFor(name, $"bench-base-at-{shortPin}.json");
++        var scored = await gates.BenchAtPinAsync(baseArm.Worktree, baseArm.Label, null, headPin, path, ct).ConfigureAwait(false);
++        if (scored is null)
++        {
++            return (null, new TurnCheck(TurnStage.Bench, $"the base arm could not be measured at corpus {shortPin}", null, Broken: true));
++        }
++
++        var atPin = new BenchArm(baseArm.Worktree, baseArm.Label, null, scored, headPin);
++        _baseAtPin[headPin] = atPin;
++        gateLog.Add($"  bench {name}: base arm scored at the merged corpus pin {shortPin}");
++        return (atPin, null);
++    }
+ }

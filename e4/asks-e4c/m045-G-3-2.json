@@ -1,0 +1,41 @@
+{
+ "run": "m045-G-3",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nBy my count the method is now at 15: the moved code accounts for 25 points (counting the `&&` inside the `Where` lambda), and the new `moved` local and early-return `if`s add back 8. The extracted helpers keep the same order of calls, messages and caching, and nothing in the diff looks like it would break the build, though I couldn't compile it or run the analyser here.",
+ "cost_usd": 0.024122,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 6270,
+  "output_tokens": 1143,
+  "output_tokens_details": {
+   "thinking_tokens": 1016
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1143,
+    "cache_read_input_tokens": 6270,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

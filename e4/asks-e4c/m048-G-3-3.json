@@ -1,0 +1,41 @@
+{
+ "run": "m048-G-3",
+ "k": 3,
+ "verdict": "REJECT",
+ "text": "REJECT\n`ShipAsync` returns `ship.MainMoved` as `Requeued` even when `ship.Unjudged` is set, whereas the original used `else if` and left `requeued` null in that case, so a ship result carrying both now re-parks the held packages as \"requeued\", writes `Requeued` into the turn record and adds a spurious \"requeued\" clause to the summary line.",
+ "cost_usd": 0.0189684,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 18202,
+  "output_tokens": 766,
+  "output_tokens_details": {
+   "thinking_tokens": 638
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 766,
+    "cache_read_input_tokens": 18202,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

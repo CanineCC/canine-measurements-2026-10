@@ -1,0 +1,41 @@
+{
+ "run": "m032-U-2",
+ "k": 1,
+ "verdict": "REJECT",
+ "text": "REJECT: the behaviour looks preserved, but `AnswersOnlyConstants` now only dispatches, and the bulk of the complexity moved into `BlockAnswersOnlyConstants`. By my count, the expression branch accounts for about 12 of the original 40, and the payload and return de-nesting saves only about 6, so the block method is still around 22, above the threshold of 15. I estimated this by hand and didn't run the analyzer or a build.",
+ "cost_usd": 0.0379064,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 2902,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 2607,
+  "output_tokens_details": {
+   "thinking_tokens": 2456
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2902,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 2607,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 2902,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2902
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

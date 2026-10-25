@@ -1,0 +1,41 @@
+{
+ "run": "p12-before-2",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE: The loop moves unchanged into `ReadFromVersions`, with the same skip, match and return-first logic and the same `null` fallbacks. `HasNum` carries the original `num` check verbatim, and the removed nesting leaves `Parse` well under 15. Nothing in the diff should trip warnings-as-errors, though I haven't run the build.",
+ "cost_usd": 0.0071725999999999995,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 3986,
+  "output_tokens": 677,
+  "output_tokens_details": {
+   "thinking_tokens": 555
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 677,
+    "cache_read_input_tokens": 3986,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

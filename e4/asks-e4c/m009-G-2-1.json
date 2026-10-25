@@ -1,0 +1,41 @@
+{
+ "run": "m009-G-2",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe split leaves `InScript` at about 2 and each helper at 4 or less, and the logic and the order sites are added in are unchanged (`continue` became `if (close >= 0)`); the one thing I couldn't check, because the source file isn't available here, is whether the new parameter types (`Func<Family, bool>`, `IReadOnlyDictionary<string, bool>`, `IReadOnlySet<string>`, `List<Site>`) match the original locals, which is the one way this could break the build.",
+ "cost_usd": 0.0395088,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 2474,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 963,
+  "output_tokens_details": {
+   "thinking_tokens": 591
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2474,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 963,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 2474,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2474
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

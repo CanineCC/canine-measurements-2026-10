@@ -1,0 +1,41 @@
+{
+ "run": "p24-before-1",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE: both extractions keep the original conditions and their short-circuit order (the second only splits an `&&` into an outer `if` plus a guard inside the helper), every helper parameter is used, and removing two nested `if`/`&&` constructs from the method drops its complexity by well over the 2 points needed. One assumption I couldn't check from the diff alone is that `sourceTextRefs` is a `List<SourceTextRef>`.",
+ "cost_usd": 0.006671999999999999,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4280,
+  "output_tokens": 624,
+  "output_tokens_details": {
+   "thinking_tokens": 479
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 624,
+    "cache_read_input_tokens": 4280,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

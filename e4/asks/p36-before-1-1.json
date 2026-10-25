@@ -1,0 +1,41 @@
+{
+ "run": "p36-before-1",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE\n\nThe extracted `BypassedCtorFqns` helper applies the same filters as the original loops (Scala types only, non-empty `CtorFqn`, ordinal comparer), so behaviour is unchanged. The removed nested loops and ifs bring the method well under 15, and the file already uses LINQ (`.Any` in `AssertsNonEmptinessByName`), so it should build.\n\nI judged this from the diff alone, without building the project or running the tests.",
+ "cost_usd": 0.0113604,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 1518,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 506,
+  "output_tokens_details": {
+   "thinking_tokens": 350
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 1518,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 506,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 1518,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1518
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

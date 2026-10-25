@@ -1,0 +1,82 @@
+diff --git a/engine/src/CodeHealth.Core/Dependencies/NpmCurrencyCollector.cs b/engine/src/CodeHealth.Core/Dependencies/NpmCurrencyCollector.cs
+index b30864d..94b470e 100644
+--- a/engine/src/CodeHealth.Core/Dependencies/NpmCurrencyCollector.cs
++++ b/engine/src/CodeHealth.Core/Dependencies/NpmCurrencyCollector.cs
+@@ -73,34 +73,7 @@ public sealed class NpmCurrencyCollector(INpmRegistry registry, ILogger<NpmCurre
+             return NpmCurrencyReport.None;
+         }
+ 
+-        // Highest lock wins per package — see the remarks.
+-        var locked = new Dictionary<string, string>(StringComparer.Ordinal);
+-        foreach (var file in lockfiles)
+-        {
+-            string json;
+-#pragma warning disable CHA0004 // An unreadable lockfile is one we do not grade; the arm's own abstention
+-            // covers it and there is nothing for an operator to act on. Failing the scan over one file would
+-            // be worse than reading the rest.
+-            try
+-            {
+-                json = await File.ReadAllTextAsync(file, cancellationToken).ConfigureAwait(false);
+-            }
+-            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+-            {
+-                continue;
+-            }
+-#pragma warning restore CHA0004
+-
+-            foreach (var package in NpmLockfileReader.ReadPackageLock(json))
+-            {
+-                if (!locked.TryGetValue(package.Name, out var existing)
+-                    || NpmVersion.IsNewer(package.Version, existing))
+-                {
+-                    locked[package.Name] = package.Version;
+-                }
+-            }
+-        }
+-
++        var locked = await ReadHighestLockedAsync(lockfiles, cancellationToken).ConfigureAwait(false);
+         if (locked.Count == 0)
+         {
+             return new NpmCurrencyReport(lockfiles.Count, 0, [], true, null);
+@@ -235,6 +208,41 @@ public sealed class NpmCurrencyCollector(INpmRegistry registry, ILogger<NpmCurre
+             answered, notFound, unavailable, diagnostic);
+     }
+ 
++    /// <summary>Highest lock wins per package — see the remarks.</summary>
++    private static async Task<Dictionary<string, string>> ReadHighestLockedAsync(
++        List<string> lockfiles,
++        CancellationToken cancellationToken)
++    {
++        var locked = new Dictionary<string, string>(StringComparer.Ordinal);
++        foreach (var file in lockfiles)
++        {
++            string json;
++#pragma warning disable CHA0004 // An unreadable lockfile is one we do not grade; the arm's own abstention
++            // covers it and there is nothing for an operator to act on. Failing the scan over one file would
++            // be worse than reading the rest.
++            try
++            {
++                json = await File.ReadAllTextAsync(file, cancellationToken).ConfigureAwait(false);
++            }
++            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
++            {
++                continue;
++            }
++#pragma warning restore CHA0004
++
++            foreach (var package in NpmLockfileReader.ReadPackageLock(json))
++            {
++                if (!locked.TryGetValue(package.Name, out var existing)
++                    || NpmVersion.IsNewer(package.Version, existing))
++                {
++                    locked[package.Name] = package.Version;
++                }
++            }
++        }
++
++        return locked;
++    }
++
+     /// <summary>Every <c>package-lock.json</c> in the tree that describes THIS repository — an installed
+     /// <c>node_modules</c> tree carries thousands describing other people's packages.</summary>
+     private static List<string> FindLockfiles(string targetPath)

@@ -1,0 +1,29 @@
+{
+ "side": "after",
+ "pair": "p28",
+ "touched": [
+  "engine/src/Core/Languages/Go/Testing/GoModuleTestScanner.cs"
+ ],
+ "empty_patch": false,
+ "tests_edited": false,
+ "patch_applies": true,
+ "target_cognitive_after": 13,
+ "target_present": true,
+ "newly_over_threshold": [],
+ "max_cognitive_in_touched_files_after": 14,
+ "build_ok": true,
+ "build_errors": [],
+ "test_classes": [
+  "GoModuleTestScannerTests",
+  "GoTestEventStreamTests"
+ ],
+ "tests": {
+  "exit": 0,
+  "passed": 12,
+  "failed": 0,
+  "total": 12,
+  "tail": "Test run for <scratch>/blog-method/e2/lanes/gate-after/engine/tests/CodeHealth.Tests.Unit/bin/Debug/net10.0/CodeHealth.Tests.Unit.dll (.NETCoreApp,Version=v10.0)\nVSTest version 18.0.2 (x64)\n\nStarting test execution, please wait...\nA total of 1 test files matched the specified pattern.\n\nPassed!  - Failed:     0, Passed:    12, Skipped:     0, Total:    12, Duration: 40 ms - CodeHealth.Tests.Unit.dll (net10.0)\nbuild-lock.sh: dotnet is <home>/.dotnet-microsoft (Microsoft build): /usr/lib/dotnet's runtime links the system libunwind, whose race aborts concurrent throws with 'Internal CLR error (0x80131506)' (dotnet/runtime#130577)\n"
+ },
+ "outcome": "held",
+ "behaviour": "tests_passed"
+}

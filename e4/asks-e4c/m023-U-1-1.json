@@ -1,0 +1,41 @@
+{
+ "run": "m023-U-1",
+ "k": 1,
+ "verdict": "REJECT",
+ "text": "REJECT\nThe primary-constructor parameter `text` is both used in field initializers (e.g. `_comment = text.ToCharArray()`) and captured by the methods (`text[i]`), which triggers compiler warning CS9124 and breaks the warnings-as-errors build, even though the lexing logic itself is otherwise preserved.",
+ "cost_usd": 0.0511008,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 4088,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 897,
+  "output_tokens_details": {
+   "thinking_tokens": 785
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 4088,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 897,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 4088,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 4088
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

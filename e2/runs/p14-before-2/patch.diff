@@ -1,0 +1,71 @@
+diff --git a/engine/src/CodeHealth.Core/Dependencies/NpmLockfileReader.cs b/engine/src/CodeHealth.Core/Dependencies/NpmLockfileReader.cs
+index b675d34..e7bb179 100644
+--- a/engine/src/CodeHealth.Core/Dependencies/NpmLockfileReader.cs
++++ b/engine/src/CodeHealth.Core/Dependencies/NpmLockfileReader.cs
+@@ -66,36 +66,43 @@ public static class NpmLockfileReader
+             var found = new List<NpmLockedPackage>();
+             foreach (var entry in packages.EnumerateObject())
+             {
+-                // "" is the root project itself, not a dependency of anything.
+-                if (entry.Name.Length == 0 || entry.Value.ValueKind != JsonValueKind.Object)
++                if (ToProductionPackage(entry) is { } package)
+                 {
+-                    continue;
+-                }
+-
+-                var name = PackageNameFromKey(entry.Name);
+-                if (name.Length == 0)
+-                {
+-                    continue;
++                    found.Add(package);
+                 }
++            }
+ 
+-                if (IsTrue(entry.Value, "dev") || IsTrue(entry.Value, "link"))
+-                {
+-                    // dev: not shipped. link: a directory in this repo, with no published release to be behind.
+-                    continue;
+-                }
++            return found;
++        }
++    }
+ 
+-                if (!entry.Value.TryGetProperty("version", out var version)
+-                    || version.ValueKind != JsonValueKind.String
+-                    || version.GetString() is not { Length: > 0 } text)
+-                {
+-                    continue;
+-                }
++    /// <summary>The production package a <c>packages</c> entry denotes, or null for the root project, a non-object
++    /// entry, a dev or link entry, or one with no usable version.</summary>
++    private static NpmLockedPackage? ToProductionPackage(JsonProperty entry)
++    {
++        // "" is the root project itself, not a dependency of anything.
++        if (entry.Name.Length == 0 || entry.Value.ValueKind != JsonValueKind.Object)
++        {
++            return null;
++        }
+ 
+-                found.Add(new NpmLockedPackage(name, text));
+-            }
++        var name = PackageNameFromKey(entry.Name);
++        if (name.Length == 0)
++        {
++            return null;
++        }
+ 
+-            return found;
++        // dev: not shipped. link: a directory in this repo, with no published release to be behind.
++        if (IsTrue(entry.Value, "dev") || IsTrue(entry.Value, "link"))
++        {
++            return null;
+         }
++
++        return entry.Value.TryGetProperty("version", out var version)
++            && version.ValueKind == JsonValueKind.String
++            && version.GetString() is { Length: > 0 } text
++                ? new NpmLockedPackage(name, text)
++                : null;
+     }
+ 
+     /// <summary>

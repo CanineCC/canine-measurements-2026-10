@@ -1,0 +1,41 @@
+{
+ "run": "m004-U-3",
+ "k": 3,
+ "verdict": "REJECT",
+ "text": "REJECT\n\nBy my hand count of the cognitive-complexity rules, the refactor removes only 3 (indent `if` with `||`) + 4 (PODS inner `if` with `&&`) + 4 (DEPENDENCIES `if` with `&&`) = 11 points but adds 2 for the new `if (TryReadTopLevelEntry(line) is not { } entry)`, so the method lands at about 16, still above the threshold of 15. I couldn't run the analyzer here, so this is an estimate, and the behaviour and build look fine.",
+ "cost_usd": 0.029794900000000003,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4409,
+  "output_tokens": 2935,
+  "output_tokens_details": {
+   "thinking_tokens": 2753
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 2935,
+    "cache_read_input_tokens": 4409,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

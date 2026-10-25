@@ -1,0 +1,41 @@
+{
+ "run": "m021-U-3",
+ "k": 2,
+ "verdict": "REJECT",
+ "text": "REJECT\nThe patch only extracts about 25 points of complexity (the three leading checks and the three report loops), while the shown 77\u219215 target needs about 62, so the untouched middle section (the gating-run and dropped/outside/configDropped computation, roughly lines 310\u2013400) must still leave `Js` well above 15.",
+ "cost_usd": 0.0128934,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 7027,
+  "output_tokens": 574,
+  "output_tokens_details": {
+   "thinking_tokens": 469
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 574,
+    "cache_read_input_tokens": 7027,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

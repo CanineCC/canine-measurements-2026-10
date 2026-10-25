@@ -1,0 +1,41 @@
+{
+ "run": "m027-G-3",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The extraction preserves behavior: `classAt` is the same `i` used for the class name, the `NestDecision` ternary chain is equivalent to the original, and the `k = bodySpan.End - 1` skip is unchanged. The moved loop carried most of the nesting cost, so the method should land under 15. I could not build the project or measure the score here, so that and the `List<Decorator>` parameter type are unconfirmed.",
+ "cost_usd": 0.0111523,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4983,
+  "output_tokens": 1065,
+  "output_tokens_details": {
+   "thinking_tokens": 920
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1065,
+    "cache_read_input_tokens": 4983,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

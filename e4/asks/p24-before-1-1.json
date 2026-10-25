@@ -1,0 +1,41 @@
+{
+ "run": "p24-before-1",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE. Both extractions move the conditions into helpers with the same short-circuit order and the same `Add` calls, so behaviour is unchanged. The first extraction removes a nested `if` with `&&`, and the second removes one `&&`, so complexity drops well below 15. The helpers use only parameters that are passed in, and the signatures look build-safe, though I reviewed the diff only and did not build it.",
+ "cost_usd": 0.014012400000000001,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 2036,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 564,
+  "output_tokens_details": {
+   "thinking_tokens": 429
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2036,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 564,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 2036,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2036
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

@@ -1,0 +1,88 @@
+diff --git a/engine/src/Scanner/Security/D29/Scanners/RouteAuthorizationScan.cs b/engine/src/Scanner/Security/D29/Scanners/RouteAuthorizationScan.cs
+index 503b0f39..9b4b8235 100644
+--- a/engine/src/Scanner/Security/D29/Scanners/RouteAuthorizationScan.cs
++++ b/engine/src/Scanner/Security/D29/Scanners/RouteAuthorizationScan.cs
+@@ -210,41 +210,54 @@ internal static class RouteAuthorizationScan
+                 continue;
+             }
+ 
+-            // `router.route(path).get(…)` chains: the receiver token is the `)` of the previous chain call.
+-            string? path;
+-            List<Span> middle;
+-            int receiver;
+-            if (t[i].IsPunct(")") && f.RouteChainPath(i) is { } chain)
++            if (ExpressRoute(model, f, i, args) is { } route)
+             {
+-                path = chain.Path;
+-                receiver = chain.Receiver;
+-                middle = args.Take(args.Count - 1).ToList();
++                yield return route;
+             }
+-            else
+-            {
+-                if (args.Count < 2 || !t[i].IsName || !IsPath(t[args[0].Start]))
+-                {
+-                    continue;
+-                }
++        }
++    }
+ 
+-                path = t[args[0].Start].Value;
+-                receiver = i;
+-                middle = args.Skip(1).Take(args.Count - 2).ToList();
+-            }
++    /// <summary>A verb call <c>recv.get(path, …middleware, handler)</c> or a <c>route(path).get(…)</c> chain link at
++    /// token <paramref name="i"/> (the receiver); null when it is not a route registration.</summary>
++    private static Judged? ExpressRoute(Model model, Lexed f, int i, List<Span> args)
++    {
++        var t = f.T;
++        var verb = t[i + 2].Text;
++        if (ExpressRouteTarget(f, i, args) is not var (path, receiver, middle))
++        {
++            return null;
++        }
+ 
+-            var handler = args[^1];
+-            if (!f.IsFunctionLike(handler))
+-            {
+-                continue;
+-            }
++        var handler = args[^1];
++        if (!f.IsFunctionLike(handler))
++        {
++            return null;
++        }
++
++        var endpoint = new Endpoint(f.Relative, t[i + 2].Line, $"{verb.ToUpperInvariant()} {path}", WritingVerbs.Contains(verb), f.App);
++        var guarded = middle.Any(m => model.IsGuardSpan(f, m) || model.FastifyOptionsGuard(f, m))
++                      || model.ScopeGuardsBefore(f, receiver, path)
++                      || model.MountGuarded(f, receiver);
++        var (exempt, checks) = model.HandlerExempt(f, handler);
++        return new Judged(endpoint, guarded ? Decision.Guarded : Decision.None, exempt, checks);
++    }
+ 
+-            var endpoint = new Endpoint(f.Relative, t[i + 2].Line, $"{verb.ToUpperInvariant()} {path}", WritingVerbs.Contains(verb), f.App);
+-            var guarded = middle.Any(m => model.IsGuardSpan(f, m) || model.FastifyOptionsGuard(f, m))
+-                          || model.ScopeGuardsBefore(f, receiver, path)
+-                          || model.MountGuarded(f, receiver);
+-            var (exempt, checks) = model.HandlerExempt(f, handler);
+-            yield return new Judged(endpoint, guarded ? Decision.Guarded : Decision.None, exempt, checks);
++    /// <summary>The route path, the base receiver token and the middleware arguments of a verb call. A
++    /// <c>router.route(path).get(…)</c> chain has the receiver token at the <c>)</c> of the previous chain call.</summary>
++    private static (string? Path, int Receiver, List<Span> Middle)? ExpressRouteTarget(Lexed f, int i, List<Span> args)
++    {
++        var t = f.T;
++        if (t[i].IsPunct(")") && f.RouteChainPath(i) is { } chain)
++        {
++            return (chain.Path, chain.Receiver, args.Take(args.Count - 1).ToList());
++        }
++
++        if (args.Count < 2 || !t[i].IsName || !IsPath(t[args[0].Start]))
++        {
++            return null;
+         }
++
++        return (t[args[0].Start].Value, i, args.Skip(1).Take(args.Count - 2).ToList());
+     }
+ 
+     private static Judged? FastifyRouteObject(Model model, Lexed f, int receiver, Span obj)

@@ -1,0 +1,41 @@
+{
+ "run": "p44-after-3",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE: The ternaries, `&&` chains and lambda that carried the nesting-weighted complexity moved into `ToContainer`, so `Parse` drops well below 15; the expressions are copied verbatim and the call still sits inside the same `try`, so behaviour is unchanged, and the new private static method uses only members already in the class, so the build should be unaffected.",
+ "cost_usd": 0.0060033,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4193,
+  "output_tokens": 558,
+  "output_tokens_details": {
+   "thinking_tokens": 435
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 558,
+    "cache_read_input_tokens": 4193,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

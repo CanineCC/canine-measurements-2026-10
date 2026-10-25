@@ -1,0 +1,41 @@
+{
+ "run": "p36-before-1",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The extracted `BypassedCtorFqns` keeps the same filtering (Scala types only, non-empty `CtorFqn`) and ordinal-comparer set semantics. That removes the nested foreach/if structure (about 8 cognitive-complexity points), taking the method well under 15, and the LINQ calls are already used elsewhere in the file. I could only see the diff, so I did not build the project or run the tests.",
+ "cost_usd": 0.0060002,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 3762,
+  "output_tokens": 562,
+  "output_tokens_details": {
+   "thinking_tokens": 418
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 562,
+    "cache_read_input_tokens": 3762,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

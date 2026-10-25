@@ -1,0 +1,41 @@
+{
+ "run": "m045-G-3",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe moved logic matches the original (same checks, same order, same messages, same cache writes and log lines), and by my count the method drops to 15 (25 increments removed, 8 added). I couldn't build it because the source isn't on this machine, so the build depends on `merged` being an `IReadOnlyList<ShellVerdict>` and `gateLog` being a `List<string>` as the new signatures assume.",
+ "cost_usd": 0.037642,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 6270,
+  "output_tokens": 1819,
+  "output_tokens_details": {
+   "thinking_tokens": 1123
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1819,
+    "cache_read_input_tokens": 6270,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

@@ -1,0 +1,41 @@
+{
+ "run": "m009-U-3",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The three loops move verbatim into helpers called in the original order (template sites, object sites, animate sites), with `guards` still computed once, so behaviour is unchanged. `InScript` is left with only two simple `if`s, which is well under 15. I could not compile it here, so the helper parameter types (`IReadOnlySet<string>`, `IReadOnlyDictionary<string, bool>`) are assumed to match the existing signatures.",
+ "cost_usd": 0.0097839,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4699,
+  "output_tokens": 931,
+  "output_tokens_details": {
+   "thinking_tokens": 782
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 931,
+    "cache_read_input_tokens": 4699,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

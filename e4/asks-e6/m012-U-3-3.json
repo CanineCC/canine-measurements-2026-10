@@ -1,0 +1,41 @@
+{
+ "run": "m012-U-3",
+ "k": 3,
+ "verdict": "REJECT",
+ "text": "REJECT: the refactor preserves behaviour and probably builds, but it only moves the operator chains out of `Uses` (the opener/closer checks and the foreign-reference condition) while the rest of the loop and its nesting stay put, so by my estimate complexity drops only from 29 to about 23, still above 15.",
+ "cost_usd": 0.015624800000000001,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4408,
+  "output_tokens": 1518,
+  "output_tokens_details": {
+   "thinking_tokens": 1414
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1518,
+    "cache_read_input_tokens": 4408,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

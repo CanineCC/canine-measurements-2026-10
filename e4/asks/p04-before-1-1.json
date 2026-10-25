@@ -1,0 +1,41 @@
+{
+ "run": "p04-before-1",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE: `IsAlsoSetLive` is now a single `||` expression, and the extracted `IsSetLiveInDirection` scores about 11 by my estimate. The behaviour is the same, because the old `break` only ended the inner loop and moved on to the other direction, which the new `return false` plus `||` reproduces with the same -1-then-1 order. The patch adds no unused code or new public API that would trip warnings-as-errors, though I have not run the build.",
+ "cost_usd": 0.0131864,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 1712,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 611,
+  "output_tokens_details": {
+   "thinking_tokens": 456
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 1712,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 611,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 1712,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1712
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

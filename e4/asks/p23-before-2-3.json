@@ -1,0 +1,41 @@
+{
+ "run": "p23-before-2",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE: The inner loop body moved unchanged into `AddGoEmbedRef`, with each `continue` becoming an equivalent `return`. That drops the nested early-exit branches from `CollectGoEmbedRefs`, which should bring it below 15. The new helper is private and static and uses all its parameters, so I see no reason for a build warning. I could not check the parameter types (`List<HostEmbedRef>`, string `directory`) against the original signature, since the diff doesn't show it.",
+ "cost_usd": 0.0061548,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4308,
+  "output_tokens": 572,
+  "output_tokens_details": {
+   "thinking_tokens": 407
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 572,
+    "cache_read_input_tokens": 4308,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

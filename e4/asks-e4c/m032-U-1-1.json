@@ -1,0 +1,41 @@
+{
+ "run": "m032-U-1",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe method now just picks between two helpers, so its complexity is well under 15. Each extracted condition (`IsPayloadCall`, `IsForeignStatement`, the inverted `response.Length == 0 || !IsIdentifier` guard, the flattened `return` check) keeps the original logic and the dropped `k > 0` bound can never be false where it matters. I see no unused variables or unmatched doc tags that would break a warnings-as-errors build, though I couldn't build it here to confirm.",
+ "cost_usd": 0.0499328,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 3227,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 1183,
+  "output_tokens_details": {
+   "thinking_tokens": 1014
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 3227,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1183,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 3227,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 3227
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

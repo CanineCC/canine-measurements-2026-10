@@ -1,0 +1,81 @@
+diff --git a/engine/src/CodeHealth.Core/ExplicitDebt/YamlDisabledConfigScanner.cs b/engine/src/CodeHealth.Core/ExplicitDebt/YamlDisabledConfigScanner.cs
+index 3b4c442..b0d411d 100644
+--- a/engine/src/CodeHealth.Core/ExplicitDebt/YamlDisabledConfigScanner.cs
++++ b/engine/src/CodeHealth.Core/ExplicitDebt/YamlDisabledConfigScanner.cs
+@@ -238,31 +238,8 @@ public static class YamlDisabledConfigScanner
+ 
+         for (var i = 0; i < parsed.Length; i++)
+         {
+-            if (parsed[i].Kind != LineKind.Comment)
+-            {
+-                continue;
+-            }
+-
+-            // A line inside a convicted block is already billed by the block row above. Reporting it again is the
+-            // "one defect, two rows" trap D17 is repeatedly fixed for.
+-            if (blocks.Any(b => i >= b.Start && i <= b.End))
+-            {
+-                continue;
+-            }
+-
+-            var entry = MappingEntry.Match(parsed[i].Text);
+-            if (!entry.Success)
+-            {
+-                continue;
+-            }
+-
+-            var key = entry.Groups["key"].Value;
+-            if (TaskTags.Contains(key) || !IsMachineValue(entry.Groups["value"].Value))
+-            {
+-                continue;
+-            }
+-
+-            if (RunContainsProse(parsed, i) || !HasAlignedLiveSibling(parsed, i) || IsAlsoSetLive(parsed, i, key))
++            var key = ConvictedEntryKey(parsed, i, blocks);
++            if (key is null)
+             {
+                 continue;
+             }
+@@ -278,6 +255,42 @@ public static class YamlDisabledConfigScanner
+         return markers;
+     }
+ 
++    /// <summary>The key of the commented-out entry on line <paramref name="i"/> when it is convicted as disabled
++    /// configuration, otherwise null.</summary>
++    private static string? ConvictedEntryKey(YamlLine[] parsed, int i, IReadOnlyList<DisabledBlock> blocks)
++    {
++        if (parsed[i].Kind != LineKind.Comment)
++        {
++            return null;
++        }
++
++        // A line inside a convicted block is already billed by the block row above. Reporting it again is the
++        // "one defect, two rows" trap D17 is repeatedly fixed for.
++        if (blocks.Any(b => i >= b.Start && i <= b.End))
++        {
++            return null;
++        }
++
++        var entry = MappingEntry.Match(parsed[i].Text);
++        if (!entry.Success)
++        {
++            return null;
++        }
++
++        var key = entry.Groups["key"].Value;
++        if (TaskTags.Contains(key) || !IsMachineValue(entry.Groups["value"].Value))
++        {
++            return null;
++        }
++
++        if (RunContainsProse(parsed, i) || !HasAlignedLiveSibling(parsed, i) || IsAlsoSetLive(parsed, i, key))
++        {
++            return null;
++        }
++
++        return key;
++    }
++
+     /// <summary>Splits a raw line into its kind, its EFFECTIVE indentation and its text.
+     ///
+     /// <para>For a comment the indentation is reconstructed: one space after the <c>#</c> is the delimiter's own

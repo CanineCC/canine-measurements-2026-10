@@ -1,0 +1,41 @@
+{
+ "run": "m008-G-1",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The extracted helpers preserve the original filtering, lazy `Select(Analyse)` order, `Print` skip, and the `DrawsIndicator`/`Outranks` early returns exactly, and each method's cognitive complexity is now well under 15. I haven't built it, so the warnings-as-errors check rests on the patch looking clean (no new types, at most 6 parameters per helper).",
+ "cost_usd": 0.0172804,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 1943,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 928,
+  "output_tokens_details": {
+   "thinking_tokens": 793
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 1943,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 928,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 1943,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1943
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

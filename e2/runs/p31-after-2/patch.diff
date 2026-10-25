@@ -1,0 +1,49 @@
+diff --git a/engine/src/Core/Testing/NodeTestSuiteCoverageCollector.cs b/engine/src/Core/Testing/NodeTestSuiteCoverageCollector.cs
+index 6c86f313..67074bae 100644
+--- a/engine/src/Core/Testing/NodeTestSuiteCoverageCollector.cs
++++ b/engine/src/Core/Testing/NodeTestSuiteCoverageCollector.cs
+@@ -1159,25 +1159,30 @@ public sealed partial class NodeTestSuiteCoverageCollector(
+                 CommittedCoverageReader.MergeRow(rows, path, row.CoveredLines, row.TotalLines, row.LineCoveragePct);
+             }
+ 
+-            try
+-            {
+-                foreach (var line in File.ReadLines(file))
+-                {
+-                    if (line.StartsWith("BRF:", StringComparison.Ordinal) && long.TryParse(line.AsSpan(4), NumberStyles.None, CultureInfo.InvariantCulture, out var f)) { found += f; }
+-                    else if (line.StartsWith("BRH:", StringComparison.Ordinal) && long.TryParse(line.AsSpan(4), NumberStyles.None, CultureInfo.InvariantCulture, out var h)) { hit += h; }
+-                }
+-            }
+-#pragma warning disable CHA0004 // The per-file merge above already read what it could; branch totals are a bonus.
+-            catch (IOException)
+-            {
+-                continue;
+-            }
+-#pragma warning restore CHA0004
++            AddBranchTotals(file, ref found, ref hit);
+         }
+ 
+         return (rows, found, hit);
+     }
+ 
++    private static void AddBranchTotals(string file, ref long found, ref long hit)
++    {
++        try
++        {
++            foreach (var line in File.ReadLines(file))
++            {
++                if (line.StartsWith("BRF:", StringComparison.Ordinal) && long.TryParse(line.AsSpan(4), NumberStyles.None, CultureInfo.InvariantCulture, out var f)) { found += f; }
++                else if (line.StartsWith("BRH:", StringComparison.Ordinal) && long.TryParse(line.AsSpan(4), NumberStyles.None, CultureInfo.InvariantCulture, out var h)) { hit += h; }
++            }
++        }
++#pragma warning disable CHA0004 // The per-file merge already read what it could; branch totals are a bonus.
++        catch (IOException)
++        {
++            // Totals read so far are kept.
++        }
++#pragma warning restore CHA0004
++    }
++
+     private static string Rel(string root, string path)
+     {
+         var rel = Path.GetRelativePath(root, path).Replace('\\', '/');

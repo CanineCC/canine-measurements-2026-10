@@ -1,0 +1,71 @@
+diff --git a/engine/src/Core/Testing/NodeTestSuiteCoverageCollector.cs b/engine/src/Core/Testing/NodeTestSuiteCoverageCollector.cs
+index 6c86f313..5c8fa233 100644
+--- a/engine/src/Core/Testing/NodeTestSuiteCoverageCollector.cs
++++ b/engine/src/Core/Testing/NodeTestSuiteCoverageCollector.cs
+@@ -1151,31 +1151,46 @@ public sealed partial class NodeTestSuiteCoverageCollector(
+ 
+         foreach (var file in Directory.EnumerateFiles(reportsDir, "lcov.info", SearchOption.AllDirectories))
+         {
+-            var perReport = new Dictionary<string, FileCoverage>(StringComparer.Ordinal);
+-            CommittedCoverageReader.MergeLcovPerFile(file, perReport);
+-            foreach (var row in perReport.Values)
+-            {
+-                var path = Path.IsPathRooted(row.FilePath) ? row.FilePath : Path.GetFullPath(Path.Combine(packageDir, row.FilePath));
+-                CommittedCoverageReader.MergeRow(rows, path, row.CoveredLines, row.TotalLines, row.LineCoveragePct);
+-            }
++            MergeReportRows(file, packageDir, rows);
++            var (f, h) = SumBranchTotals(file);
++            found += f;
++            hit += h;
++        }
+ 
+-            try
+-            {
+-                foreach (var line in File.ReadLines(file))
+-                {
+-                    if (line.StartsWith("BRF:", StringComparison.Ordinal) && long.TryParse(line.AsSpan(4), NumberStyles.None, CultureInfo.InvariantCulture, out var f)) { found += f; }
+-                    else if (line.StartsWith("BRH:", StringComparison.Ordinal) && long.TryParse(line.AsSpan(4), NumberStyles.None, CultureInfo.InvariantCulture, out var h)) { hit += h; }
+-                }
+-            }
+-#pragma warning disable CHA0004 // The per-file merge above already read what it could; branch totals are a bonus.
+-            catch (IOException)
++        return (rows, found, hit);
++    }
++
++    private static void MergeReportRows(string file, string packageDir, Dictionary<string, FileCoverage> rows)
++    {
++        var perReport = new Dictionary<string, FileCoverage>(StringComparer.Ordinal);
++        CommittedCoverageReader.MergeLcovPerFile(file, perReport);
++        foreach (var row in perReport.Values)
++        {
++            var path = Path.IsPathRooted(row.FilePath) ? row.FilePath : Path.GetFullPath(Path.Combine(packageDir, row.FilePath));
++            CommittedCoverageReader.MergeRow(rows, path, row.CoveredLines, row.TotalLines, row.LineCoveragePct);
++        }
++    }
++
++    /// <summary>Sums the <c>BRF:</c>/<c>BRH:</c> lines of one lcov file; totals read before an I/O failure are kept.</summary>
++    private static (long Found, long Hit) SumBranchTotals(string file)
++    {
++        long found = 0, hit = 0;
++        try
++        {
++            foreach (var line in File.ReadLines(file))
+             {
+-                continue;
++                if (line.StartsWith("BRF:", StringComparison.Ordinal) && long.TryParse(line.AsSpan(4), NumberStyles.None, CultureInfo.InvariantCulture, out var f)) { found += f; }
++                else if (line.StartsWith("BRH:", StringComparison.Ordinal) && long.TryParse(line.AsSpan(4), NumberStyles.None, CultureInfo.InvariantCulture, out var h)) { hit += h; }
+             }
+-#pragma warning restore CHA0004
+         }
++#pragma warning disable CHA0004 // The per-file merge already read what it could; branch totals are a bonus.
++        catch (IOException)
++        {
++            return (found, hit);
++        }
++#pragma warning restore CHA0004
+ 
+-        return (rows, found, hit);
++        return (found, hit);
+     }
+ 
+     private static string Rel(string root, string path)

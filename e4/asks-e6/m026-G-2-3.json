@@ -1,0 +1,41 @@
+{
+ "run": "m026-G-2",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The extraction keeps the original check order and early-exit conditions, `ExpressAndFastify` drops to a cognitive complexity of about 3 (and `JudgeCall` to about 11), and the `is not var (...)` guards still leave `open`, `path`, `receiver` and `middle` definitely assigned, so the build should be clean. I reviewed the diff by reading it and did not build or run it.",
+ "cost_usd": 0.0178417,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 5077,
+  "output_tokens": 1733,
+  "output_tokens_details": {
+   "thinking_tokens": 1595
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1733,
+    "cache_read_input_tokens": 5077,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

@@ -1,0 +1,20 @@
+{
+ "side": "before",
+ "pair": "p23",
+ "touched": [
+  "engine/src/CodeHealth.Core/Frontend/FrontendPathLiteralRefs.cs"
+ ],
+ "empty_patch": false,
+ "tests_edited": false,
+ "patch_applies": true,
+ "target_cognitive_after": 6,
+ "target_present": true,
+ "newly_over_threshold": [],
+ "max_cognitive_in_touched_files_after": 132,
+ "build_ok": true,
+ "build_errors": [],
+ "test_classes": [],
+ "tests": null,
+ "outcome": "held",
+ "behaviour": "untested"
+}

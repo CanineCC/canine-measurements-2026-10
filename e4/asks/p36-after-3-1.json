@@ -1,0 +1,41 @@
+{
+ "run": "p36-after-3",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE\n\nThe nested `foreach`/`if`/`continue` block (which carried most of the cognitive complexity) is replaced by an equivalent eager LINQ pipeline in a helper. The same filter, the same `CtorFqn.Length > 0` check and the same ordinal-comparer `HashSet<string>` are kept, and the file already uses LINQ (`Any`), so it should build cleanly. I reviewed the diff only and did not build it.",
+ "cost_usd": 0.005449399999999999,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 3754,
+  "output_tokens": 507,
+  "output_tokens_details": {
+   "thinking_tokens": 355
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 507,
+    "cache_read_input_tokens": 3754,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

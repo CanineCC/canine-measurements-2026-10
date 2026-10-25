@@ -1,0 +1,41 @@
+{
+ "run": "m028-U-1",
+ "k": 1,
+ "verdict": "REJECT",
+ "text": "REJECT: `ReadNextExport(...) is not var (name, k, isDefault)` is a var pattern with a tuple designation, which is irrefutable and cannot deconstruct the `(string, int, bool)?` nullable, so it likely won't compile under warnings-as-errors, and even if it did, the null case would never trigger `continue`.",
+ "cost_usd": 0.0171124,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 1821,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 960,
+  "output_tokens_details": {
+   "thinking_tokens": 845
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 1821,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 960,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 1821,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1821
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

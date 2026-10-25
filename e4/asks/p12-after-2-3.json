@@ -1,0 +1,41 @@
+{
+ "run": "p12-after-2",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE\n\nThe extracted `MatchesRequested` returns true when no version is requested and otherwise compares `num` exactly as before, so non-object skipping, first-match return and the `null` fallthrough are all unchanged, and the removal of the nested ifs and `continue`s clearly drops the complexity well below 15 with no new build-risk constructs.",
+ "cost_usd": 0.0065524,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 3784,
+  "output_tokens": 617,
+  "output_tokens_details": {
+   "thinking_tokens": 500
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 617,
+    "cache_read_input_tokens": 3784,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

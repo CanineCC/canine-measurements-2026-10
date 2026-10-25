@@ -1,0 +1,41 @@
+{
+ "run": "m009-G-3",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The extraction keeps the original order (templates, then style objects, then animate) and the same conditions and `continue` logic, and it leaves `InScript` with only two top-level `if`s, so complexity should fall well below 15. I could not compile it, and the one residual risk is the new parameter types such as `IReadOnlySet<string>` for `guards`, which I assumed match what `GuardBindings` returns and what `ReadsGuard` and `ScriptGuarded` accept.",
+ "cost_usd": 0.0086632,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4692,
+  "output_tokens": 819,
+  "output_tokens_details": {
+   "thinking_tokens": 657
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 819,
+    "cache_read_input_tokens": 4692,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

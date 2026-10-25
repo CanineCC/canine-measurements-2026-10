@@ -1,0 +1,41 @@
+{
+ "run": "p20-before-3",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE\n\nThe extracted `AnnotatedArrowParameterClose` returns -1 on the `;`/`{`/`}` break and on loop exhaustion, and `k - 1` on a match, which exactly reproduces the original `close` values, including the `arrow == 0` case. `ArrowParameterRange` is now about 4 complexity points and the helper about 8, both well under 15. The patch uses only existing members (`MaxReturnTypeTokens`, `IsPunct`, `match.Backward`), and the XML doc comment is well-formed, so the build should be unaffected.",
+ "cost_usd": 0.008993300000000001,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 3993,
+  "output_tokens": 859,
+  "output_tokens_details": {
+   "thinking_tokens": 664
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 859,
+    "cache_read_input_tokens": 3993,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

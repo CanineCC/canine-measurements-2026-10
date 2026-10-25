@@ -1,0 +1,41 @@
+{
+ "run": "m012-U-1",
+ "k": 2,
+ "verdict": "REJECT",
+ "text": "REJECT: behaviour looks preserved and it should compile, but the helpers only remove about 5 points of boolean-operator complexity (the `||` and `&&` sequences), so the method would still be around 24 against the threshold of 15, and all of its nesting and control flow is untouched.",
+ "cost_usd": 0.0090205,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4165,
+  "output_tokens": 860,
+  "output_tokens_details": {
+   "thinking_tokens": 766
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 860,
+    "cache_read_input_tokens": 4165,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

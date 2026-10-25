@@ -1,0 +1,41 @@
+{
+ "run": "p20-before-2",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The ternary and the extracted helper `AnnotatedArrowParameterClose` return the same `close` value as the old if/else in every case (the `;`/`{`/`}` break becomes `return -1`, the `:` after `)` match returns `k - 1`, and loop exhaustion returns -1), so behaviour is unchanged. Complexity is well under 15 in both methods, and I see nothing that would break the build: the helper uses only existing members, and the XML doc comment is well-formed.",
+ "cost_usd": 0.0075336,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 3996,
+  "output_tokens": 713,
+  "output_tokens_details": {
+   "thinking_tokens": 546
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 713,
+    "cache_read_input_tokens": 3996,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

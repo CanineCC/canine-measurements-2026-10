@@ -1,0 +1,41 @@
+{
+ "run": "m004-G-1",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nEach extracted helper is a faithful move: the short-circuit `||` still skips parsing outside PODS/DEPENDENCIES, and `entry` is definitely assigned after `continue`. By my count this removes about 11 complexity points and adds 1, bringing the method to 15. I couldn't find the file to check that `resolved` and `direct` really are `Dictionary<string, string>` and `List<string>`, so the build claim depends on those types matching.",
+ "cost_usd": 0.0369328,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 2082,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 991,
+  "output_tokens_details": {
+   "thinking_tokens": 705
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2082,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 991,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 2082,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2082
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

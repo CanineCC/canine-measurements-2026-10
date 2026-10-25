@@ -1,0 +1,41 @@
+{
+ "run": "p27-after-3",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The extracted loop was the tail of the outer loop body, so behaviour is the same (the `break` still exits only the prerequisite loop), and moving the nested `foreach`/`if`/`if` out removes the largest nesting-weighted increments, which should bring the method well under 15. I could not check the build here: the diff doesn't show the parameter types, so I assumed they match what `AppendRule` accepts.",
+ "cost_usd": 0.0068252999999999986,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 3713,
+  "output_tokens": 645,
+  "output_tokens_details": {
+   "thinking_tokens": 506
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 645,
+    "cache_read_input_tokens": 3713,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

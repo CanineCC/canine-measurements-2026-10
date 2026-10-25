@@ -1,0 +1,41 @@
+{
+ "run": "m012-U-1",
+ "k": 3,
+ "verdict": "REJECT",
+ "text": "REJECT\nThe three changes are behaviour-preserving. But they only collapse boolean-operator sequences: about +1 each for the two bracket checks and roughly +4 or +5 for the binding check. That takes the method from 29 to around 22\u201323, still well above the threshold of 15, and no nesting or control flow was extracted.",
+ "cost_usd": 0.017620200000000003,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4161,
+  "output_tokens": 839,
+  "output_tokens_details": {
+   "thinking_tokens": 731
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 839,
+    "cache_read_input_tokens": 4161,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

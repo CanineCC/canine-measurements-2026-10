@@ -1,0 +1,41 @@
+{
+ "run": "m012-U-2",
+ "k": 1,
+ "verdict": "REJECT",
+ "text": "REJECT: the helper extraction preserves behaviour, but it only removes about 6 points of cognitive complexity (the three boolean-operator chains collapse), so `Uses` would still score roughly 23, well above the threshold of 15.",
+ "cost_usd": 0.0173804,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 1893,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 958,
+  "output_tokens_details": {
+   "thinking_tokens": 879
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 1893,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 958,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 1893,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1893
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

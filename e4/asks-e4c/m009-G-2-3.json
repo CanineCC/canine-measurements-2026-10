@@ -1,0 +1,41 @@
+{
+ "run": "m009-G-2",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe extraction drops `InScript` to about 5, since the removed block accounted for roughly 23 of its 26 points, and each new helper stays well under 15; the `continue` \u2192 `if (close >= 0)` inversion and the moved loops keep the same order and behaviour. One caveat: the source isn't on this machine, so I couldn't build it or confirm that the new parameter types (`Func<Family, bool>`, `IReadOnlyDictionary<string, bool>`, `IReadOnlySet<string>`) match what `projectReset`, `keyframes` and `GuardBindings` actually produce.",
+ "cost_usd": 0.0220916,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4718,
+  "output_tokens": 1057,
+  "output_tokens_details": {
+   "thinking_tokens": 646
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1057,
+    "cache_read_input_tokens": 4718,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

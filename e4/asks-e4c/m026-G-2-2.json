@@ -1,0 +1,41 @@
+{
+ "run": "m026-G-2",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE\n`ExpressAndFastify` drops to about 3 and the extracted `JudgeCall` comes to about 11; the checks run in the same order with the same early exits and outputs, and the nullable-tuple `is not var (path, receiver, middle)` pattern compiles and leaves the variables definitely assigned after the guard, so behaviour and the build are preserved.",
+ "cost_usd": 0.030722600000000003,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 5073,
+  "output_tokens": 1485,
+  "output_tokens_details": {
+   "thinking_tokens": 1359
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1485,
+    "cache_read_input_tokens": 5073,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

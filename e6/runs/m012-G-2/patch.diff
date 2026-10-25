@@ -1,0 +1,127 @@
+diff --git a/engine/src/Scanner/ArchitectureModel/AX7/SliceModuleSites.cs b/engine/src/Scanner/ArchitectureModel/AX7/SliceModuleSites.cs
+index fe891d04..e51ad673 100644
+--- a/engine/src/Scanner/ArchitectureModel/AX7/SliceModuleSites.cs
++++ b/engine/src/Scanner/ArchitectureModel/AX7/SliceModuleSites.cs
+@@ -279,64 +279,89 @@ internal static class SliceModuleSites
+         var s = 0;
+         for (var k = 0; k < t.Count; k++)
+         {
+-            while (s < skip.Count && skip[s].To < k)
++            var skipTo = SkipEnd(skip, ref s, k);
++            if (skipTo >= 0)
+             {
+-                s++;
+-            }
+-
+-            if (s < skip.Count && skip[s].From <= k)
+-            {
+-                k = skip[s].To;
++                k = skipTo;
+                 continue;
+             }
+ 
+             var tok = t[k];
+-            if (tok.IsPunct("(") || tok.IsPunct("{") || tok.IsPunct("["))
++            var delta = BracketDelta(tok);
++            if (delta != 0)
+             {
+-                depth++;
++                depth = Math.Max(0, depth + delta);
+                 continue;
+             }
+ 
+-            if (tok.IsPunct(")") || tok.IsPunct("}") || tok.IsPunct("]"))
++            if (depth == 0 && tok.IsPunct(";"))
+             {
+-                depth = Math.Max(0, depth - 1);
++                declaration = null;
+                 continue;
+             }
+ 
+-            if (depth == 0)
+-            {
+-                if (tok.IsPunct(";"))
+-                {
+-                    declaration = null;
+-                    continue;
+-                }
+-
+-                if (DeclarationAt(t, k) is { } declared)
+-                {
+-                    declaration = declared.Name;
+-                    k = declared.NameIndex;
+-                    continue;
+-                }
+-            }
+-
+-            if (!tok.IsAnyIdentifier || !foreign.TryGetValue(tok.Text, out var from)
+-                || (k > 0 && t[k - 1].IsMemberAccessor)
+-                || (k > 0 && k + 1 < t.Count && t[k + 1].IsPunct(":") && (t[k - 1].IsPunct("{") || t[k - 1].IsPunct(","))))
++            if (depth == 0 && DeclarationAt(t, k) is { } declared)
+             {
++                declaration = declared.Name;
++                k = declared.NameIndex;
+                 continue;
+             }
+ 
+-            var enclosing = declaration ?? "(module)";
+-            if (seen.Add(tok.Text))
++            if (IsForeignReference(t, k, foreign, out var from) && seen.Add(tok.Text))
+             {
+                 yield return new Finding(FindingLevel.Warning,
+                     $"Cross-slice coupling: {slice} → {from.Slice}",
+-                    $"`{enclosing}` (slice '{slice}') depends on `{from.Exported}` from slice '{from.Slice}'.",
++                    $"`{declaration ?? "(module)"}` (slice '{slice}') depends on `{from.Exported}` from slice '{from.Slice}'.",
+                     rel, tok.Line);
+             }
+         }
+     }
+ 
++    /// <summary>The last token index of the skip range covering <paramref name="k"/>, or -1 when none does.</summary>
++    private static int SkipEnd(List<(int From, int To)> skip, ref int s, int k)
++    {
++        while (s < skip.Count && skip[s].To < k)
++        {
++            s++;
++        }
++
++        return s < skip.Count && skip[s].From <= k ? skip[s].To : -1;
++    }
++
++    private static int BracketDelta(JsToken tok)
++    {
++        if (tok.IsPunct("(") || tok.IsPunct("{") || tok.IsPunct("["))
++        {
++            return 1;
++        }
++
++        return tok.IsPunct(")") || tok.IsPunct("}") || tok.IsPunct("]") ? -1 : 0;
++    }
++
++    private static bool IsForeignReference(IReadOnlyList<JsToken> t, int k, Dictionary<string, Foreign> foreign, out Foreign from)
++    {
++        var tok = t[k];
++        from = default!;
++        if (!tok.IsAnyIdentifier || !foreign.TryGetValue(tok.Text, out var found))
++        {
++            return false;
++        }
++
++        from = found;
++        if (k == 0)
++        {
++            return true;
++        }
++
++        if (t[k - 1].IsMemberAccessor)
++        {
++            return false;
++        }
++
++        var objectKey = k + 1 < t.Count && t[k + 1].IsPunct(":") && (t[k - 1].IsPunct("{") || t[k - 1].IsPunct(","));
++        return !objectKey;
++    }
++
+     /// <summary>A top-level declaration starting at <paramref name="k"/>: its name (or <c>default</c>) and the index of
+     /// the last token of its head, so the walk continues after the name.</summary>
+     private static (string Name, int NameIndex)? DeclarationAt(IReadOnlyList<JsToken> t, int k)

@@ -1,0 +1,128 @@
+diff --git a/engine/src/Scanner/Security/D29/Scanners/RouteAuthorizationScan.cs b/engine/src/Scanner/Security/D29/Scanners/RouteAuthorizationScan.cs
+index 503b0f39..9902bfb4 100644
+--- a/engine/src/Scanner/Security/D29/Scanners/RouteAuthorizationScan.cs
++++ b/engine/src/Scanner/Security/D29/Scanners/RouteAuthorizationScan.cs
+@@ -179,72 +179,68 @@ internal static class RouteAuthorizationScan
+             yield break;
+         }
+ 
+-        var t = f.T;
+-        for (var i = 0; i + 3 < t.Count; i++)
++        for (var i = 0; i + 3 < f.T.Count; i++)
+         {
+-            if (!t[i + 1].IsMemberAccessor || !t[i + 2].IsName || f.CallOpenAfterName(i + 2) is not { } open)
++            if (JudgeCall(model, f, i) is { } judged)
+             {
+-                continue;
+-            }
+-
+-            var verb = t[i + 2].Text;
+-            var close = f.M[open];
+-            if (close == 0)
+-            {
+-                continue;
++                yield return judged;
+             }
++        }
++    }
+ 
+-            var args = f.Arguments(open);
+-            if (verb == "route" && args.Count == 1 && t[args[0].Start].IsPunct("{"))
+-            {
+-                if (FastifyRouteObject(model, f, i, args[0]) is { } judged)
+-                {
+-                    yield return judged;
+-                }
++    /// <summary>The endpoint registered by the member call <c>recv.verb(…)</c> whose receiver is token
++    /// <paramref name="i"/>, or null when the tokens there are not a route registration.</summary>
++    private static Judged? JudgeCall(Model model, Lexed f, int i)
++    {
++        var t = f.T;
++        if (!t[i + 1].IsMemberAccessor || !t[i + 2].IsName || f.CallOpenAfterName(i + 2) is not { } open || f.M[open] == 0)
++        {
++            return null;
++        }
+ 
+-                continue;
+-            }
++        var verb = t[i + 2].Text;
++        var args = f.Arguments(open);
++        if (verb == "route" && args.Count == 1 && t[args[0].Start].IsPunct("{"))
++        {
++            return FastifyRouteObject(model, f, i, args[0]);
++        }
+ 
+-            if (!RouteVerbs.Contains(verb) || args.Count == 0)
+-            {
+-                continue;
+-            }
++        if (!RouteVerbs.Contains(verb) || args.Count == 0 || RouteTarget(f, i, args) is not var (path, receiver, middle))
++        {
++            return null;
++        }
+ 
+-            // `router.route(path).get(…)` chains: the receiver token is the `)` of the previous chain call.
+-            string? path;
+-            List<Span> middle;
+-            int receiver;
+-            if (t[i].IsPunct(")") && f.RouteChainPath(i) is { } chain)
+-            {
+-                path = chain.Path;
+-                receiver = chain.Receiver;
+-                middle = args.Take(args.Count - 1).ToList();
+-            }
+-            else
+-            {
+-                if (args.Count < 2 || !t[i].IsName || !IsPath(t[args[0].Start]))
+-                {
+-                    continue;
+-                }
++        var handler = args[^1];
++        if (!f.IsFunctionLike(handler))
++        {
++            return null;
++        }
+ 
+-                path = t[args[0].Start].Value;
+-                receiver = i;
+-                middle = args.Skip(1).Take(args.Count - 2).ToList();
+-            }
++        var endpoint = new Endpoint(f.Relative, t[i + 2].Line, $"{verb.ToUpperInvariant()} {path}", WritingVerbs.Contains(verb), f.App);
++        var guarded = middle.Any(m => model.IsGuardSpan(f, m) || model.FastifyOptionsGuard(f, m))
++                      || model.ScopeGuardsBefore(f, receiver, path)
++                      || model.MountGuarded(f, receiver);
++        var (exempt, checks) = model.HandlerExempt(f, handler);
++        return new Judged(endpoint, guarded ? Decision.Guarded : Decision.None, exempt, checks);
++    }
+ 
+-            var handler = args[^1];
+-            if (!f.IsFunctionLike(handler))
+-            {
+-                continue;
+-            }
++    /// <summary>The route path, base receiver token and middleware arguments of a verb call, either a
++    /// <c>router.route(path).get(…)</c> chain (the receiver token is the <c>)</c> of the previous chain call) or a plain
++    /// <c>router.get(path, …)</c>; null when neither shape matches.</summary>
++    private static (string? Path, int Receiver, List<Span> Middle)? RouteTarget(Lexed f, int i, List<Span> args)
++    {
++        var t = f.T;
++        if (t[i].IsPunct(")") && f.RouteChainPath(i) is { } chain)
++        {
++            return (chain.Path, chain.Receiver, args.Take(args.Count - 1).ToList());
++        }
+ 
+-            var endpoint = new Endpoint(f.Relative, t[i + 2].Line, $"{verb.ToUpperInvariant()} {path}", WritingVerbs.Contains(verb), f.App);
+-            var guarded = middle.Any(m => model.IsGuardSpan(f, m) || model.FastifyOptionsGuard(f, m))
+-                          || model.ScopeGuardsBefore(f, receiver, path)
+-                          || model.MountGuarded(f, receiver);
+-            var (exempt, checks) = model.HandlerExempt(f, handler);
+-            yield return new Judged(endpoint, guarded ? Decision.Guarded : Decision.None, exempt, checks);
++        if (args.Count < 2 || !t[i].IsName || !IsPath(t[args[0].Start]))
++        {
++            return null;
+         }
++
++        return (t[args[0].Start].Value, i, args.Skip(1).Take(args.Count - 2).ToList());
+     }
+ 
+     private static Judged? FastifyRouteObject(Model model, Lexed f, int receiver, Span obj)

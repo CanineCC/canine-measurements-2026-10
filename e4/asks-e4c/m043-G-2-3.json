@@ -1,0 +1,41 @@
+{
+ "run": "m043-G-2",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE\n`JudgeAsync` now has only about ten flat branches, which is well under 15. The extracted stages keep the original order, early exits and verdict arguments, so behaviour is unchanged. Nothing in the diff should break the build (the `input.Report!` null-forgiving use, the local functions and the static `PassedReason` are all valid), though I reviewed the diff only and did not compile it.",
+ "cost_usd": 0.0325062,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 13391,
+  "output_tokens": 1491,
+  "output_tokens_details": {
+   "thinking_tokens": 1357
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1491,
+    "cache_read_input_tokens": 13391,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

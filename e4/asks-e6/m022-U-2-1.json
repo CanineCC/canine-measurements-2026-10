@@ -1,0 +1,41 @@
+{
+ "run": "m022-U-2",
+ "k": 1,
+ "verdict": "REJECT",
+ "text": "REJECT\n\nThe extractions preserve behaviour, but by my count of the visible code the method only drops from 29 to about 19, since the two removed blocks account for about 10 points (3 for the dictionary loop, 7 for the BFS loop), so it likely still exceeds the threshold of 15. The nested `foreach`/`if` that builds sites, the `missed.Count == 0` check, and the `||`/`&&` filter lambdas all remain inline. I couldn't build or run an analyzer here (no repo is available), so the build condition, including whether `JsInventory.Inventory`, `TestInvocation`, and `CiChangeFilter` are the correct type names, is unverified.",
+ "cost_usd": 0.0287264,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 3417,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 1483,
+  "output_tokens_details": {
+   "thinking_tokens": 1258
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 3417,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1483,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 3417,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 3417
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

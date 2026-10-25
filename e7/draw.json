@@ -1,0 +1,21 @@
+{
+ "seed": 20261025,
+ "eligible": [
+  "App-vNext/Polly",
+  "AvaloniaUI/Avalonia",
+  "FluentValidation/FluentValidation",
+  "JamesNK/Newtonsoft.Json",
+  "dotnet/BenchmarkDotNet",
+  "nodatime/nodatime",
+  "serilog/serilog"
+ ],
+ "drawn": [
+  "AvaloniaUI/Avalonia",
+  "JamesNK/Newtonsoft.Json",
+  "dotnet/BenchmarkDotNet",
+  "serilog/serilog"
+ ],
+ "owner_named": [
+  "umbraco/Umbraco-CMS"
+ ]
+}

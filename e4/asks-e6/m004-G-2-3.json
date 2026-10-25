@@ -1,0 +1,41 @@
+{
+ "run": "m004-G-2",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The extracted helpers keep the original filtering and branching (the in-loop `continue` becomes a trailing `return`), and the definite assignment of `entry` after the `||` guard compiles. The nested conditions that drove the score are gone, so the method should now be under 15. I could not see the declared types of `resolved` and `direct`, so the build rests on those matching the new `Dictionary<string, string>` and `List<string>` parameters.",
+ "cost_usd": 0.0082911,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4371,
+  "output_tokens": 785,
+  "output_tokens_details": {
+   "thinking_tokens": 637
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 785,
+    "cache_read_input_tokens": 4371,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

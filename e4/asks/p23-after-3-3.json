@@ -1,0 +1,41 @@
+{
+ "run": "p23-after-3",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE: the extraction moves the pattern-to-ref logic unchanged into `TryBuildGoEmbedRef`, with each `continue` becoming `return false`, so behaviour is preserved. The original method's nesting is gone, which brings it well under 15, and the new helper is also under the threshold. The `out` parameter is assigned on every path, so the build should still pass with warnings as errors.",
+ "cost_usd": 0.0045444,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4304,
+  "output_tokens": 411,
+  "output_tokens_details": {
+   "thinking_tokens": 278
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 411,
+    "cache_read_input_tokens": 4304,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

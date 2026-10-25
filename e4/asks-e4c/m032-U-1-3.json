@@ -1,0 +1,41 @@
+{
+ "run": "m032-U-1",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe split keeps the same checks: the expression branch's inverted guard is logically equivalent, the added `k > 0` in `IsPayloadCall` always holds there because `k` starts at `body.Start + 1`, and the merged `&&` conditions short-circuit in the original order, leaving `AnswersOnlyConstants` with only a ternary or two. I couldn't build it because the source isn't on this machine, so the `Lexed` parameter type is assumed from the diff.",
+ "cost_usd": 0.0290422,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 5471,
+  "output_tokens": 1397,
+  "output_tokens_details": {
+   "thinking_tokens": 1061
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1397,
+    "cache_read_input_tokens": 5471,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

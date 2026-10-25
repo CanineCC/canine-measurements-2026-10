@@ -1,0 +1,141 @@
+diff --git a/engine/src/Scanner/Dependencies/D12/NpmDeprecatedDependencies.cs b/engine/src/Scanner/Dependencies/D12/NpmDeprecatedDependencies.cs
+index ceba9e9f..f3a43988 100644
+--- a/engine/src/Scanner/Dependencies/D12/NpmDeprecatedDependencies.cs
++++ b/engine/src/Scanner/Dependencies/D12/NpmDeprecatedDependencies.cs
+@@ -424,15 +424,22 @@ internal static class NpmDeprecatedDependencies
+             _packages = packages;
+         }
+ 
++        /// <summary>Where the line-by-line read currently is: the top-level key, and the importer, section,
++        /// dependency and package it is inside.</summary>
++        private sealed class ReadState
++        {
++            public string? Top;
++            public string? Importer;
++            public string? Section;
++            public string? Dependency;
++            public string? PackageKey;
++        }
++
+         public static Lock Read(string file, string dir, string[] lines)
+         {
+             var importers = new Dictionary<string, Dictionary<string, string>>(StringComparer.Ordinal);
+             var packages = new Dictionary<string, LockEntry>(StringComparer.Ordinal);
+-            string? top = null;
+-            string? importer = null;
+-            string? section = null;
+-            string? dependency = null;
+-            string? packageKey = null;
++            var state = new ReadState();
+             for (var i = 0; i < lines.Length; i++)
+             {
+                 var raw = lines[i];
+@@ -445,55 +452,71 @@ internal static class NpmDeprecatedDependencies
+                 var text = raw.Trim();
+                 if (indent == 0)
+                 {
+-                    top = Key(text);
+-                    importer = top is "dependencies" or "devDependencies" or "optionalDependencies" ? "." : null;
+-                    section = importer is null ? null : top;
+-                    dependency = null;
+-                    packageKey = null;
+-                    continue;
++                    StartTopLevelSection(state, text);
+                 }
+-
+-                if (top == "importers")
++                else if (state.Top == "importers")
+                 {
+-                    if (indent == 2)
+-                    {
+-                        importer = Key(text);
+-                        section = null;
+-                    }
+-                    else if (indent == 4)
+-                    {
+-                        section = Key(text);
+-                    }
+-                    else if (importer is not null && IsDependencySection(section))
+-                    {
+-                        dependency = Dependency(importers, importer, indent, 6, text, dependency);
+-                    }
++                    ReadImportersLine(state, importers, indent, text);
+                 }
+-                else if (importer == "." && IsDependencySection(top))
++                else if (state.Importer == "." && IsDependencySection(state.Top))
+                 {
+-                    dependency = Dependency(importers, importer, indent, 2, text, dependency);
++                    state.Dependency = Dependency(importers, state.Importer, indent, 2, text, state.Dependency);
+                 }
+-                else if (top == "packages")
++                else if (state.Top == "packages")
+                 {
+-                    if (indent == 2)
+-                    {
+-                        packageKey = Key(text);
+-                        if (PackageOf(packageKey) is { } p)
+-                        {
+-                            packages[packageKey] = new LockEntry(p.Name, p.Version, null, i + 1);
+-                        }
+-                    }
+-                    else if (indent == 4 && packageKey is not null && text.StartsWith("deprecated:", StringComparison.Ordinal)
+-                             && packages.TryGetValue(packageKey, out var entry))
+-                    {
+-                        packages[packageKey] = entry with { Mark = Unquote(text["deprecated:".Length..].Trim()) };
+-                    }
++                    ReadPackagesLine(state, packages, indent, text, i + 1);
+                 }
+             }
+ 
+             return new PnpmLock(file, dir, importers, packages);
+         }
+ 
++        private static void StartTopLevelSection(ReadState state, string text)
++        {
++            state.Top = Key(text);
++            state.Importer = IsDependencySection(state.Top) ? "." : null;
++            state.Section = state.Importer is null ? null : state.Top;
++            state.Dependency = null;
++            state.PackageKey = null;
++        }
++
++        private static void ReadImportersLine(
++            ReadState state, Dictionary<string, Dictionary<string, string>> importers, int indent, string text)
++        {
++            if (indent == 2)
++            {
++                state.Importer = Key(text);
++                state.Section = null;
++            }
++            else if (indent == 4)
++            {
++                state.Section = Key(text);
++            }
++            else if (state.Importer is not null && IsDependencySection(state.Section))
++            {
++                state.Dependency = Dependency(importers, state.Importer, indent, 6, text, state.Dependency);
++            }
++        }
++
++        private static void ReadPackagesLine(
++            ReadState state, Dictionary<string, LockEntry> packages, int indent, string text, int lineNumber)
++        {
++            if (indent == 2)
++            {
++                var key = Key(text);
++                state.PackageKey = key;
++                if (PackageOf(key) is { } p)
++                {
++                    packages[key] = new LockEntry(p.Name, p.Version, null, lineNumber);
++                }
++            }
++            else if (indent == 4 && state.PackageKey is { } packageKey && text.StartsWith("deprecated:", StringComparison.Ordinal)
++                     && packages.TryGetValue(packageKey, out var entry))
++            {
++                packages[packageKey] = entry with { Mark = Unquote(text["deprecated:".Length..].Trim()) };
++            }
++        }
++
+         private static bool IsDependencySection(string? section) =>
+             section is "dependencies" or "devDependencies" or "optionalDependencies";
+ 

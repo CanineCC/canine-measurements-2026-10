@@ -1,0 +1,45 @@
+diff --git a/engine/src/Core/Readiness/CiWorkflowReader.cs b/engine/src/Core/Readiness/CiWorkflowReader.cs
+index dfbc1fb8..d9c61185 100644
+--- a/engine/src/Core/Readiness/CiWorkflowReader.cs
++++ b/engine/src/Core/Readiness/CiWorkflowReader.cs
+@@ -544,19 +544,29 @@ public static partial class CiWorkflowReader
+             }
+ 
+             AppendRule(sb, target, rule, variables, appended);
+-            // One level of prerequisites: `make check-all` where `check-all: check-scripts check-deny …` is an
+-            // aggregator whose OWN recipe is empty, and the gate is in what it depends on.
+-            foreach (var prereq in rule.Prerequisites)
++            AppendPrerequisiteRules(sb, rule, rules, variables, appended);
++        }
++    }
++
++    // One level of prerequisites: `make check-all` where `check-all: check-scripts check-deny …` is an
++    // aggregator whose OWN recipe is empty, and the gate is in what it depends on.
++    private static void AppendPrerequisiteRules(
++        StringBuilder sb,
++        MakeRule rule,
++        IReadOnlyDictionary<string, MakeRule> rules,
++        IReadOnlyDictionary<string, string> variables,
++        SortedSet<string> appended)
++    {
++        foreach (var prereq in rule.Prerequisites)
++        {
++            if (appended.Count >= MaxMakeTargets)
+             {
+-                if (appended.Count >= MaxMakeTargets)
+-                {
+-                    break;
+-                }
++                break;
++            }
+ 
+-                if (rules.TryGetValue(prereq, out var pre))
+-                {
+-                    AppendRule(sb, prereq, pre, variables, appended);
+-                }
++            if (rules.TryGetValue(prereq, out var pre))
++            {
++                AppendRule(sb, prereq, pre, variables, appended);
+             }
+         }
+     }

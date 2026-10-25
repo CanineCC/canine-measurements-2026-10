@@ -1,0 +1,41 @@
+{
+ "run": "m009-G-3",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE\n\n`InScript` now only holds two flat `if` blocks and each helper stays well under 15, with the same loops and conditions in the same order; I couldn't find the source file to check that the guessed parameter types (`Func<Family, bool>`, `IReadOnlyDictionary<string, bool>`, `IReadOnlySet<string>`) match what `GuardBindings`, `Known` and `InStyleSheet` use, so the build condition rests on a compile check.",
+ "cost_usd": 0.0370688,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 2444,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 853,
+  "output_tokens_details": {
+   "thinking_tokens": 502
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2444,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 853,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 2444,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2444
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

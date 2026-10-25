@@ -1,0 +1,41 @@
+{
+ "run": "p14-before-3",
+ "k": 3,
+ "verdict": "REJECT",
+ "text": "REJECT: the patch calls `VersionOf(entry.Value)`, but the diff never defines it (the original inlined that version check), so the project almost certainly won't compile. Even if a `VersionOf` helper already existed, behaviour couldn't be confirmed unchanged without seeing it.",
+ "cost_usd": 0.004542899999999999,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 3989,
+  "output_tokens": 414,
+  "output_tokens_details": {
+   "thinking_tokens": 316
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 414,
+    "cache_read_input_tokens": 3989,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

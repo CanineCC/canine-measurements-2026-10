@@ -1,0 +1,41 @@
+{
+ "run": "m005-U-3",
+ "k": 3,
+ "verdict": "REJECT",
+ "text": "REJECT\n`IsRejectedKeyValue` now passes `value.Trim()` to `IsSigningKeyValue`, which the original called with the untrimmed `value`, so any literal with leading or trailing whitespace can be judged differently and behaviour is not guaranteed unchanged.",
+ "cost_usd": 0.0125032,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 6176,
+  "output_tokens": 563,
+  "output_tokens_details": {
+   "thinking_tokens": 465
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 563,
+    "cache_read_input_tokens": 6176,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

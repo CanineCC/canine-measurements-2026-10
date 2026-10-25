@@ -1,0 +1,41 @@
+{
+ "run": "p14-after-1",
+ "k": 2,
+ "verdict": "REJECT",
+ "text": "REJECT: the patch calls `VersionOf(entry.Value)`, which the diff never defines, and the original code inlined that version-extraction logic, so the helper almost certainly doesn't exist and the build would fail with an unresolved-symbol error.",
+ "cost_usd": 0.0048226,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 3986,
+  "output_tokens": 442,
+  "output_tokens_details": {
+   "thinking_tokens": 358
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 442,
+    "cache_read_input_tokens": 3986,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

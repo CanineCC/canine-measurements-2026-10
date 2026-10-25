@@ -1,0 +1,41 @@
+{
+ "run": "m026-U-1",
+ "k": 3,
+ "verdict": "REJECT",
+ "text": "REJECT\nThe `RouteTarget(f, i, args) is not var (path, receiver, middle)` check is broken: a `var` pattern always matches and never tests for null, so on the nullable tuple it either fails to compile or never rejects the null case, which breaks the build (warnings are errors) or changes behaviour (it should be a positional pattern like `is not ({ } path, var receiver, var middle)`, or an explicit null check).",
+ "cost_usd": 0.020077600000000004,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 5248,
+  "output_tokens": 951,
+  "output_tokens_details": {
+   "thinking_tokens": 808
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 951,
+    "cache_read_input_tokens": 5248,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

@@ -1,0 +1,41 @@
+{
+ "run": "m022-U-3",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE: the extracted helpers preserve the original logic (the `reported.Add` inversion is equivalent, and `inputs` stays lazy), and the dependency traversal, the name-map loop and the large message construction are moved out, which should bring the method's complexity under 15. I couldn't check the build from here, so the assumed type names (`JsInventory.Inventory`, `TestInvocation`, `CiChangeFilter`) and the new helper names not clashing with existing members are unconfirmed.",
+ "cost_usd": 0.009160600000000001,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 5766,
+  "output_tokens": 858,
+  "output_tokens_details": {
+   "thinking_tokens": 692
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 858,
+    "cache_read_input_tokens": 5766,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

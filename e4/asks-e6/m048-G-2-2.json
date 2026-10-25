@@ -1,0 +1,41 @@
+{
+ "run": "m048-G-2",
+ "k": 2,
+ "verdict": "REJECT",
+ "text": "REJECT: `RunTurnAsync` still carries about a dozen ternaries and ifs, including the nested `held.Count == 0 ? \u2026 : shipUnjudged ? \u2026` in the final `Say`, so with the unseen setup and `finally` code it very likely stays above 15. The new `RecordState` also takes 12 parameters, which would trip a parameter-count analyzer under warnings-as-errors, and the build can't be confirmed since the diff uses type names (`Dropped`, `OwedWrite`, `ShipResult`) I can't check against the codebase.",
+ "cost_usd": 0.035720800000000004,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 17568,
+  "output_tokens": 3396,
+  "output_tokens_details": {
+   "thinking_tokens": 3207
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 3396,
+    "cache_read_input_tokens": 17568,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

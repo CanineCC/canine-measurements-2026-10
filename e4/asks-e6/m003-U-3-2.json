@@ -1,0 +1,41 @@
+{
+ "run": "m003-U-3",
+ "k": 2,
+ "verdict": "REJECT",
+ "text": "REJECT: the behaviour is preserved and it should still build, but only two small helper predicates were extracted, so by my estimate the method's cognitive complexity drops from 27 only to about 20, still above the threshold of 15.\n\nI could not build or measure it, and part of the method is outside the diff. The remaining cost comes from the `for`, the nested constructor `if`/`else`, the closing-bracket branch, and the `;`/`@`/private-identifier/`private` chain, which still costs about 7 as `else if`s.",
+ "cost_usd": 0.012608300000000001,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4243,
+  "output_tokens": 1218,
+  "output_tokens_details": {
+   "thinking_tokens": 1047
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1218,
+    "cache_read_input_tokens": 4243,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

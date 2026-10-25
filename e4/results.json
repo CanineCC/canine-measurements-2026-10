@@ -1,0 +1,1082 @@
+[
+ {
+  "run": "p02-after-1",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p02-after-2",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p02-after-3",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p02-before-1",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p02-before-2",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p02-before-3",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p03-after-1",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p03-after-2",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p03-after-3",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p03-before-1",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p03-before-2",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p03-before-3",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p04-after-1",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p04-after-2",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p04-after-3",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p04-before-1",
+  "good": false,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p04-before-2",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p04-before-3",
+  "good": false,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p08-after-1",
+  "good": true,
+  "votes": [
+   "REJECT",
+   "REJECT",
+   "REJECT"
+  ]
+ },
+ {
+  "run": "p08-after-2",
+  "good": true,
+  "votes": [
+   "REJECT",
+   "REJECT",
+   "REJECT"
+  ]
+ },
+ {
+  "run": "p08-after-3",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p08-before-1",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p08-before-2",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p08-before-3",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p09-after-1",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p09-after-2",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p09-after-3",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p09-before-1",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p09-before-2",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p09-before-3",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p11-after-1",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p11-after-2",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p11-after-3",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p11-before-1",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p11-before-2",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p11-before-3",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p12-after-1",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p12-after-2",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p12-after-3",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p12-before-1",
+  "good": true,
+  "votes": [
+   "REJECT",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p12-before-2",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p12-before-3",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p14-after-1",
+  "good": true,
+  "votes": [
+   "REJECT",
+   "UNPARSEABLE",
+   "REJECT"
+  ]
+ },
+ {
+  "run": "p14-after-2",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p14-after-3",
+  "good": true,
+  "votes": [
+   "REJECT",
+   "REJECT",
+   "REJECT"
+  ]
+ },
+ {
+  "run": "p14-before-1",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p14-before-2",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p14-before-3",
+  "good": true,
+  "votes": [
+   "REJECT",
+   "REJECT",
+   "REJECT"
+  ]
+ },
+ {
+  "run": "p18-after-1",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p18-after-2",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p18-after-3",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p18-before-1",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p18-before-2",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p18-before-3",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p20-after-1",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p20-after-2",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p20-after-3",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p20-before-1",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p20-before-2",
+  "good": false,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p20-before-3",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p21-after-1",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p21-after-2",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p21-after-3",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p21-before-1",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p21-before-2",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p21-before-3",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p23-after-1",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p23-after-2",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p23-after-3",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p23-before-1",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p23-before-2",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p23-before-3",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p24-after-1",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p24-after-2",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p24-after-3",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p24-before-1",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p24-before-2",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p24-before-3",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p26-after-1",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p26-after-2",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p26-after-3",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p26-before-1",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p26-before-2",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p26-before-3",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p27-after-1",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p27-after-2",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p27-after-3",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p27-before-1",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p27-before-2",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p27-before-3",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p28-after-1",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p28-after-2",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p28-after-3",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p28-before-1",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p28-before-2",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p28-before-3",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p31-after-1",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p31-after-2",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p31-after-3",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p31-before-1",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p31-before-2",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p31-before-3",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p36-after-1",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p36-after-2",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p36-after-3",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p36-before-1",
+  "good": false,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p36-before-2",
+  "good": false,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p36-before-3",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p40-after-1",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p40-after-2",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p40-after-3",
+  "good": true,
+  "votes": [
+   "REJECT",
+   "REJECT",
+   "REJECT"
+  ]
+ },
+ {
+  "run": "p40-before-1",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p40-before-2",
+  "good": true,
+  "votes": [
+   "REJECT",
+   "REJECT",
+   "REJECT"
+  ]
+ },
+ {
+  "run": "p40-before-3",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p44-after-1",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p44-after-2",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p44-after-3",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p44-before-1",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p44-before-2",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ },
+ {
+  "run": "p44-before-3",
+  "good": true,
+  "votes": [
+   "APPROVE",
+   "APPROVE",
+   "APPROVE"
+  ]
+ }
+]

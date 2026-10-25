@@ -1,0 +1,130 @@
+diff --git a/engine/src/Scanner/Security/D29/Scanners/RouteAuthorizationScan.cs b/engine/src/Scanner/Security/D29/Scanners/RouteAuthorizationScan.cs
+index 503b0f39..33b3e676 100644
+--- a/engine/src/Scanner/Security/D29/Scanners/RouteAuthorizationScan.cs
++++ b/engine/src/Scanner/Security/D29/Scanners/RouteAuthorizationScan.cs
+@@ -334,19 +334,79 @@ internal static class RouteAuthorizationScan
+ 
+     // ---- Next.js -----------------------------------------------------------------------------------------------
+ 
+-    private static IEnumerable<Judged> Next(Model model, Lexed f)
++    private enum NextKind { None, RouteFile, ApiRoute, Actions }
++
++    private static NextKind ClassifyNextFile(Lexed f)
+     {
+         var inApp = f.AppRelative;
+-        var isRouteFile = (inApp.StartsWith("app/", StringComparison.Ordinal) || inApp.Contains("/app/", StringComparison.Ordinal))
+-                          && Path.GetFileNameWithoutExtension(inApp) == "route";
+-        var isApiRoute = inApp.StartsWith("pages/api/", StringComparison.Ordinal) || inApp.Contains("/pages/api/", StringComparison.Ordinal);
+-        var isActions = f.T.Count > 0 && f.T[0].Kind == JsTokenKind.StringLiteral && f.T[0].Value == "use server";
+-        if (!isRouteFile && !isApiRoute && !isActions)
++        if ((inApp.StartsWith("app/", StringComparison.Ordinal) || inApp.Contains("/app/", StringComparison.Ordinal))
++            && Path.GetFileNameWithoutExtension(inApp) == "route")
++        {
++            return NextKind.RouteFile;
++        }
++
++        if (inApp.StartsWith("pages/api/", StringComparison.Ordinal) || inApp.Contains("/pages/api/", StringComparison.Ordinal))
++        {
++            return NextKind.ApiRoute;
++        }
++
++        return f.T.Count > 0 && f.T[0].Kind == JsTokenKind.StringLiteral && f.T[0].Value == "use server"
++            ? NextKind.Actions
++            : NextKind.None;
++    }
++
++    /// <summary>Parses <c>export [default] [async] function|const|let name</c> at <paramref name="i"/>; returns the
++    /// declared name (or "default" for an anonymous function) and sets <paramref name="k"/> to the declaration keyword.</summary>
++    private static string? ParseNextExport(Lexed f, int i, out int k, out bool isDefault)
++    {
++        var t = f.T;
++        k = i + 1;
++        isDefault = t[k].IsWord("default");
++        if (isDefault)
++        {
++            k++;
++        }
++
++        if (k < t.Count && t[k].IsWord("async"))
++        {
++            k++;
++        }
++
++        if (k + 1 < t.Count && t[k].IsWord("function"))
++        {
++            return t[k + 1].IsName ? t[k + 1].Text : "default";
++        }
++
++        if (k + 1 < t.Count && (t[k].IsWord("const") || t[k].IsWord("let")) && t[k + 1].IsName)
++        {
++            return t[k + 1].Text;
++        }
++
++        return null;
++    }
++
++    private static string? NextEndpointName(NextKind kind, string name, bool isDefault) => kind switch
++    {
++        NextKind.RouteFile => NextHandlers.Contains(name) ? name : null,
++        NextKind.ApiRoute => isDefault ? "handler" : null,
++        _ => name,
++    };
++
++    private static IEnumerable<Judged> Next(Model model, Lexed f)
++    {
++        var kind = ClassifyNextFile(f);
++        if (kind == NextKind.None)
+         {
+             yield break;
+         }
+ 
+-        var url = isRouteFile ? "/" + RouteUrl(inApp, "app/") : isApiRoute ? "/" + RouteUrl(inApp, "pages/") : null;
++        var isActions = kind == NextKind.Actions;
++        var url = kind switch
++        {
++            NextKind.RouteFile => "/" + RouteUrl(f.AppRelative, "app/"),
++            NextKind.ApiRoute => "/" + RouteUrl(f.AppRelative, "pages/"),
++            _ => null,
++        };
+         var t = f.T;
+         for (var i = 0; i + 2 < t.Count; i++)
+         {
+@@ -355,36 +415,13 @@ internal static class RouteAuthorizationScan
+                 continue;
+             }
+ 
+-            var k = i + 1;
+-            var isDefault = t[k].IsWord("default");
+-            if (isDefault)
+-            {
+-                k++;
+-            }
+-
+-            if (k < t.Count && t[k].IsWord("async"))
+-            {
+-                k++;
+-            }
+-
+-            string? name = null;
+-            if (k + 1 < t.Count && t[k].IsWord("function"))
+-            {
+-                name = t[k + 1].IsName ? t[k + 1].Text : "default";
+-            }
+-            else if (k + 1 < t.Count && (t[k].IsWord("const") || t[k].IsWord("let")) && t[k + 1].IsName)
+-            {
+-                name = t[k + 1].Text;
+-            }
+-
++            var name = ParseNextExport(f, i, out var k, out var isDefault);
+             if (name is null)
+             {
+                 continue;
+             }
+ 
+-            var endpoint = isRouteFile ? NextHandlers.Contains(name) ? name : null
+-                : isApiRoute ? isDefault ? "handler" : null
+-                : name;
++            var endpoint = NextEndpointName(kind, name, isDefault);
+             if (endpoint is null || f.FunctionBodyAfter(k) is not { } body)
+             {
+                 continue;

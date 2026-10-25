@@ -1,0 +1,41 @@
+{
+ "run": "m024-U-3",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe three helpers keep the original control flow (including the per-directory `maxFiles` break, still enqueuing subdirectories afterwards, and recording the same `Unread` entries), so behaviour is unchanged, and `Files` drops to roughly 4 cognitive complexity; the `CHA0004` suppression still covers every catch, so it should build, though I couldn't confirm that `wanted` and `files` match the `Func<string, bool>` and tuple-list types the helpers declare, since the original signature isn't shown.",
+ "cost_usd": 0.019865000000000004,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4985,
+  "output_tokens": 943,
+  "output_tokens_details": {
+   "thinking_tokens": 766
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 943,
+    "cache_read_input_tokens": 4985,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

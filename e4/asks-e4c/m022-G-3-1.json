@@ -1,0 +1,41 @@
+{
+ "run": "m022-G-3",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe extractions are behaviour-preserving (the lazy `Where(reported.Add)` runs after `DistinctBy` in the same order as the old `continue`) and drop roughly 16 complexity points, leaving about 13. I couldn't find the repo locally, though, so I haven't confirmed that `CiChangeFilter`, `TestInvocation` and `JsInventory.Inventory` are the real type names, and a build is needed to confirm that.",
+ "cost_usd": 0.0478088,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 3069,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 1140,
+  "output_tokens_details": {
+   "thinking_tokens": 698
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 3069,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1140,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 3069,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 3069
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

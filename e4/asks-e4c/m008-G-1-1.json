@@ -1,0 +1,41 @@
+{
+ "run": "m008-G-1",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe extraction preserves the original logic exactly (the `Print` skip, the same-rule `Raw` match versus the `Key`/`Universal` match, and the declaration checks), leaves `Replaced` at roughly 4 cognitive complexity, and looks like it compiles, though the source isn't on this machine, so I couldn't confirm that the `Rule`, `Decl` and `SelectorFacts` parameter types match the original signature.",
+ "cost_usd": 0.0419888,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 1939,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 1301,
+  "output_tokens_details": {
+   "thinking_tokens": 909
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 1939,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1301,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 1939,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1939
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

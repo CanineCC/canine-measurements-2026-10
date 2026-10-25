@@ -1,0 +1,41 @@
+{
+ "run": "m012-U-3",
+ "k": 1,
+ "verdict": "REJECT",
+ "text": "REJECT\nThe extracted helpers remove only about 7 points (one `||` sequence in each bracket check, plus roughly five operator-sequence switches in the foreign-reference condition), so `Uses` would still be around 22, above the threshold of 15, even though behaviour looks unchanged.",
+ "cost_usd": 0.031196799999999997,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 2160,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 673,
+  "output_tokens_details": {
+   "thinking_tokens": 576
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2160,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 673,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 2160,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2160
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

@@ -1,0 +1,41 @@
+{
+ "run": "m021-G-1",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The method is split into helpers plus a `JsGateScan` class whose `Add` is well under 15; the order of reported sites and the control flow (`continue` \u2192 `else if`/`else`) are unchanged. I found no build or warning problem, but I could not compile it here.",
+ "cost_usd": 0.0203331,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 9691,
+  "output_tokens": 1936,
+  "output_tokens_details": {
+   "thinking_tokens": 1844
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1936,
+    "cache_read_input_tokens": 9691,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

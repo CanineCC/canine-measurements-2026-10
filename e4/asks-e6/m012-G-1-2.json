@@ -1,0 +1,41 @@
+{
+ "run": "m012-G-1",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE\n\nThe extracted helpers (`SkipEnd`, `TrackDepth`, `TopLevelStep`, `IsForeignReference`) keep the original control flow and condition order, so behaviour is unchanged, and removing roughly 25 branches and boolean operators from the loop should bring the method well under 15. I could not build the project or see the full file, so the build rests on the diff alone, which shows no type or syntax problems. The one gap is that the `Foreign` and `List<(int From, int To)>` type names in the new signatures are inferred, not confirmed.",
+ "cost_usd": 0.0141404,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4864,
+  "output_tokens": 1365,
+  "output_tokens_details": {
+   "thinking_tokens": 1176
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1365,
+    "cache_read_input_tokens": 4864,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

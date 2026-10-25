@@ -1,0 +1,141 @@
+diff --git a/engine/src/Scanner/Security/D29/Scanners/RouteAuthorizationScan.cs b/engine/src/Scanner/Security/D29/Scanners/RouteAuthorizationScan.cs
+index 503b0f39..3883fe2c 100644
+--- a/engine/src/Scanner/Security/D29/Scanners/RouteAuthorizationScan.cs
++++ b/engine/src/Scanner/Security/D29/Scanners/RouteAuthorizationScan.cs
+@@ -336,16 +336,13 @@ internal static class RouteAuthorizationScan
+ 
+     private static IEnumerable<Judged> Next(Model model, Lexed f)
+     {
+-        var inApp = f.AppRelative;
+-        var isRouteFile = (inApp.StartsWith("app/", StringComparison.Ordinal) || inApp.Contains("/app/", StringComparison.Ordinal))
+-                          && Path.GetFileNameWithoutExtension(inApp) == "route";
+-        var isApiRoute = inApp.StartsWith("pages/api/", StringComparison.Ordinal) || inApp.Contains("/pages/api/", StringComparison.Ordinal);
+-        var isActions = f.T.Count > 0 && f.T[0].Kind == JsTokenKind.StringLiteral && f.T[0].Value == "use server";
++        var (isRouteFile, isApiRoute, isActions) = ClassifyNextFile(f);
+         if (!isRouteFile && !isApiRoute && !isActions)
+         {
+             yield break;
+         }
+ 
++        var inApp = f.AppRelative;
+         var url = isRouteFile ? "/" + RouteUrl(inApp, "app/") : isApiRoute ? "/" + RouteUrl(inApp, "pages/") : null;
+         var t = f.T;
+         for (var i = 0; i + 2 < t.Count; i++)
+@@ -355,46 +352,85 @@ internal static class RouteAuthorizationScan
+                 continue;
+             }
+ 
+-            var k = i + 1;
+-            var isDefault = t[k].IsWord("default");
+-            if (isDefault)
++            if (JudgeNextExport(model, f, i, (isRouteFile, isApiRoute, isActions), url) is { } judged)
+             {
+-                k++;
++                yield return judged;
+             }
++        }
++    }
+ 
+-            if (k < t.Count && t[k].IsWord("async"))
+-            {
+-                k++;
+-            }
++    private static Judged? JudgeNextExport(Model model, Lexed f, int i, (bool IsRouteFile, bool IsApiRoute, bool IsActions) kind, string? url)
++    {
++        var name = NextExportName(f, i, out var k, out var isDefault);
++        if (name is null)
++        {
++            return null;
++        }
+ 
+-            string? name = null;
+-            if (k + 1 < t.Count && t[k].IsWord("function"))
+-            {
+-                name = t[k + 1].IsName ? t[k + 1].Text : "default";
+-            }
+-            else if (k + 1 < t.Count && (t[k].IsWord("const") || t[k].IsWord("let")) && t[k + 1].IsName)
+-            {
+-                name = t[k + 1].Text;
+-            }
++        var endpoint = NextEndpointName(kind.IsRouteFile, kind.IsApiRoute, isDefault, name);
++        if (endpoint is null || f.FunctionBodyAfter(k) is not { } body)
++        {
++            return null;
++        }
+ 
+-            if (name is null)
+-            {
+-                continue;
+-            }
++        var writes = kind.IsActions || WritingVerbs.Contains(name);
++        var e = new Endpoint(f.Relative, f.T[i].Line, kind.IsActions ? $"server action {name}" : $"{endpoint} {url}", writes, f.App);
++        var guarded = model.NextMiddlewareCovers(f.App, url, kind.IsActions);
++        return new Judged(e, guarded ? Decision.Guarded : Decision.None, model.BodyExempt(f, body, null), model.BodyChecks(f, body));
++    }
+ 
+-            var endpoint = isRouteFile ? NextHandlers.Contains(name) ? name : null
+-                : isApiRoute ? isDefault ? "handler" : null
+-                : name;
+-            if (endpoint is null || f.FunctionBodyAfter(k) is not { } body)
+-            {
+-                continue;
+-            }
++    private static (bool IsRouteFile, bool IsApiRoute, bool IsActions) ClassifyNextFile(Lexed f)
++    {
++        var inApp = f.AppRelative;
++        var isRouteFile = (inApp.StartsWith("app/", StringComparison.Ordinal) || inApp.Contains("/app/", StringComparison.Ordinal))
++                          && Path.GetFileNameWithoutExtension(inApp) == "route";
++        var isApiRoute = inApp.StartsWith("pages/api/", StringComparison.Ordinal) || inApp.Contains("/pages/api/", StringComparison.Ordinal);
++        var isActions = f.T.Count > 0 && f.T[0].Kind == JsTokenKind.StringLiteral && f.T[0].Value == "use server";
++        return (isRouteFile, isApiRoute, isActions);
++    }
+ 
+-            var writes = isActions || WritingVerbs.Contains(name);
+-            var e = new Endpoint(f.Relative, t[i].Line, isActions ? $"server action {name}" : $"{endpoint} {url}", writes, f.App);
+-            var guarded = model.NextMiddlewareCovers(f.App, url, isActions);
+-            yield return new Judged(e, guarded ? Decision.Guarded : Decision.None, model.BodyExempt(f, body, null), model.BodyChecks(f, body));
++    private static string? NextEndpointName(bool isRouteFile, bool isApiRoute, bool isDefault, string name)
++    {
++        if (isRouteFile)
++        {
++            return NextHandlers.Contains(name) ? name : null;
++        }
++
++        if (isApiRoute)
++        {
++            return isDefault ? "handler" : null;
+         }
++
++        return name;
++    }
++
++    /// <summary>The declared name of the <c>export</c> at <paramref name="i"/>; <paramref name="k"/> is the declaration keyword.</summary>
++    private static string? NextExportName(Lexed f, int i, out int k, out bool isDefault)
++    {
++        var t = f.T;
++        k = i + 1;
++        isDefault = t[k].IsWord("default");
++        if (isDefault)
++        {
++            k++;
++        }
++
++        if (k < t.Count && t[k].IsWord("async"))
++        {
++            k++;
++        }
++
++        if (k + 1 >= t.Count)
++        {
++            return null;
++        }
++
++        if (t[k].IsWord("function"))
++        {
++            return t[k + 1].IsName ? t[k + 1].Text : "default";
++        }
++
++        return (t[k].IsWord("const") || t[k].IsWord("let")) && t[k + 1].IsName ? t[k + 1].Text : null;
+     }
+ 
+     private static string RouteUrl(string inApp, string root)

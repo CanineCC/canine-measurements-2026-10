@@ -1,0 +1,41 @@
+{
+ "run": "m022-U-2",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe extractions (`WorkspaceDirsByName`, `TransitiveWorkspaceDeps`, `IsUnder`, `ChangeFilterSite`) move the nested loops and conditions out verbatim, which brings `ChangeFilters` to about 15, and the flipped `reported.Add` check behaves the same as the old `continue`; I couldn't find the repository here, though, so I haven't confirmed that the parameter types `CiChangeFilter`, `TestInvocation` and `JsInventory.Inventory` exist under those names or that `IsUnder` doesn't clash with another member of the partial class.",
+ "cost_usd": 0.027019400000000002,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 5657,
+  "output_tokens": 1294,
+  "output_tokens_details": {
+   "thinking_tokens": 868
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1294,
+    "cache_read_input_tokens": 5657,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

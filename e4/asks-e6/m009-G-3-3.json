@@ -1,0 +1,41 @@
+{
+ "run": "m009-G-3",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE: `InScript` is now just two `if`s that call three helpers, and the extracted loops keep the original order and logic, so behaviour is unchanged. The helpers score about 9 or less each. I couldn't see the types of `keyframes`, `guards` and `sites` in the surrounding code, so I'm assuming the new parameter types (`IReadOnlyDictionary<string, bool>`, `IReadOnlySet<string>`, `List<Site>`) match them and the build stays clean.",
+ "cost_usd": 0.0088032,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4692,
+  "output_tokens": 833,
+  "output_tokens_details": {
+   "thinking_tokens": 666
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 833,
+    "cache_read_input_tokens": 4692,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

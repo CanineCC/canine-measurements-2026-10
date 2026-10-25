@@ -1,0 +1,18 @@
+diff --git a/engine/src/CodeHealth.Core/Api/SwiftLibraryProducts.cs b/engine/src/CodeHealth.Core/Api/SwiftLibraryProducts.cs
+index 1d91f1c..ac4115f 100644
+--- a/engine/src/CodeHealth.Core/Api/SwiftLibraryProducts.cs
++++ b/engine/src/CodeHealth.Core/Api/SwiftLibraryProducts.cs
+@@ -340,6 +340,13 @@ public static class SwiftLibraryProducts
+             return null;
+         }
+ 
++        return StringLiteralElements(call, open, close);
++    }
++
++    /// <summary>The string literals between the brackets at <paramref name="open"/> and <paramref name="close"/>,
++    /// or <c>null</c> when any element is not a string literal.</summary>
++    private static List<string>? StringLiteralElements(string call, int open, int close)
++    {
+         var values = new List<string>();
+         for (var i = open + 1; i < close;)
+         {

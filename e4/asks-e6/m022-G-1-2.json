@@ -1,0 +1,41 @@
+{
+ "run": "m022-G-1",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE: the extracted helpers (`WorkspaceDirsByName`, `WorkspaceDependencies`, `IsTestInput`, `Under`, `ChangeFilterSite`) keep the same logic and evaluation order, and flipping the `reported.Add` check is equivalent. Removing the dependency-walk loop, the name-map loop and the nested input predicate should bring the method under 15, though I couldn't run the build or the complexity analyzer to confirm that, nor that the type names (`CiChangeFilter`, `TestInvocation`, `JsInventory.Inventory`) match the real ones.",
+ "cost_usd": 0.010607199999999999,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 5632,
+  "output_tokens": 1004,
+  "output_tokens_details": {
+   "thinking_tokens": 797
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1004,
+    "cache_read_input_tokens": 5632,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

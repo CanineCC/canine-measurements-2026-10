@@ -1,0 +1,41 @@
+{
+ "run": "m027-U-1",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The extracted `NestRoute` keeps the original guard checks, decision logic and skip-ahead (`k = methodEnd - 1` matches `bodySpan.End - 1`), and the null path leaves `k` advancing by one as the old `continue` did. It also removes most of the branching from `Nest`, so that method should now be under the threshold. I could not build the project here. The one build risk I could not rule out is that `Judged?` would break `yield return judged` if `Judged` were a struct, which seems unlikely.",
+ "cost_usd": 0.0197084,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 2565,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 922,
+  "output_tokens_details": {
+   "thinking_tokens": 747
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2565,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 922,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 2565,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2565
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

@@ -1,0 +1,41 @@
+{
+ "run": "m043-U-3",
+ "k": 3,
+ "verdict": "REJECT",
+ "text": "REJECT\n`JudgeAsync` still scores about 17, which is over the threshold of 15: it has eight `if`s, seven `?:` operators where the one nested inside the corpus-pin message counts +2, and the `&&` chain in the `unmeasured` lambda. The behaviour and the build look intact; the fix is to move the `unmeasured`/`reason` tail into another helper.",
+ "cost_usd": 0.027249,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 13405,
+  "output_tokens": 1228,
+  "output_tokens_details": {
+   "thinking_tokens": 1098
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1228,
+    "cache_read_input_tokens": 13405,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

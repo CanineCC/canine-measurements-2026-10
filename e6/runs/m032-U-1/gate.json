@@ -1,0 +1,29 @@
+{
+ "mid": "m032",
+ "touched": [
+  "engine/src/Scanner/Security/D29/Scanners/RouteAuthorizationScan.cs"
+ ],
+ "empty_patch": false,
+ "tests_edited": false,
+ "patch_applies": true,
+ "target_cognitive_after": 4,
+ "newly_over_threshold": [
+  "engine/src/Scanner/Security/D29/Scanners/RouteAuthorizationScan.cs::Model.BlockAnswersOnlyConstants=16"
+ ],
+ "touched_total_cognitive_before": 616,
+ "touched_total_cognitive_after": 606,
+ "build_ok": true,
+ "build_errors": [],
+ "tests_first": [
+  {
+   "project": "engine/tests/CodeHealth.Tests.Unit/CodeHealth.Tests.Unit.csproj",
+   "exit": 0,
+   "passed": 88,
+   "failed": 0,
+   "total": 88,
+   "failedNames": []
+  }
+ ],
+ "behaviour": "passed",
+ "outcome": "moved"
+}

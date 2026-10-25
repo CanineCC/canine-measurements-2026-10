@@ -1,0 +1,41 @@
+{
+ "run": "p08-after-1",
+ "k": 3,
+ "verdict": "REJECT",
+ "text": "REJECT\n\nThe patch changes `CodeHealth.Core.Classification.SourceClassifier` to the bare `SourceClassifier` in the new `IsFirstPartySource` but adds no `using CodeHealth.Core.Classification;`. The original fully qualified call suggests the file has no such using, so this likely fails to compile (CS0103/CS0246). I couldn't open the file here to confirm, so this rests on the diff alone. The extraction itself otherwise appears behaviour-preserving.",
+ "cost_usd": 0.006676199999999999,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4422,
+  "output_tokens": 623,
+  "output_tokens_details": {
+   "thinking_tokens": 455
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 623,
+    "cache_read_input_tokens": 4422,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

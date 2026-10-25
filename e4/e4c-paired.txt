@@ -1,0 +1,3 @@
+false approval: stronger minus E4b = +2.6 points [-5.1, +11.5] over 26 patches
+false rejection: stronger minus E4b = +4.3 points [+1.4, +7.4] over 94 patches
+bad patches approved by a majority under BOTH reviewers: ['m005-U-1', 'm005-U-2', 'm032-U-3', 'm048-U-2']

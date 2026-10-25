@@ -1,0 +1,12 @@
+read-only gate: passed
+   marker   
+------------
+ m775214723
+
+         verdict          | dim |  n  | fingerprints | mean_hours_to_verdict |   first    |    last    
+--------------------------+-----+-----+--------------+-----------------------+------------+------------
+ absent_dimension_unknown |     | 133 |          133 |                1406.7 | 2026-06-13 | 2026-06-14
+ did_not_clear            | P2  |   1 |            1 |                1396.3 | 2026-06-14 | 2026-06-14
+ did_not_clear            | X2  |   1 |            1 |                1396.8 | 2026-06-14 | 2026-06-14
+(3 rows)
+

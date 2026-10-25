@@ -1,0 +1,27 @@
+{
+ "mid": "m004",
+ "touched": [
+  "engine/src/Core/Languages/Swift/Security/SwiftPackageHygiene.CocoaPods.cs"
+ ],
+ "empty_patch": false,
+ "tests_edited": false,
+ "patch_applies": true,
+ "target_cognitive_after": 15,
+ "newly_over_threshold": [],
+ "touched_total_cognitive_before": 42,
+ "touched_total_cognitive_after": 38,
+ "build_ok": true,
+ "build_errors": [],
+ "tests_first": [
+  {
+   "project": "engine/tests/CodeHealth.Tests.Unit/CodeHealth.Tests.Unit.csproj",
+   "exit": 0,
+   "passed": 20,
+   "failed": 0,
+   "total": 20,
+   "failedNames": []
+  }
+ ],
+ "behaviour": "passed",
+ "outcome": "held"
+}

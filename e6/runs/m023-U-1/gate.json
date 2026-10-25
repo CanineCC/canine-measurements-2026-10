@@ -1,0 +1,29 @@
+{
+ "mid": "m023",
+ "touched": [
+  "engine/src/Scanner/Security/D29/Scanners/CleartextTransmissionScan.cs"
+ ],
+ "empty_patch": false,
+ "tests_edited": false,
+ "patch_applies": true,
+ "target_cognitive_after": 0,
+ "newly_over_threshold": [
+  "engine/src/Scanner/Security/D29/Scanners/CleartextTransmissionScan.cs::Lexer.Run=18"
+ ],
+ "touched_total_cognitive_before": 272,
+ "touched_total_cognitive_after": 238,
+ "build_ok": true,
+ "build_errors": [],
+ "tests_first": [
+  {
+   "project": "engine/tests/CodeHealth.Tests.Unit/CodeHealth.Tests.Unit.csproj",
+   "exit": 0,
+   "passed": 52,
+   "failed": 0,
+   "total": 52,
+   "failedNames": []
+  }
+ ],
+ "behaviour": "passed",
+ "outcome": "moved"
+}

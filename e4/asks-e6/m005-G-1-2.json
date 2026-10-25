@@ -1,0 +1,41 @@
+{
+ "run": "m005-G-1",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE: the extraction preserves the original control flow (the per-name guards, the `section` cache via `ref`, and the merged `||` conditions are equivalent), every new helper parameter is used, and each extracted piece is small enough that `CryptoKeyBindingType` and its helpers should come in under 15. I couldn't build or run the analyzer here, and I assumed `line` in the unchanged top of the method is `lines[i]`.",
+ "cost_usd": 0.009484900000000001,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 6809,
+  "output_tokens": 880,
+  "output_tokens_details": {
+   "thinking_tokens": 735
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 880,
+    "cache_read_input_tokens": 6809,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

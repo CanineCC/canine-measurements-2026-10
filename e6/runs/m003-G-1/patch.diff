@@ -1,0 +1,92 @@
+diff --git a/engine/src/Core/Frontend/JsUnusedDeclarations.cs b/engine/src/Core/Frontend/JsUnusedDeclarations.cs
+index f844404e..2f93af70 100644
+--- a/engine/src/Core/Frontend/JsUnusedDeclarations.cs
++++ b/engine/src/Core/Frontend/JsUnusedDeclarations.cs
+@@ -199,7 +199,7 @@ public static class JsUnusedDeclarations
+             var token = tokens[i];
+             if (token.IsPunct("{") || token.IsPunct("(") || token.IsPunct("["))
+             {
+-                if (depth == 0 && token.IsPunct("(") && i > open + 1 && tokens[i - 1].IsWord("constructor"))
++                if (depth == 0 && IsConstructorParen(tokens, i, open))
+                 {
+                     var end = Matching(tokens, i);
+                     members.AddRange(ParameterProperties(tokens, i, end));
+@@ -215,46 +215,49 @@ public static class JsUnusedDeclarations
+             if (token.IsPunct("}") || token.IsPunct(")") || token.IsPunct("]"))
+             {
+                 depth--;
+-                if (depth == 0 && token.IsPunct("}"))
+-                {
+-                    decorated = false;
+-                }
+-
++                decorated &= depth != 0 || !token.IsPunct("}");
+                 continue;
+             }
+ 
+-            if (depth != 0)
++            if (depth == 0)
+             {
+-                continue;
++                decorated = ReadMemberToken(tokens, i, close, decorated, members);
+             }
++        }
+ 
+-            if (token.IsPunct(";"))
+-            {
+-                decorated = false;
+-                continue;
+-            }
++        return members;
++    }
+ 
+-            if (token.IsPunct("@"))
+-            {
+-                decorated = true;
+-                continue;
+-            }
++    private static bool IsConstructorParen(IReadOnlyList<JsToken> tokens, int i, int open) =>
++        tokens[i].IsPunct("(") && i > open + 1 && tokens[i - 1].IsWord("constructor");
+ 
+-            if (token.Kind == JsTokenKind.PrivateIdentifier && !tokens[i - 1].IsMemberAccessor)
+-            {
+-                members.Add(new Member(token.Text, KindAfterName(tokens, i, close), i, IsEsPrivate: true, decorated));
+-                decorated = false;
+-                continue;
+-            }
++    /// <summary>Handles one depth-0 class-body token, adding any private member it declares; returns the new "decorated" state.</summary>
++    private static bool ReadMemberToken(IReadOnlyList<JsToken> tokens, int i, int close, bool decorated, List<Member> members)
++    {
++        var token = tokens[i];
++        if (token.IsPunct(";"))
++        {
++            return false;
++        }
+ 
+-            if (token.IsWord("private") && TsPrivateMemberName(tokens, i, close) is { } named)
+-            {
+-                members.Add(new Member(tokens[named.Index].Text, named.Kind, named.Index, IsEsPrivate: false, decorated));
+-                decorated = false;
+-            }
++        if (token.IsPunct("@"))
++        {
++            return true;
+         }
+ 
+-        return members;
++        if (token.Kind == JsTokenKind.PrivateIdentifier && !tokens[i - 1].IsMemberAccessor)
++        {
++            members.Add(new Member(token.Text, KindAfterName(tokens, i, close), i, IsEsPrivate: true, decorated));
++            return false;
++        }
++
++        if (token.IsWord("private") && TsPrivateMemberName(tokens, i, close) is { } named)
++        {
++            members.Add(new Member(tokens[named.Index].Text, named.Kind, named.Index, IsEsPrivate: false, decorated));
++            return false;
++        }
++
++        return decorated;
+     }
+ 
+     private static readonly HashSet<string> Modifiers = new(StringComparer.Ordinal)

@@ -1,0 +1,85 @@
+diff --git a/engine/src/Scanner/Security/D29/Scanners/RouteAuthorizationScan.cs b/engine/src/Scanner/Security/D29/Scanners/RouteAuthorizationScan.cs
+index 503b0f39..aba6179a 100644
+--- a/engine/src/Scanner/Security/D29/Scanners/RouteAuthorizationScan.cs
++++ b/engine/src/Scanner/Security/D29/Scanners/RouteAuthorizationScan.cs
+@@ -337,9 +337,8 @@ internal static class RouteAuthorizationScan
+     private static IEnumerable<Judged> Next(Model model, Lexed f)
+     {
+         var inApp = f.AppRelative;
+-        var isRouteFile = (inApp.StartsWith("app/", StringComparison.Ordinal) || inApp.Contains("/app/", StringComparison.Ordinal))
+-                          && Path.GetFileNameWithoutExtension(inApp) == "route";
+-        var isApiRoute = inApp.StartsWith("pages/api/", StringComparison.Ordinal) || inApp.Contains("/pages/api/", StringComparison.Ordinal);
++        var isRouteFile = IsUnder(inApp, "app/") && Path.GetFileNameWithoutExtension(inApp) == "route";
++        var isApiRoute = IsUnder(inApp, "pages/api/");
+         var isActions = f.T.Count > 0 && f.T[0].Kind == JsTokenKind.StringLiteral && f.T[0].Value == "use server";
+         if (!isRouteFile && !isApiRoute && !isActions)
+         {
+@@ -355,28 +354,7 @@ internal static class RouteAuthorizationScan
+                 continue;
+             }
+ 
+-            var k = i + 1;
+-            var isDefault = t[k].IsWord("default");
+-            if (isDefault)
+-            {
+-                k++;
+-            }
+-
+-            if (k < t.Count && t[k].IsWord("async"))
+-            {
+-                k++;
+-            }
+-
+-            string? name = null;
+-            if (k + 1 < t.Count && t[k].IsWord("function"))
+-            {
+-                name = t[k + 1].IsName ? t[k + 1].Text : "default";
+-            }
+-            else if (k + 1 < t.Count && (t[k].IsWord("const") || t[k].IsWord("let")) && t[k + 1].IsName)
+-            {
+-                name = t[k + 1].Text;
+-            }
+-
++            var (k, isDefault, name) = ParseNextExport(t, i);
+             if (name is null)
+             {
+                 continue;
+@@ -397,6 +375,38 @@ internal static class RouteAuthorizationScan
+         }
+     }
+ 
++    private static bool IsUnder(string path, string root) =>
++        path.StartsWith(root, StringComparison.Ordinal) || path.Contains("/" + root, StringComparison.Ordinal);
++
++    /// <summary>Parses <c>export [default] [async] function|const|let name</c> at <paramref name="i"/>; returns the index
++    /// of the declaration keyword, whether it is a default export, and the exported name (null when not a declaration).</summary>
++    private static (int Keyword, bool IsDefault, string? Name) ParseNextExport(IReadOnlyList<JsToken> t, int i)
++    {
++        var k = i + 1;
++        var isDefault = t[k].IsWord("default");
++        if (isDefault)
++        {
++            k++;
++        }
++
++        if (k < t.Count && t[k].IsWord("async"))
++        {
++            k++;
++        }
++
++        string? name = null;
++        if (k + 1 < t.Count && t[k].IsWord("function"))
++        {
++            name = t[k + 1].IsName ? t[k + 1].Text : "default";
++        }
++        else if (k + 1 < t.Count && (t[k].IsWord("const") || t[k].IsWord("let")) && t[k + 1].IsName)
++        {
++            name = t[k + 1].Text;
++        }
++
++        return (k, isDefault, name);
++    }
++
+     private static string RouteUrl(string inApp, string root)
+     {
+         var at = inApp.StartsWith(root, StringComparison.Ordinal) ? 0 : inApp.IndexOf("/" + root, StringComparison.Ordinal) + 1;

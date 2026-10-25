@@ -1,0 +1,41 @@
+{
+ "run": "m043-G-3",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe method's cognitive complexity drops to about 12 by moving each stop into a helper. Every early-exit verdict keeps the same outcome, reason text, and measurements, and the gates still run in the original order. The two type assumptions that could break the build, `related` as `IReadOnlyList<string>` and `changed` as `IReadOnlyList<string>`, match how the original code uses them, though I read only the diff and did not compile it.",
+ "cost_usd": 0.0403562,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 11941,
+  "output_tokens": 1898,
+  "output_tokens_details": {
+   "thinking_tokens": 1751
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1898,
+    "cache_read_input_tokens": 11941,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

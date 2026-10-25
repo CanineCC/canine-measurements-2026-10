@@ -1,0 +1,73 @@
+diff --git a/engine/src/Core/Dependencies/NpmLockfileReader.cs b/engine/src/Core/Dependencies/NpmLockfileReader.cs
+index b675d340..8eeced75 100644
+--- a/engine/src/Core/Dependencies/NpmLockfileReader.cs
++++ b/engine/src/Core/Dependencies/NpmLockfileReader.cs
+@@ -66,36 +66,46 @@ public static class NpmLockfileReader
+             var found = new List<NpmLockedPackage>();
+             foreach (var entry in packages.EnumerateObject())
+             {
+-                // "" is the root project itself, not a dependency of anything.
+-                if (entry.Name.Length == 0 || entry.Value.ValueKind != JsonValueKind.Object)
++                if (ProductionPackageOf(entry) is { } package)
+                 {
+-                    continue;
++                    found.Add(package);
+                 }
++            }
+ 
+-                var name = PackageNameFromKey(entry.Name);
+-                if (name.Length == 0)
+-                {
+-                    continue;
+-                }
++            return found;
++        }
++    }
+ 
+-                if (IsTrue(entry.Value, "dev") || IsTrue(entry.Value, "link"))
+-                {
+-                    // dev: not shipped. link: a directory in this repo, with no published release to be behind.
+-                    continue;
+-                }
++    /// <summary>The production package a <c>packages</c> entry denotes, or null for the root project, a
++    /// non-package key, a dev or link entry, or an entry with no usable version.</summary>
++    private static NpmLockedPackage? ProductionPackageOf(JsonProperty entry)
++    {
++        // "" is the root project itself, not a dependency of anything.
++        if (entry.Name.Length == 0 || entry.Value.ValueKind != JsonValueKind.Object)
++        {
++            return null;
++        }
+ 
+-                if (!entry.Value.TryGetProperty("version", out var version)
+-                    || version.ValueKind != JsonValueKind.String
+-                    || version.GetString() is not { Length: > 0 } text)
+-                {
+-                    continue;
+-                }
++        var name = PackageNameFromKey(entry.Name);
++        if (name.Length == 0)
++        {
++            return null;
++        }
+ 
+-                found.Add(new NpmLockedPackage(name, text));
+-            }
++        // dev: not shipped. link: a directory in this repo, with no published release to be behind.
++        if (IsTrue(entry.Value, "dev") || IsTrue(entry.Value, "link"))
++        {
++            return null;
++        }
+ 
+-            return found;
++        if (!entry.Value.TryGetProperty("version", out var version)
++            || version.ValueKind != JsonValueKind.String
++            || version.GetString() is not { Length: > 0 } text)
++        {
++            return null;
+         }
++
++        return new NpmLockedPackage(name, text);
+     }
+ 
+     /// <summary>

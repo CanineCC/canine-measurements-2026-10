@@ -1,0 +1,41 @@
+{
+ "run": "m048-G-3",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE\n\n`RunTurnAsync` is now just setup, one delegating call and the worktree cleanup, and the extracted helpers keep the original ordering, messages, state mutations and record fields, with no behavioural difference or compile error visible in the diff. I couldn't build or run anything here. The new type names (`Dropped`, `OwedWrite`) and the 8\u201310-parameter helpers also weren't checked against the real types or analyzer config. `ExecuteTurnAsync` by my count lands right around 15 itself, so the complexity gain rests on that count, not on a tool run.",
+ "cost_usd": 0.039684599999999993,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 18206,
+  "output_tokens": 3786,
+  "output_tokens_details": {
+   "thinking_tokens": 3591
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 3786,
+    "cache_read_input_tokens": 18206,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

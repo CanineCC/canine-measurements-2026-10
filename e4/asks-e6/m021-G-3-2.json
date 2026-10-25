@@ -1,0 +1,41 @@
+{
+ "run": "m021-G-3",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The extractions preserve the original control flow and site ordering (shard, passWithNoTests, uncommitted, dropped, outside, config-dropped, then ChangeFilters and UnreachedWorkspacePackages). `Js` itself drops to about 3 and `JsGateScan.Visit` is roughly 11, both under 15. I couldn't build it or check the `JsInventory.Package` and `JsInventory.Inventory` type names here, but nothing else in the diff looks likely to break the build.",
+ "cost_usd": 0.024248699999999998,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 9747,
+  "output_tokens": 2327,
+  "output_tokens_details": {
+   "thinking_tokens": 2155
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 2327,
+    "cache_read_input_tokens": 9747,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

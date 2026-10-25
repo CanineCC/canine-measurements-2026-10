@@ -1,0 +1,8 @@
+E1 re-measure, EXPLORATORY (after the freeze; not the pre-registered result).
+Date: 2026-10-25T18:51:52+01:00
+Engine: cca-phase-2 a3f3f35ad9 plus the backlog 01a1715a-4a1c sidecar fix only, detached worktree <checkout> (pinned checkout untouched).
+Patch: 38264303d9374f6b1fcd1c5b2f83042f4d9125745c307ebe0fc103ad9d26644d (git diff of engine/sidecars/java-spoon) + new SourceText.java, SourceEncodingTest.java
+Jar: 2c8752b2649dbfe778f5eb5a0462fef9a6c45d253d946a5f94a933cfb5e1be62  <checkout>/engine/sidecars/java-spoon/target/codehealth-java-sidecar.jar
+Probe: ../tools/java-probe (unchanged binary; C# engine code identical to the pin). Pipeline check: pinned jar re-run reproduces ../e1/methods/aoi.jsonl exactly (methods-pinned-rerun/).
+Scripts: predict.py and analyse.py byte-identical to ../e1 (sha256 445d5a5e..., d77a0b45...).
+Outputs: methods/, predictions.csv, results.txt, results.json

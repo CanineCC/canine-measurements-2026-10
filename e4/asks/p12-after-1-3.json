@@ -1,0 +1,41 @@
+{
+ "run": "p12-after-1",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE\n\nThe extracted `MatchesRequested` keeps every original path: non-object entries are skipped, an empty or null requested version takes the first object entry, and otherwise only an exact string `num` match returns. Removing the nested ifs and `continue`s brings `Parse` well under 15, and the new helper uses only syntax and nullable annotations the file already has, so it should build cleanly. I reviewed the diff only and did not build it or run the tests.",
+ "cost_usd": 0.0056224000000000005,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 3784,
+  "output_tokens": 524,
+  "output_tokens_details": {
+   "thinking_tokens": 374
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 524,
+    "cache_read_input_tokens": 3784,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

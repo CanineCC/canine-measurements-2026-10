@@ -1,0 +1,41 @@
+{
+ "run": "p08-before-1",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE: the extracted `IsFirstPartySource` keeps the original filter order (extension, then generated/declaration names, then `IsSkipped`), and `&& --count == 0` still decrements only for files that pass, so behaviour is unchanged. Three nested `if`/`continue` blocks and their `||` chains are gone from `AtLeast`, which should bring its complexity well under 15, and the new helper uses only existing members, so it should build. I reviewed the diff only and did not build or run anything.",
+ "cost_usd": 0.0054694999999999995,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4055,
+  "output_tokens": 506,
+  "output_tokens_details": {
+   "thinking_tokens": 338
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 506,
+    "cache_read_input_tokens": 4055,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

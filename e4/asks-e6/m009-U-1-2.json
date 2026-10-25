@@ -1,0 +1,41 @@
+{
+ "run": "m009-U-1",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE: the three branches are extracted into iterator helpers that `AddRange` consumes in the original order (templates, objects, animate), so behaviour is preserved, and `InScript` is left with only a few simple branches, well under 15. I couldn't open the file here, so I haven't confirmed that `GuardBindings` and the keyframes map convert to the new `IReadOnlySet<string>` and `IReadOnlyDictionary<string, bool>` parameter types; that is the main residual build risk.",
+ "cost_usd": 0.009108900000000001,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4849,
+  "output_tokens": 862,
+  "output_tokens_details": {
+   "thinking_tokens": 695
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 862,
+    "cache_read_input_tokens": 4849,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

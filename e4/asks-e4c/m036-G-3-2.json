@@ -1,0 +1,41 @@
+{
+ "run": "m036-G-3",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe extraction moves the logic unchanged into two helpers, which brings `UnusedWriteScopeGrants` well under 15 and preserves behaviour, but I couldn't find the source on this machine, so the build condition rests on one unchecked assumption: that the `jobs` parameter type `List<(string, List<(int, string)>, int)>` exactly matches what `WorkflowJobs` returns.",
+ "cost_usd": 0.026954400000000003,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 5132,
+  "output_tokens": 1296,
+  "output_tokens_details": {
+   "thinking_tokens": 881
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1296,
+    "cache_read_input_tokens": 5132,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

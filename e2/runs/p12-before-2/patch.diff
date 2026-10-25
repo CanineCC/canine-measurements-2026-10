@@ -1,0 +1,64 @@
+diff --git a/engine/src/CodeHealth.Core/Dependencies/CratesIoClient.cs b/engine/src/CodeHealth.Core/Dependencies/CratesIoClient.cs
+index 9839667..5d7223a 100644
+--- a/engine/src/CodeHealth.Core/Dependencies/CratesIoClient.cs
++++ b/engine/src/CodeHealth.Core/Dependencies/CratesIoClient.cs
+@@ -516,33 +516,43 @@ public sealed class CratesIoClient : ICratesRegistry, IDisposable
+ 
+         if (root.TryGetProperty("versions", out var versions) && versions.ValueKind == JsonValueKind.Array)
+         {
+-            foreach (var entry in versions.EnumerateArray())
++            return ReadFromVersions(crateName, requestedVersion, versions);
++        }
++
++        return null;
++    }
++
++    private static CratesRelease? ReadFromVersions(string crateName, string? requestedVersion, JsonElement versions)
++    {
++        foreach (var entry in versions.EnumerateArray())
++        {
++            if (entry.ValueKind != JsonValueKind.Object)
+             {
+-                if (entry.ValueKind != JsonValueKind.Object)
+-                {
+-                    continue;
+-                }
++                continue;
++            }
+ 
+-                // With a requested version, take that one and nothing else — settling for the newest would answer a
+-                // question about a release this repository does not use.
+-                if (requestedVersion is { Length: > 0 })
++            // With a requested version, take that one and nothing else — settling for the newest would answer a
++            // question about a release this repository does not use.
++            if (requestedVersion is { Length: > 0 })
++            {
++                if (HasNum(entry, requestedVersion))
+                 {
+-                    if (entry.TryGetProperty("num", out var num) && num.ValueKind == JsonValueKind.String
+-                        && string.Equals(num.GetString(), requestedVersion, StringComparison.Ordinal))
+-                    {
+-                        return ReadVersion(crateName, entry);
+-                    }
+-
+-                    continue;
++                    return ReadVersion(crateName, entry);
+                 }
+ 
+-                return ReadVersion(crateName, entry);
++                continue;
+             }
++
++            return ReadVersion(crateName, entry);
+         }
+ 
+         return null;
+     }
+ 
++    private static bool HasNum(JsonElement entry, string expected) =>
++        entry.TryGetProperty("num", out var num) && num.ValueKind == JsonValueKind.String
++        && string.Equals(num.GetString(), expected, StringComparison.Ordinal);
++
+     private static CratesRelease? ReadVersion(string crateName, JsonElement version)
+     {
+         var num = version.TryGetProperty("num", out var n) && n.ValueKind == JsonValueKind.String

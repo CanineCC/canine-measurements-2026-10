@@ -1,0 +1,41 @@
+{
+ "run": "m009-G-3",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The extraction keeps the original order (templates, style objects, animate) and the `hasCss`/`hasAnimate` gating, so behaviour is unchanged. `InScript` is now only a few branches, and each new helper scores well under 15. The one risk is that the helper signatures (`IReadOnlySet<string>` for `guards`, `IReadOnlyDictionary<string, bool>` for `keyframes`) must match the types the existing functions return and accept, which the diff doesn't show, though they look consistent with how the original code used them.",
+ "cost_usd": 0.0168704,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 2448,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 685,
+  "output_tokens_details": {
+   "thinking_tokens": 503
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2448,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 685,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 2448,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2448
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

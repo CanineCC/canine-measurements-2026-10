@@ -1,0 +1,46 @@
+pairs with both sides: 20 of 20; runs: 120
+
+AFTER / BEFORE, geometric mean over pairs of per-pair mean (95 % pair bootstrap)
+  total_tokens          1.864  [1.746, 2.002]
+  cost_usd              1.540  [1.423, 1.678]
+  num_turns             1.578  [1.501, 1.666]
+  tool_result_chars     1.582  [1.440, 1.763]
+  tool_calls            1.756  [1.652, 1.871]
+  build_calls           2.140  [1.981, 2.317]
+  wall                  0.627  [0.493, 0.824]
+  output_tokens         1.269  [1.179, 1.389]
+
+OUTCOMES per side (runs)
+  before  {'held': 60}
+  after   {'held': 60}
+  held rate before 1.000  after 1.000  difference +0.000 [+0.000, +0.000]
+
+BEHAVIOUR on the 18 pairs with tests on both sides
+  before  {(True, 'tests_passed'): 49, (True, 'tests_failed'): 5}
+  after   {(True, 'tests_passed'): 54}
+
+E3: claimed success vs the gate (held and tests not failed)
+  before  runs 60  claimed 0  claimed-and-ok 0  claimed-but-not-ok 0  tests edited 0
+  after   runs 60  claimed 1  claimed-and-ok 1  claimed-but-not-ok 0  tests edited 0
+
+PER PAIR (mean total tokens before → after, held runs before/after)
+  p02      59725 →     89917   held 3/3 → 3/3
+  p03      81650 →    138488   held 3/3 → 3/3
+  p04      59291 →    104344   held 3/3 → 3/3
+  p08      76384 →    121815   held 3/3 → 3/3
+  p09      65554 →    130942   held 3/3 → 3/3
+  p11      66776 →    120719   held 3/3 → 3/3
+  p12      58325 →    112136   held 3/3 → 3/3
+  p14      70678 →    112915   held 3/3 → 3/3
+  p18      76405 →    172374   held 3/3 → 3/3
+  p20      66004 →    104918   held 3/3 → 3/3
+  p21      59075 →    103879   held 3/3 → 3/3
+  p23      59624 →    112731   held 3/3 → 3/3
+  p24      81811 →    129852   held 3/3 → 3/3
+  p26      60914 →    136048   held 3/3 → 3/3
+  p27      59208 →    133183   held 3/3 → 3/3
+  p28      57790 →    105195   held 3/3 → 3/3
+  p31      58728 →    104081   held 3/3 → 3/3
+  p36      57209 →    154993   held 3/3 → 3/3
+  p40      63003 →    149892   held 3/3 → 3/3
+  p44      76553 →    124540   held 3/3 → 3/3

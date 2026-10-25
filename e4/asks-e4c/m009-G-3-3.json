@@ -1,0 +1,41 @@
+{
+ "run": "m009-G-3",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe three loops are moved verbatim into helpers that keep the same order and the same `continue`/guard logic, so behaviour is unchanged and `InScript` drops to roughly two `if` increments; the one thing I couldn't check (the source isn't on this machine) is whether the declared parameter types (`Func<Family, bool>`, `IReadOnlyDictionary<string, bool>`, `IReadOnlySet<string>`) match the actual types of `projectReset`, `keyframes` and `guards`, so confirm that with a build before merging.",
+ "cost_usd": 0.0228656,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4688,
+  "output_tokens": 1096,
+  "output_tokens_details": {
+   "thinking_tokens": 444
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1096,
+    "cache_read_input_tokens": 4688,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

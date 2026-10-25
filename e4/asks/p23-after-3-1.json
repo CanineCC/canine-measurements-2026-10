@@ -1,0 +1,41 @@
+{
+ "run": "p23-after-3",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE: The extraction moves the `all:` stripping, the `..`/empty and empty-resolved skips, and the `isTree` computation unchanged into `TryBuildGoEmbedRef`, so behaviour is preserved. The `continue` statements become `return false`, the loop keeps only a single `if`, and the complexity of `CollectGoEmbedRefs` drops well below 15. The `default!` initialisation of the `out` parameter should not raise a nullable warning. I could not check that `rel` and `directory` are `string`, which the new signature assumes.",
+ "cost_usd": 0.0147484,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 2060,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 628,
+  "output_tokens_details": {
+   "thinking_tokens": 439
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2060,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 628,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 2060,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2060
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

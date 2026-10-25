@@ -1,0 +1,41 @@
+{
+ "run": "p36-before-3",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE\n\nThe extracted `BypassedCtorFqns` filters Scala types, flattens `BypassConstructions`, keeps non-empty `CtorFqn` values, and builds an ordinal `HashSet`, which is the same set the removed loops built. It also removes the nested loops and conditionals that pushed the method over 15. System.Linq is already in use in this file, so the build should be unaffected. I only had the diff, so the build is unchecked and I'm assuming `IsScalaType` has a single overload and takes `ICodeType`.",
+ "cost_usd": 0.0064502,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 3762,
+  "output_tokens": 607,
+  "output_tokens_details": {
+   "thinking_tokens": 426
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 607,
+    "cache_read_input_tokens": 3762,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

@@ -1,0 +1,41 @@
+{
+ "run": "m014-U-2",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The extraction keeps behavior identical (same `IsDependencySection` set, the same exclusive if/else-if chain replacing `continue`, the same `i + 1` line number, and the same null guard on the package key), nullable flow should still hold so warnings-as-errors shouldn't trip, and `Read` and each helper land well under 15.",
+ "cost_usd": 0.0238304,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 2818,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 1233,
+  "output_tokens_details": {
+   "thinking_tokens": 1116
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2818,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1233,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 2818,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2818
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

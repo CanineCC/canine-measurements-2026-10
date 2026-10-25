@@ -1,0 +1,41 @@
+{
+ "run": "m005-U-2",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE: the extractions (`BoundLiteral`, `IsRejectedKeyValue`, `IsLookupKeyNotKeyMaterial`, `ClassifyCryptoKey`) keep the original conditions, evaluation order, trimming and results, and they remove the nested ternary and the long `||` chains that drove the complexity score. I could not build it here, and the diff doesn't show the type of `lines`, so the `string[] lines` parameter is assumed to match the caller.",
+ "cost_usd": 0.009102600000000002,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 6086,
+  "output_tokens": 849,
+  "output_tokens_details": {
+   "thinking_tokens": 685
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 849,
+    "cache_read_input_tokens": 6086,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

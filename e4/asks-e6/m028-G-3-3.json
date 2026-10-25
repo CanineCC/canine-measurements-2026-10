@@ -1,0 +1,41 @@
+{
+ "run": "m028-G-3",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The extracted helpers (`ClassifyNextFile`, `NextExportName`, `NextEndpointName`, `JudgeNextExport`) preserve the original logic, including the `k + 1 < t.Count` guards, the `continue` conditions and the endpoint/url/writes computation. `Next` itself drops to roughly 10 cognitive complexity, and I see no new warning sources in the patch, though I did not build it.",
+ "cost_usd": 0.0110494,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 5554,
+  "output_tokens": 1049,
+  "output_tokens_details": {
+   "thinking_tokens": 901
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1049,
+    "cache_read_input_tokens": 5554,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

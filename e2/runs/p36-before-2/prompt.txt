@@ -1,0 +1,5 @@
+A code analysis of this repository reported this finding:
+
+  Cognitive complexity too high: `ScalaDomainConventions.BypassableInvariantEntities` in `engine/src/CodeHealth.Core/ModelAware/ScalaDomainConventions.cs` (line 948) has a cognitive complexity of 16. The threshold is 15.
+
+Refactor the method so that its cognitive complexity is 15 or lower, without changing its behaviour. The project that contains the file must still build with `dotnet build` (warnings are treated as errors in this repository). Do not edit tests. Leave the change in the working tree; do not commit.

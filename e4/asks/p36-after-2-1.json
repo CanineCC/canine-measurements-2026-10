@@ -1,0 +1,41 @@
+{
+ "run": "p36-after-2",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE\n\nThe method is still an iterator, so the corpus scan stays lazy, and the extracted helpers keep the original filter conditions in the same short-circuit order, so behaviour is unchanged. The main method's cognitive complexity drops to roughly 5. I couldn't build or inspect the repo here, so I haven't confirmed that `IsScalaType` has no overloads and that `BypassedCtorFqns` and `IsBypassCandidate` don't already exist in the class.",
+ "cost_usd": 0.015664400000000002,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 1944,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 766,
+  "output_tokens_details": {
+   "thinking_tokens": 605
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 1944,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 766,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 1944,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1944
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

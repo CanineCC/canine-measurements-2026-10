@@ -1,0 +1,41 @@
+{
+ "run": "m012-G-1",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe helpers (`SkipEnd`, `TrackDepth`, `TopLevelStep`, `IsForeignReference`) reproduce the original control flow exactly, including `k` updates, `continue` paths and the `k > 0` guards, and they cut `Uses` to roughly 12. I couldn't find the source file to build it, so this assumes `skip` and `foreign` really are `List<(int From, int To)>` and `Dictionary<string, Foreign>` as the new signatures declare.",
+ "cost_usd": 0.0545648,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 2616,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 1659,
+  "output_tokens_details": {
+   "thinking_tokens": 1362
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2616,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1659,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 2616,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2616
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

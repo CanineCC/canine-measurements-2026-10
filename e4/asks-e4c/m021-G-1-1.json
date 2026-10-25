@@ -1,0 +1,41 @@
+{
+ "run": "m021-G-1",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe control flow is preserved: the `continue` chain becomes `if`/`else if`/`else`, the shard, pass-with-no-tests and uncommitted checks are extracted with the same order and the same site text, and buckets are filled in the same insertion order. `Js` itself drops to a handful of branches, well under 15, and every construct used (a nested sealed class with a primary constructor, the generic `JsBucket` helper, collection expressions) compiles cleanly, assuming the `JsInventory.Inventory`, `JsInventory.Package` and `JsInventory.Selection` type names match the existing declarations; I couldn't build it to confirm this.",
+ "cost_usd": 0.09218080000000001,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 7443,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 1609,
+  "output_tokens_details": {
+   "thinking_tokens": 1388
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 7443,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1609,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 7443,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 7443
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

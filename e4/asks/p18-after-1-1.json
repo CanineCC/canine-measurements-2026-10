@@ -1,0 +1,41 @@
+{
+ "run": "p18-after-1",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The patch moves the label, bracket and trailing-operator checks into `TryFindArrayLiteral` with the same conditions, and `open` and `close` reach the rest of the method via `out`. That should cut roughly five points of complexity from the remaining method, well under 15, and I see no compile problems. The diff doesn't show the rest of the original method body, so I'm assuming it doesn't use the moved `at` or `after` locals.",
+ "cost_usd": 0.0159624,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 1886,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 819,
+  "output_tokens_details": {
+   "thinking_tokens": 672
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 1886,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 819,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 1886,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1886
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

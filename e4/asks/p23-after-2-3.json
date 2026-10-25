@@ -1,0 +1,41 @@
+{
+ "run": "p23-after-2",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE: The extracted `ResolveGoEmbedPattern` keeps the original logic, with both `continue` paths becoming `return null` and the add happening only for non-null results. `CollectGoEmbedRefs` is left with just nested loops and one `if`, which is well under 15. I couldn't build it here, so this is judged from the diff alone. It assumes `HostEmbedRef` is a reference type and that `rel` and `directory` are strings.",
+ "cost_usd": 0.006632999999999999,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4290,
+  "output_tokens": 620,
+  "output_tokens_details": {
+   "thinking_tokens": 468
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 620,
+    "cache_read_input_tokens": 4290,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

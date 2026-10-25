@@ -1,0 +1,41 @@
+{
+ "run": "m004-G-3",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe extracted helpers keep the same short-circuiting and filtering, so behaviour is unchanged; the method drops to about 15 because three nested `if`s and their `&&`/`||` operators move out and only one `||` is added; and the code should compile cleanly, provided `resolved` is declared as `Dictionary<string, string>`, which the hunk doesn't show.",
+ "cost_usd": 0.0220128,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4324,
+  "output_tokens": 1057,
+  "output_tokens_details": {
+   "thinking_tokens": 930
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1057,
+    "cache_read_input_tokens": 4324,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

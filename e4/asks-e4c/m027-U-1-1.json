@@ -1,0 +1,41 @@
+{
+ "run": "m027-U-1",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe extracted `NestRoute` carries over the whole loop body unchanged. `k` advances the same way on both the skip and match paths, and the reordered `classGuard ||` check has no side effects to disturb. The remaining loop is a single null check, which plausibly brings `Nest` under 15, and the code should compile, assuming `Judged` is a reference type (if it is a struct, `yield return judged` won't build). I couldn't read the repository, so this is from the diff alone and I did not build it or measure the complexity.",
+ "cost_usd": 0.27678480000000005,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 2561,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 12792,
+  "output_tokens_details": {
+   "thinking_tokens": 1581
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2561,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 12792,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 2561,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2561
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

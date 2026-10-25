@@ -1,0 +1,41 @@
+{
+ "run": "m003-G-3",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The control flow is preserved (the `decorated` updates for `}`, `;`, `@` and members are equivalent, and the extracted helpers match the original conditions), and removing the `||`/`&&` chains and the nested ifs should bring the complexity under 15. I couldn't build it here, so the build is unchecked, and the `puncts.Any(token.IsPunct)` method-group conversion is the likeliest thing to fail.",
+ "cost_usd": 0.0155092,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4552,
+  "output_tokens": 1505,
+  "output_tokens_details": {
+   "thinking_tokens": 1358
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1505,
+    "cache_read_input_tokens": 4552,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

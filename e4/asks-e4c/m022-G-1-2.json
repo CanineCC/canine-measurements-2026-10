@@ -1,0 +1,41 @@
+{
+ "run": "m022-G-1",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe extractions (`WorkspaceDirsByName`, `WorkspaceDependencies`, `IsTestInput`, `Under`, `ChangeFilterSite`) preserve the original logic and ordering, and they remove about 15 points of nested-loop and boolean complexity, which should leave `ChangeFilters` at 15 or below; however, the repository isn't available here, so I couldn't confirm that `JsInventory.Inventory`, `CiChangeFilter` and `TestInvocation` are the correct type names or that no other `Under` exists in the partial class, so the build condition is unverified.",
+ "cost_usd": 0.034913599999999996,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 5628,
+  "output_tokens": 1689,
+  "output_tokens_details": {
+   "thinking_tokens": 1161
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1689,
+    "cache_read_input_tokens": 5628,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

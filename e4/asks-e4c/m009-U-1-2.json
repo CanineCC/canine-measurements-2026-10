@@ -1,0 +1,41 @@
+{
+ "run": "m009-U-1",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe extracted iterators run in the same order and are consumed right away by `AddRange`, so behaviour is unchanged, and `InScript` drops from 26 to about 5. I couldn't find the source file on this machine, so I couldn't confirm that the new parameter types (`Func<Family, bool>`, `IReadOnlyDictionary<string, bool>`, `IReadOnlySet<string>`) match what `GuardBindings`, `Known` and `ReadsGuard` actually use, and the build should confirm that before merging.",
+ "cost_usd": 0.031917,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4845,
+  "output_tokens": 1547,
+  "output_tokens_details": {
+   "thinking_tokens": 871
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1547,
+    "cache_read_input_tokens": 4845,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

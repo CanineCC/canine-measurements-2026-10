@@ -1,0 +1,41 @@
+{
+ "run": "m042-U-2",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE\n\nThe extracted helpers preserve the original branch logic, including the silent skip when neither Apply parameter is the document type. Per-iteration closure capture is replaced by passing `method` as an argument. `BuildPlan`'s own complexity drops to roughly 6, and I see nothing that would introduce a build warning. I did not build or run the tests.",
+ "cost_usd": 0.006996,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4620,
+  "output_tokens": 653,
+  "output_tokens_details": {
+   "thinking_tokens": 534
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 653,
+    "cache_read_input_tokens": 4620,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

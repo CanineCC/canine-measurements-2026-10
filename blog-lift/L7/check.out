@@ -1,0 +1,39 @@
+Cloning into 'CodeAssuranceIndex'...
+  Determining projects to restore...
+  Restored <scratch>/blog-lift/L7/reader-run/CodeAssuranceIndex/src/Cai.Cli/Cai.Cli.csproj (in 338 ms).
+  Restored <scratch>/blog-lift/L7/reader-run/CodeAssuranceIndex/src/Cai.Scoring/Cai.Scoring.csproj (in 339 ms).
+  Restored <scratch>/blog-lift/L7/reader-run/CodeAssuranceIndex/src/Cai.Delivery/Cai.Delivery.csproj (in 338 ms).
+<scratch>/blog-lift/L7/reader-run/CodeAssuranceIndex/src/Cai.Scoring/Domain/SecurityReading.cs(149,18): warning CS1572: XML comment has a param tag for 'AdvisoryId', but there is no parameter by that name [<scratch>/blog-lift/L7/reader-run/CodeAssuranceIndex/src/Cai.Scoring/Cai.Scoring.csproj]
+<scratch>/blog-lift/L7/reader-run/CodeAssuranceIndex/src/Cai.Scoring/Domain/SecurityReading.cs(154,18): warning CS1572: XML comment has a param tag for 'Package', but there is no parameter by that name [<scratch>/blog-lift/L7/reader-run/CodeAssuranceIndex/src/Cai.Scoring/Cai.Scoring.csproj]
+<scratch>/blog-lift/L7/reader-run/CodeAssuranceIndex/src/Cai.Scoring/Domain/SecurityReading.cs(157,18): warning CS1572: XML comment has a param tag for 'PackageVersion', but there is no parameter by that name [<scratch>/blog-lift/L7/reader-run/CodeAssuranceIndex/src/Cai.Scoring/Cai.Scoring.csproj]
+<scratch>/blog-lift/L7/reader-run/CodeAssuranceIndex/src/Cai.Scoring/Domain/SecurityReading.cs(158,18): warning CS1572: XML comment has a param tag for 'Inherited', but there is no parameter by that name [<scratch>/blog-lift/L7/reader-run/CodeAssuranceIndex/src/Cai.Scoring/Cai.Scoring.csproj]
+  Cai.Scoring -> <scratch>/blog-lift/L7/reader-run/CodeAssuranceIndex/src/Cai.Scoring/bin/Release/net10.0/Cai.Scoring.dll
+  Cai.Delivery -> <scratch>/blog-lift/L7/reader-run/CodeAssuranceIndex/src/Cai.Delivery/bin/Release/net10.0/Cai.Delivery.dll
+  Cai.Cli -> <scratch>/blog-lift/L7/reader-run/CodeAssuranceIndex/src/Cai.Cli/bin/Release/net10.0/cai.dll
+
+Build succeeded.
+
+<scratch>/blog-lift/L7/reader-run/CodeAssuranceIndex/src/Cai.Scoring/Domain/SecurityReading.cs(149,18): warning CS1572: XML comment has a param tag for 'AdvisoryId', but there is no parameter by that name [<scratch>/blog-lift/L7/reader-run/CodeAssuranceIndex/src/Cai.Scoring/Cai.Scoring.csproj]
+<scratch>/blog-lift/L7/reader-run/CodeAssuranceIndex/src/Cai.Scoring/Domain/SecurityReading.cs(154,18): warning CS1572: XML comment has a param tag for 'Package', but there is no parameter by that name [<scratch>/blog-lift/L7/reader-run/CodeAssuranceIndex/src/Cai.Scoring/Cai.Scoring.csproj]
+<scratch>/blog-lift/L7/reader-run/CodeAssuranceIndex/src/Cai.Scoring/Domain/SecurityReading.cs(157,18): warning CS1572: XML comment has a param tag for 'PackageVersion', but there is no parameter by that name [<scratch>/blog-lift/L7/reader-run/CodeAssuranceIndex/src/Cai.Scoring/Cai.Scoring.csproj]
+<scratch>/blog-lift/L7/reader-run/CodeAssuranceIndex/src/Cai.Scoring/Domain/SecurityReading.cs(158,18): warning CS1572: XML comment has a param tag for 'Inherited', but there is no parameter by that name [<scratch>/blog-lift/L7/reader-run/CodeAssuranceIndex/src/Cai.Scoring/Cai.Scoring.csproj]
+    4 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:07.14
+✓ signature verified — signed by codeassuranceindex.info (key cai-ed25519-sample), Ed25519
+  subject   acme/checkout-api @ 3f9a1c2
+  verdict   CAI 70.3 (Strong)  ·  rubric rubric-2026.08.15  ·  issued 2026-07-01T10:32:04Z
+✓ headline reproduces from embedded evidence (70.3 = claimed 70.3)
+CAI 57.8 (Adequate)  ·  rubric rubric-2026.10.5
+
+  lens                    scoreband          dims   weight   contrib
+  maturity                 51.5  Adequate       0    0.454     23.37
+  codeHealth               54.5  Adequate       0    0.250     13.60
+  performance              66.1  Adequate       0    0.137      9.07
+  securityCompliance       67.1  Adequate       0    0.076      5.07
+  productionReadiness      70.7  Strong         0    0.042      2.94
+  eventDriven              83.2  Strong         0    0.023      1.90
+  architecture             97.1  Exemplary      0    0.013      1.22
+  domainModelling          97.9  Exemplary      0    0.007      0.68
+✓ reproduced: CAI 58 (Adequate) under rubric rubric-2026.10.5 (claimed 58, Δ0.05)

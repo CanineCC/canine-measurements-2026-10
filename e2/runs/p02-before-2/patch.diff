@@ -1,0 +1,59 @@
+diff --git a/engine/src/CodeHealth.Core/ExplicitDebt/SourceCommentTaskScanner.cs b/engine/src/CodeHealth.Core/ExplicitDebt/SourceCommentTaskScanner.cs
+index ba0c656..d89fb03 100644
+--- a/engine/src/CodeHealth.Core/ExplicitDebt/SourceCommentTaskScanner.cs
++++ b/engine/src/CodeHealth.Core/ExplicitDebt/SourceCommentTaskScanner.cs
+@@ -131,15 +131,7 @@ public static class SourceCommentTaskScanner
+             var c = line[i];
+             if (quote != '\0')
+             {
+-                if (c == '\\')
+-                {
+-                    i++;
+-                }
+-                else if (c == quote)
+-                {
+-                    quote = '\0';
+-                }
+-
++                quote = ContinueQuote(c, quote, ref i);
+                 continue;
+             }
+ 
+@@ -151,19 +143,30 @@ public static class SourceCommentTaskScanner
+ 
+             if (c == prefix[0] && line[i..].StartsWith(prefix, StringComparison.Ordinal))
+             {
+-                // `#!` — an interpreter directive, not authored prose.
+-                if (prefix == "#" && i + 1 < line.Length && line[i + 1] == '!')
+-                {
+-                    return -1;
+-                }
+-
+-                return i;
++                return IsShebang(line, i, prefix) ? -1 : i;
+             }
+         }
+ 
+         return -1;
+     }
+ 
++    /// <summary>Consumes one character inside a quote: a backslash skips the next character, the closing quote ends
++    /// the quote. Returns the quote state after the character.</summary>
++    private static char ContinueQuote(char c, char quote, ref int i)
++    {
++        if (c == '\\')
++        {
++            i++;
++            return quote;
++        }
++
++        return c == quote ? '\0' : quote;
++    }
++
++    /// <summary>`#!` — an interpreter directive, not authored prose.</summary>
++    private static bool IsShebang(ReadOnlySpan<char> line, int i, string prefix) =>
++        prefix == "#" && i + 1 < line.Length && line[i + 1] == '!';
++
+     /// <summary>What a task-comment sweep of a set of extensions found, without scoring any of it.</summary>
+     /// <param name="FilesScanned">Files of those extensions this scanner could read and did read.</param>
+     /// <param name="FilesWithMarkers">How many of them carry at least one task marker.</param>

@@ -1,0 +1,41 @@
+{
+ "run": "p24-before-3",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE: both extracted conditions keep the same logic and short-circuit order, the helpers remove two nested `if`/`&&` blocks (roughly 7\u20138 points of complexity, taking 17 to about 10), and all arguments were already in scope. I could not build it or confirm that `sourceTextRefs` is a `List<SourceTextRef>`, since the repo isn't available here.",
+ "cost_usd": 0.0180864,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 2057,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 963,
+  "output_tokens_details": {
+   "thinking_tokens": 833
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2057,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 963,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 2057,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2057
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

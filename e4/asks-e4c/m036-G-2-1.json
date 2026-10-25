@@ -1,0 +1,41 @@
+{
+ "run": "m036-G-2",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nPulling the per-job grant check and the inherited-grant check into helpers takes out about 14 points of nested control flow, which leaves `UnusedWriteScopeGrants` at roughly 11. The helpers keep the same early exits (`continue` became `return`), fill `inheriting` in the same order, emit grants in the same order, and the braces balance; this is from reading the diff only, because the repository isn't on this machine and I couldn't compile it or check that the helper signatures (`body`'s type, `static`) match the surrounding code.",
+ "cost_usd": 0.8164008,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 2623,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 39748,
+  "output_tokens_details": {
+   "thinking_tokens": 1381
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2623,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 39748,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 2623,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2623
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

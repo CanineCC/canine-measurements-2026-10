@@ -1,0 +1,46 @@
+{
+ "side": "before",
+ "pair": "p11",
+ "touched": [
+  "engine/src/CodeHealth.Core/Dependencies/NpmCurrencyCollector.cs"
+ ],
+ "empty_patch": false,
+ "tests_edited": false,
+ "patch_applies": true,
+ "target_cognitive_after": 8,
+ "target_present": true,
+ "newly_over_threshold": [],
+ "max_cognitive_in_touched_files_after": 9,
+ "build_ok": true,
+ "build_errors": [],
+ "test_classes": [
+  "AnsweringNpmRegistry",
+  "Backoffice",
+  "CapOptions",
+  "Constants",
+  "DependencyHygieneNpmBlindnessTests",
+  "DependencyHygieneNpmCurrencyArmTests",
+  "FakeRegistry",
+  "FoundSolution",
+  "NoSolution",
+  "NpmCurrencyCollectorTests",
+  "NpmCurrencyGapDeclaresItsRemedyTests",
+  "NpmLockfileFormatCoverageTests",
+  "NpmNoLockfileIsNotOurGapTests",
+  "OfflineNpmRegistry",
+  "StubHygiene",
+  "StubNpmRegistry",
+  "TempTree",
+  "UnreachableNpmRegistry",
+  "those"
+ ],
+ "tests": {
+  "exit": 0,
+  "passed": 44,
+  "failed": 0,
+  "total": 44,
+  "tail": "Test run for <scratch>/blog-method/e2/lanes/gate-before/engine/tests/CodeHealth.Tests.Unit/bin/Debug/net10.0/CodeHealth.Tests.Unit.dll (.NETCoreApp,Version=v10.0)\nVSTest version 18.0.2 (x64)\n\nStarting test execution, please wait...\nA total of 1 test files matched the specified pattern.\n\nPassed!  - Failed:     0, Passed:    44, Skipped:     0, Total:    44, Duration: 675 ms - CodeHealth.Tests.Unit.dll (net10.0)\nbuild-lock.sh: dotnet is <home>/.dotnet-microsoft (Microsoft build): /usr/lib/dotnet's runtime links the system libunwind, whose race aborts concurrent throws with 'Internal CLR error (0x80131506)' (dotnet/runtime#130577)\n"
+ },
+ "outcome": "held",
+ "behaviour": "tests_passed"
+}

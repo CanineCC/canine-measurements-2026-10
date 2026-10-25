@@ -1,0 +1,41 @@
+{
+ "run": "m028-G-2",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe extracted helpers preserve the original logic, including bounds checks, short-circuit order, the `k` passed to `FunctionBodyAfter`, and lazy `yield` semantics, and moving the loop body out should leave `Next` well under 15. I couldn't compile it here because the repo isn't available, so the parameter type names (`Model`, `Lexed`, `JsToken`, `IReadOnlyList<JsToken>`) are unchecked.",
+ "cost_usd": 0.037221199999999996,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4966,
+  "output_tokens": 1811,
+  "output_tokens_details": {
+   "thinking_tokens": 1654
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1811,
+    "cache_read_input_tokens": 4966,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

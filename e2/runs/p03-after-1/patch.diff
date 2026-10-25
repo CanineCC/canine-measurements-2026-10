@@ -1,0 +1,70 @@
+diff --git a/engine/src/Core/ExplicitDebt/YamlDisabledConfigScanner.cs b/engine/src/Core/ExplicitDebt/YamlDisabledConfigScanner.cs
+index ca15ffb1..a918f5da 100644
+--- a/engine/src/Core/ExplicitDebt/YamlDisabledConfigScanner.cs
++++ b/engine/src/Core/ExplicitDebt/YamlDisabledConfigScanner.cs
+@@ -238,31 +238,15 @@ public static class YamlDisabledConfigScanner
+ 
+         for (var i = 0; i < parsed.Length; i++)
+         {
+-            if (parsed[i].Kind != LineKind.Comment)
+-            {
+-                continue;
+-            }
+-
+             // A line inside a convicted block is already billed by the block row above. Reporting it again is the
+             // "one defect, two rows" trap D17 is repeatedly fixed for.
+-            if (blocks.Any(b => i >= b.Start && i <= b.End))
++            if (parsed[i].Kind != LineKind.Comment || blocks.Any(b => i >= b.Start && i <= b.End))
+             {
+                 continue;
+             }
+ 
+-            var entry = MappingEntry.Match(parsed[i].Text);
+-            if (!entry.Success)
+-            {
+-                continue;
+-            }
+-
+-            var key = entry.Groups["key"].Value;
+-            if (TaskTags.Contains(key) || !IsMachineValue(entry.Groups["value"].Value))
+-            {
+-                continue;
+-            }
+-
+-            if (RunContainsProse(parsed, i) || !HasAlignedLiveSibling(parsed, i) || IsAlsoSetLive(parsed, i, key))
++            var key = DisabledEntryKey(parsed, i);
++            if (key is null)
+             {
+                 continue;
+             }
+@@ -278,6 +262,30 @@ public static class YamlDisabledConfigScanner
+         return markers;
+     }
+ 
++    /// <summary>The key of the commented-out entry at <paramref name="index"/>, or null when the line does not
++    /// qualify as a disabled configuration entry.</summary>
++    private static string? DisabledEntryKey(YamlLine[] parsed, int index)
++    {
++        var entry = MappingEntry.Match(parsed[index].Text);
++        if (!entry.Success)
++        {
++            return null;
++        }
++
++        var key = entry.Groups["key"].Value;
++        if (TaskTags.Contains(key) || !IsMachineValue(entry.Groups["value"].Value))
++        {
++            return null;
++        }
++
++        if (RunContainsProse(parsed, index) || !HasAlignedLiveSibling(parsed, index) || IsAlsoSetLive(parsed, index, key))
++        {
++            return null;
++        }
++
++        return key;
++    }
++
+     /// <summary>Splits a raw line into its kind, its EFFECTIVE indentation and its text.
+     ///
+     /// <para>For a comment the indentation is reconstructed: one space after the <c>#</c> is the delimiter's own

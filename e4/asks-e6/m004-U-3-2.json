@@ -1,0 +1,41 @@
+{
+ "run": "m004-U-3",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE\n\nThe extracted helpers reproduce the original logic exactly (same indent and prefix check, same trimming, same `from \\`` skip, same first-wins `TryAdd`), and pulling out the branching removes enough nesting and boolean operators to bring the method under 15, with no apparent new warnings. I reviewed the diff only and did not build it or measure the complexity score.",
+ "cost_usd": 0.0086949,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4409,
+  "output_tokens": 825,
+  "output_tokens_details": {
+   "thinking_tokens": 699
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 825,
+    "cache_read_input_tokens": 4409,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

@@ -1,0 +1,41 @@
+{
+ "run": "m022-G-2",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe three extracted helpers (`WorkspaceDirsByName`, `TransitiveWorkspaceDeps`, `ReportChangeFilters` / `ChangeFilterSite`) move out the nested loops that account for roughly 17 points, leaving `ChangeFilters` around 12, and the logic is carried over unchanged (including the `d != dir` check and the `reported.Add` guard). The one thing I couldn't check is the build: the source file isn't on this machine, so the parameter types in the new signatures (`HashSet<TestInvocation>` for `runs`, `JsInventory.Inventory`, `CiChangeFilter`, `List<Site>`) need confirming against the real declarations.",
+ "cost_usd": 0.050340800000000005,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 3203,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 1213,
+  "output_tokens_details": {
+   "thinking_tokens": 846
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 3203,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1213,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 3203,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 3203
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

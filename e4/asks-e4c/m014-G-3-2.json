@@ -1,0 +1,41 @@
+{
+ "run": "m014-G-3",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE\n`Read` and every extracted helper are well under 15. Behaviour is preserved: the comment and blank-line check, the branch order and the `i + 1` line numbers all match, and `IsDependencySection(_top)` should equal the inlined three-name check, though I couldn't read its body to confirm. The nested `Reader` only calls the enclosing class's static helpers and its `Importers`/`Packages` types match the `PnpmLock` constructor, so it should compile cleanly.",
+ "cost_usd": 0.08866859999999999,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 5103,
+  "output_tokens": 4382,
+  "output_tokens_details": {
+   "thinking_tokens": 785
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 4382,
+    "cache_read_input_tokens": 5103,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

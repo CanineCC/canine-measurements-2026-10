@@ -1,0 +1,41 @@
+{
+ "run": "m048-U-3",
+ "k": 3,
+ "verdict": "REJECT",
+ "text": "REJECT: the extractions look behaviour-preserving, but `RunTurnAsync` still has many nested ternaries, `if`s and `&&`/`||` chains (the `OnShellsDone` ternary, the `wouldLand is null && !shipUnjudged && requeued is null` check, the `ship.Exit` ternary, the `shippedKeys` lambda and others, all inside the `try`), which by my estimate puts it well above 15, and the new signatures use type names such as `Dropped` and `OwedWrite` that I couldn't confirm exist, so the warnings-as-errors build is unproven too.",
+ "cost_usd": 0.022144799999999996,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 14408,
+  "output_tokens": 2070,
+  "output_tokens_details": {
+   "thinking_tokens": 1866
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 2070,
+    "cache_read_input_tokens": 14408,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

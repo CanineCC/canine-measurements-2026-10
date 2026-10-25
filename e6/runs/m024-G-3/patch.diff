@@ -1,0 +1,110 @@
+diff --git a/engine/src/Scanner/Security/D29/Scanners/EngineRuleWalk.cs b/engine/src/Scanner/Security/D29/Scanners/EngineRuleWalk.cs
+index 5905adc5..4a6e3fd7 100644
+--- a/engine/src/Scanner/Security/D29/Scanners/EngineRuleWalk.cs
++++ b/engine/src/Scanner/Security/D29/Scanners/EngineRuleWalk.cs
+@@ -61,54 +61,71 @@ internal static class EngineRuleWalk
+                 continue;
+             }
+ 
+-            foreach (var path in entries)
+-            {
+-                var relative = Relative(root, path);
+-                if (!wanted(relative))
+-                {
+-                    continue;
+-                }
++            ReadEntries(root, entries, wanted, maxFiles, maxBytes, files, unread);
++            EnqueueSubdirectories(root, subdirectories, pending, unread);
++        }
+ 
+-                try
+-                {
+-                    if (new FileInfo(path).Length > maxBytes)
+-                    {
+-                        continue;
+-                    }
++        return new Read(files, unread);
++    }
+ 
+-                    files.Add((relative, File.ReadAllText(path)));
+-                }
+-                catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
++    private static void ReadEntries(
++        string root,
++        string[] entries,
++        Func<string, bool> wanted,
++        int maxFiles,
++        long maxBytes,
++        List<(string Relative, string Text)> files,
++        List<string> unread)
++    {
++        foreach (var path in entries)
++        {
++            var relative = Relative(root, path);
++            if (!wanted(relative))
++            {
++                continue;
++            }
++
++            try
++            {
++                if (new FileInfo(path).Length > maxBytes)
+                 {
+-                    unread.Add(relative);
+                     continue;
+                 }
+ 
+-                if (files.Count >= maxFiles)
+-                {
+-                    break;
+-                }
++                files.Add((relative, File.ReadAllText(path)));
++            }
++            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
++            {
++                unread.Add(relative);
++                continue;
+             }
+ 
+-            foreach (var subdirectory in subdirectories)
++            if (files.Count >= maxFiles)
+             {
+-                try
+-                {
+-                    if (new DirectoryInfo(subdirectory).LinkTarget is null)
+-                    {
+-                        pending.Enqueue(subdirectory);
+-                    }
+-                }
+-                catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
++                return;
++            }
++        }
++    }
++
++    private static void EnqueueSubdirectories(
++        string root, string[] subdirectories, Queue<string> pending, List<string> unread)
++    {
++        foreach (var subdirectory in subdirectories)
++        {
++            try
++            {
++                if (new DirectoryInfo(subdirectory).LinkTarget is null)
+                 {
+-                    unread.Add(Relative(root, subdirectory) + "/");
++                    pending.Enqueue(subdirectory);
+                 }
+             }
++            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
++            {
++                unread.Add(Relative(root, subdirectory) + "/");
++            }
+         }
+-
+-#pragma warning restore CHA0004
+-        return new Read(files, unread);
+     }
++#pragma warning restore CHA0004
+ 
+     /// <summary>The gaps and the narrative sentence D29's card carries for every rule that could not read part of the
+     /// checkout. Empty when every rule read everything.</summary>

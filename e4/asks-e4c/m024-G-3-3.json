@@ -1,0 +1,41 @@
+{
+ "run": "m024-G-3",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe extracted helpers take roughly 22 points out of `Files`, leaving it far below 15. Behaviour is unchanged because `return` in `ReadEntries` matches the old inner `break` and the subdirectories are still enqueued afterwards. Moving `#pragma warning restore CHA0004` to class level is still valid and so should not break the build.",
+ "cost_usd": 0.0204888,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4304,
+  "output_tokens": 981,
+  "output_tokens_details": {
+   "thinking_tokens": 859
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 981,
+    "cache_read_input_tokens": 4304,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

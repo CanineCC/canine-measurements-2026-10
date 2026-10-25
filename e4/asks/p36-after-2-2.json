@@ -1,0 +1,41 @@
+{
+ "run": "p36-after-2",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE: The extracted helpers keep the same short-circuit order, the same \"empty bypass set yields nothing\" early exit, and the same lazy evaluation (the method is still an iterator). Cognitive complexity of each piece is now well under 15, and nothing in the diff suggests a build or warning problem.",
+ "cost_usd": 0.007502799999999999,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4188,
+  "output_tokens": 708,
+  "output_tokens_details": {
+   "thinking_tokens": 605
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 708,
+    "cache_read_input_tokens": 4188,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

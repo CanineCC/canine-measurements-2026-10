@@ -1,0 +1,99 @@
+diff --git a/engine/src/Core/Classification/TemplateDetection.cs b/engine/src/Core/Classification/TemplateDetection.cs
+index 0d393ad4..3b4488d6 100644
+--- a/engine/src/Core/Classification/TemplateDetection.cs
++++ b/engine/src/Core/Classification/TemplateDetection.cs
+@@ -84,51 +84,55 @@ public static class TemplateDetection
+         {
+             // Walk UP from the project directory looking for a template manifest, stopping once we reach (and inspect)
+             // the repo root so we never climb out of the repository into scratch ancestors. Bounded depth as a backstop.
+-            var dir = Path.TrimEndingDirectorySeparator(Path.GetFullPath(projectDir));
+-            for (var i = 0; i < 32 && !string.IsNullOrEmpty(dir); i++)
+-            {
+-                var atRepoRoot = string.Equals(dir, boundary, StringComparison.Ordinal)
+-                    || Directory.Exists(Path.Combine(dir, ".git"));
+-
+-                // A manifest at the REPO ROOT is a repo-level fact, not a per-project one: it makes EVERY project a
+-                // "template project" and so exempts the entire codebase. This method exists for the opposite shape —
+-                // a template SUBTREE inside a repo that is not itself a template — so the root case is not its
+-                // business, and repo-level handling stays with IsTemplate (where a dimension can abstain honestly
+-                // instead of silently reading nothing).
+-                // <para><b>train/csharp fullstackhero/dotnet-starter-kit @ 6f381db4, continuation round — three
+-                // blocked class-B rows.</b> The starter kit ships `.template.config/template.json` at its ROOT, so
+-                // the compliance pass skipped every production `.cs` in the repository and then published three
+-                // confident ABSENCES over the empty document set it had read: "No security response headers
+-                // detected", "No app-layer HTTPS enforcement detected", "No inbound model validation detected". All
+-                // three are contradicted by the source it skipped — `BuildingBlocks/Web/Extensions.cs:162`
+-                // (`app.UseHttpsRedirection()`), `Security/SecurityHeadersMiddleware.cs:29-53` (CSP,
+-                // X-Content-Type-Options, X-Frame-Options, Referrer-Policy) and the FluentValidation
+-                // `ValidationBehavior<,>` registered at `Extensions.cs:133`. This is the empty-document-set defect
+-                // the analyzer already guards against for a dropped project, arriving through the template gate.</para>
+-                if (!atRepoRoot && File.Exists(Path.Combine(dir, ".template.config", "template.json")))
+-                {
+-                    return true;
+-                }
++            return WalkUpForTemplateManifest(Path.TrimEndingDirectorySeparator(Path.GetFullPath(projectDir)), boundary);
++        }
++        catch (IOException) { return false; }
++        catch (UnauthorizedAccessException) { return false; }
++#pragma warning restore CHA0004
++    }
+ 
+-                if (atRepoRoot)
+-                {
+-                    break; // reached the repo root — don't probe above it
+-                }
++    private static bool WalkUpForTemplateManifest(string? dir, string? boundary)
++    {
++        for (var i = 0; i < 32 && !string.IsNullOrEmpty(dir); i++)
++        {
++            var atRepoRoot = string.Equals(dir, boundary, StringComparison.Ordinal)
++                || Directory.Exists(Path.Combine(dir, ".git"));
++
++            // A manifest at the REPO ROOT is a repo-level fact, not a per-project one: it makes EVERY project a
++            // "template project" and so exempts the entire codebase. This method exists for the opposite shape —
++            // a template SUBTREE inside a repo that is not itself a template — so the root case is not its
++            // business, and repo-level handling stays with IsTemplate (where a dimension can abstain honestly
++            // instead of silently reading nothing).
++            // <para><b>train/csharp fullstackhero/dotnet-starter-kit @ 6f381db4, continuation round — three
++            // blocked class-B rows.</b> The starter kit ships `.template.config/template.json` at its ROOT, so
++            // the compliance pass skipped every production `.cs` in the repository and then published three
++            // confident ABSENCES over the empty document set it had read: "No security response headers
++            // detected", "No app-layer HTTPS enforcement detected", "No inbound model validation detected". All
++            // three are contradicted by the source it skipped — `BuildingBlocks/Web/Extensions.cs:162`
++            // (`app.UseHttpsRedirection()`), `Security/SecurityHeadersMiddleware.cs:29-53` (CSP,
++            // X-Content-Type-Options, X-Frame-Options, Referrer-Policy) and the FluentValidation
++            // `ValidationBehavior<,>` registered at `Extensions.cs:133`. This is the empty-document-set defect
++            // the analyzer already guards against for a dropped project, arriving through the template gate.</para>
++            if (!atRepoRoot && File.Exists(Path.Combine(dir, ".template.config", "template.json")))
++            {
++                return true;
++            }
+ 
+-                var parent = Path.GetDirectoryName(dir);
+-                if (string.IsNullOrEmpty(parent) || string.Equals(parent, dir, StringComparison.Ordinal))
+-                {
+-                    break;
+-                }
++            if (atRepoRoot)
++            {
++                break; // reached the repo root — don't probe above it
++            }
+ 
+-                dir = parent;
++            var parent = Path.GetDirectoryName(dir);
++            if (string.IsNullOrEmpty(parent) || string.Equals(parent, dir, StringComparison.Ordinal))
++            {
++                break;
+             }
+ 
+-            return false;
++            dir = parent;
+         }
+-        catch (IOException) { return false; }
+-        catch (UnauthorizedAccessException) { return false; }
+-#pragma warning restore CHA0004
++
++        return false;
+     }
+ 
+     private static bool DownwardIsTemplate(string root)

@@ -1,0 +1,41 @@
+{
+ "run": "m005-U-3",
+ "k": 1,
+ "verdict": "REJECT",
+ "text": "REJECT\n\nThe original passed the untrimmed `value` to `IsSigningKeyValue` (and trimmed only for the later checks), but `IsRejectedKeyValue` now passes `value.Trim()` to it, so a literal with leading or trailing whitespace can be judged differently. That is a behaviour change. (I couldn't find the source locally, so I also couldn't confirm that `lines` is really a `string[]`, as the new helper's signature assumes.)",
+ "cost_usd": 0.0192232,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 6176,
+  "output_tokens": 899,
+  "output_tokens_details": {
+   "thinking_tokens": 545
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 899,
+    "cache_read_input_tokens": 6176,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

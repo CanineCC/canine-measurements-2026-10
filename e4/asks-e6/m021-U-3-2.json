@@ -1,0 +1,41 @@
+{
+ "run": "m021-U-3",
+ "k": 2,
+ "verdict": "REJECT",
+ "text": "REJECT: the diff only extracts the shard, pass-with-no-tests, uncommitted-only and report blocks (roughly 40 points of the 77), while the roughly 100 lines of nested dropped/outside/gatingRuns/reached/collected logic stay in `Js`, so it almost certainly remains well above 15 and nothing in the patch shows otherwise.",
+ "cost_usd": 0.0066071,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 7031,
+  "output_tokens": 590,
+  "output_tokens_details": {
+   "thinking_tokens": 466
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 590,
+    "cache_read_input_tokens": 7031,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

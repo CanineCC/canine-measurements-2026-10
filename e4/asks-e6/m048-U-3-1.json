@@ -1,0 +1,41 @@
+{
+ "run": "m048-U-3",
+ "k": 1,
+ "verdict": "REJECT",
+ "text": "REJECT: the behaviour looks preserved, but the extraction leaves `RunTurnAsync` with many nested ifs, ternaries and `&&`/`||` chains inside the try block (the `Broken`, `Unjudged`, `wouldLand`, `!dryRun` and `why` branches alone add about 19), which very likely still exceeds 15. The new helper signatures also use type names (`Dropped`, `OwedWrite`) that the diff doesn't confirm exist, so the warnings-as-errors build is unverified.",
+ "cost_usd": 0.0680244,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 12164,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 1914,
+  "output_tokens_details": {
+   "thinking_tokens": 1736
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 12164,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1914,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 12164,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 12164
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

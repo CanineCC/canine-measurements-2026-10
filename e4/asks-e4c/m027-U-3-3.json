@@ -1,0 +1,41 @@
+{
+ "run": "m027-U-3",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe extraction moves the inner loop into `NestControllerRoutes` with the same lazy iterator order, the same `t[i + 1]` class-name lookup (now via `classAt`), and an equivalent guard decision, while removing well over 23 complexity points from `Nest`; I couldn't find the source file to confirm that `classDecorators` is actually a `List<Decorator>`, so that parameter type is the one thing to check before merging.",
+ "cost_usd": 0.024582000000000003,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 5070,
+  "output_tokens": 1178,
+  "output_tokens_details": {
+   "thinking_tokens": 874
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1178,
+    "cache_read_input_tokens": 5070,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

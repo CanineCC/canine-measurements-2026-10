@@ -1,0 +1,41 @@
+{
+ "run": "p11-before-3",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE\n\nThe extracted `foreach`/`try-catch`/nested-`if` block accounts for roughly 9 points of cognitive complexity, which puts `CollectAsync` well under 15. The block moves verbatim with its `#pragma` pair intact and returns the same `locked` dictionary, so behaviour is unchanged. The one thing I couldn't confirm from the diff is that `lockfiles` is declared as `List<string>` to match the new parameter type.",
+ "cost_usd": 0.0082203,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4363,
+  "output_tokens": 778,
+  "output_tokens_details": {
+   "thinking_tokens": 621
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 778,
+    "cache_read_input_tokens": 4363,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

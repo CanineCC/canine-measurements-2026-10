@@ -1,0 +1,41 @@
+{
+ "run": "m036-G-2",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The two extracted helpers keep the original logic, order of `AddRange` calls, and `inheriting` side effects, and each `continue` becomes an equivalent early return. The remaining loop is now simple enough to be well under 15. I could only see the diff, so I assumed `body` is a `List<(int Index, string Line)>` to match the new helper signature.",
+ "cost_usd": 0.009551100000000002,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4871,
+  "output_tokens": 906,
+  "output_tokens_details": {
+   "thinking_tokens": 784
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 906,
+    "cache_read_input_tokens": 4871,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

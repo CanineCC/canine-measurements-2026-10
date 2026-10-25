@@ -1,0 +1,41 @@
+{
+ "run": "p23-before-2",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The nested loop body moves unchanged into `AddGoEmbedRef`, with each `continue` correctly becoming a `return`, so behaviour is preserved. The extracted branching and ternary no longer count toward `CollectGoEmbedRefs`, which should bring it under 15, and the new private static method should not introduce build warnings. I could not see the top of the method, so I assumed `rel`, `directory` and `hostEmbeds` are typed `string`, `string` and `List<HostEmbedRef>`.",
+ "cost_usd": 0.0063148,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4308,
+  "output_tokens": 588,
+  "output_tokens_details": {
+   "thinking_tokens": 412
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 588,
+    "cache_read_input_tokens": 4308,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

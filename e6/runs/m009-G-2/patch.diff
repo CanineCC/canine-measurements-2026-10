@@ -1,0 +1,93 @@
+diff --git a/engine/src/Scanner/Accessibility/AC6/ReducedMotion.cs b/engine/src/Scanner/Accessibility/AC6/ReducedMotion.cs
+index 2f571aa8..0603c051 100644
+--- a/engine/src/Scanner/Accessibility/AC6/ReducedMotion.cs
++++ b/engine/src/Scanner/Accessibility/AC6/ReducedMotion.cs
+@@ -367,46 +367,59 @@ internal static partial class ReducedMotion
+         var guards = GuardBindings(src);
+         if (hasCss)
+         {
+-            foreach (var (start, body, root) in ScriptStyleTemplates(src))
++            AddScriptStyleSites(src, projectReset, keyframes, guards, sites);
++        }
++
++        if (hasAnimate)
++        {
++            AddAnimateSites(src, guards, sites);
++        }
++
++        return sites;
++    }
++
++    private static void AddScriptStyleSites(string src, Func<Family, bool> projectReset, IReadOnlyDictionary<string, bool> keyframes, IReadOnlySet<string> guards, List<Site> sites)
++    {
++        foreach (var (start, body, root) in ScriptStyleTemplates(src))
++        {
++            var startLine = LineAt(src, start);
++            sites.AddRange(InStyleSheet(body, root, projectReset, keyframes).Select(s => s with { Line = startLine + s.Line - 1 }));
++        }
++
++        foreach (Match m in StyleObjectCallRegex().Matches(src))
++        {
++            var open = m.Index + m.Length - 1;
++            var close = MatchingBrace(src, open);
++            if (close >= 0)
+             {
+-                var startLine = LineAt(src, start);
+-                sites.AddRange(InStyleSheet(body, root, projectReset, keyframes).Select(s => s with { Line = startLine + s.Line - 1 }));
++                AddStyleObjectSites(src, open, close, projectReset, keyframes, guards, sites);
+             }
++        }
++    }
+ 
+-            foreach (Match m in StyleObjectCallRegex().Matches(src))
++    private static void AddStyleObjectSites(string src, int open, int close, Func<Family, bool> projectReset, IReadOnlyDictionary<string, bool> keyframes, IReadOnlySet<string> guards, List<Site> sites)
++    {
++        foreach (var (key, value, offset) in TopLevelEntries(src, open + 1, close))
++        {
++            if (!ReadsGuard(value, guards)
++                && MotionOf(Kebab(key), Interpolations(value).Trim('\'', '"', '`'), null, name => Known(name, null, keyframes)) is { } family
++                && !projectReset(family))
+             {
+-                var open = m.Index + m.Length - 1;
+-                var close = MatchingBrace(src, open);
+-                if (close < 0)
+-                {
+-                    continue;
+-                }
+-
+-                foreach (var (key, value, offset) in TopLevelEntries(src, open + 1, close))
+-                {
+-                    if (!ReadsGuard(value, guards)
+-                        && MotionOf(Kebab(key), Interpolations(value).Trim('\'', '"', '`'), null, name => Known(name, null, keyframes)) is { } family
+-                        && !projectReset(family))
+-                    {
+-                        sites.Add(new Site(LineAt(src, offset), "css-in-js object", $"{key}: {value.Trim()}"));
+-                    }
+-                }
++                sites.Add(new Site(LineAt(src, offset), "css-in-js object", $"{key}: {value.Trim()}"));
+             }
+         }
++    }
+ 
+-        if (hasAnimate)
++    private static void AddAnimateSites(string src, IReadOnlySet<string> guards, List<Site> sites)
++    {
++        foreach (Match m in AnimateCallRegex().Matches(src))
+         {
+-            foreach (Match m in AnimateCallRegex().Matches(src))
++            var argStart = m.Index + m.Length;
++            if (KeyframesLiteralMoves(src, argStart) && !ScriptGuarded(src, m.Index, guards))
+             {
+-                var argStart = m.Index + m.Length;
+-                if (KeyframesLiteralMoves(src, argStart) && !ScriptGuarded(src, m.Index, guards))
+-                {
+-                    sites.Add(new Site(LineAt(src, m.Index + 1), m.Groups[1].Value + ".animate()", "Web Animations API keyframes"));
+-                }
++                sites.Add(new Site(LineAt(src, m.Index + 1), m.Groups[1].Value + ".animate()", "Web Animations API keyframes"));
+             }
+         }
+-
+-        return sites;
+     }
+ 
+     /// <summary>Whether the first argument of an <c>animate(</c> call is a keyframes literal (an array of frames or

@@ -1,0 +1,41 @@
+{
+ "run": "p08-after-3",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE: The `continue` guards are folded into `IsFirstPartySource(...) && --count == 0`, which short-circuits so `count` is decremented only for first-party files, exactly as before, and the extracted private static helper takes most of the branching out of `AtLeast` and brings it well under 15 without introducing anything that should break the build.",
+ "cost_usd": 0.0048712,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 3972,
+  "output_tokens": 447,
+  "output_tokens_details": {
+   "thinking_tokens": 334
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 447,
+    "cache_read_input_tokens": 3972,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

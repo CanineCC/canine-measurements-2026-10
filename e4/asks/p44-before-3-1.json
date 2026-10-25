@@ -1,0 +1,41 @@
+{
+ "run": "p44-before-3",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The patch moves the container-building block unchanged (same expression order, same exception behaviour inside the existing `try`) into `ToContainer`, which removes the ternaries, boolean chains and lambda from `Parse` and brings it well under 15 without introducing new build-breaking constructs.",
+ "cost_usd": 0.0057193999999999995,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4254,
+  "output_tokens": 529,
+  "output_tokens_details": {
+   "thinking_tokens": 429
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 529,
+    "cache_read_input_tokens": 4254,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

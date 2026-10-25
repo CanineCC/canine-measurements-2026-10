@@ -1,0 +1,41 @@
+{
+ "run": "m003-G-3",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nCognitive complexity drops to exactly 15, every extracted helper and merged branch keeps the original semantics and short-circuit order, and the new code uses only constructs that should compile cleanly; I reached this by reading the diff, not by building or running the tests.",
+ "cost_usd": 0.0298776,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4548,
+  "output_tokens": 1448,
+  "output_tokens_details": {
+   "thinking_tokens": 1357
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1448,
+    "cache_read_input_tokens": 4548,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

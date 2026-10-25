@@ -1,0 +1,59 @@
+diff --git a/src/Kennel.Hosting/Projections/ProjectionFold.cs b/src/Kennel.Hosting/Projections/ProjectionFold.cs
+index d513743e..631e78cf 100644
+--- a/src/Kennel.Hosting/Projections/ProjectionFold.cs
++++ b/src/Kennel.Hosting/Projections/ProjectionFold.cs
+@@ -91,31 +91,35 @@ public static class ProjectionFold
+             var parameters = method.GetParameters();
+             if (method.Name == "Create" && parameters.Length == 1 && document.IsAssignableFrom(method.ReturnType))
+             {
+-                var m = method;
+-                creators[parameters[0].ParameterType] = (p, e) => m.Invoke(m.IsStatic ? null : p, [e])!;
++                creators[parameters[0].ParameterType] = (p, e) => method.Invoke(method.IsStatic ? null : p, [e])!;
+             }
+             else if (method.Name == "Apply" && parameters.Length == 2)
+             {
+-                var (eventIndex, documentIndex) = document.IsAssignableFrom(parameters[1].ParameterType) ? (0, 1)
+-                    : document.IsAssignableFrom(parameters[0].ParameterType) ? (1, 0) : (-1, -1);
+-                if (eventIndex < 0)
+-                {
+-                    continue;
+-                }
+-
+-                var m = method;
+-                var returnsDocument = document.IsAssignableFrom(m.ReturnType);
+-                appliers[parameters[eventIndex].ParameterType] = (p, e, d) =>
+-                {
+-                    var args = new object[2];
+-                    args[eventIndex] = e;
+-                    args[documentIndex] = d;
+-                    var result = m.Invoke(m.IsStatic ? null : p, args);
+-                    return returnsDocument ? result : null;
+-                };
++                RegisterApplier(appliers, method, parameters, document);
+             }
+         }
+ 
+         return new Plan(creators, appliers);
+     }
++
++    private static void RegisterApplier(
++        Dictionary<Type, Func<object, object, object, object?>> appliers, MethodInfo method, ParameterInfo[] parameters, Type document)
++    {
++        var (eventIndex, documentIndex) = document.IsAssignableFrom(parameters[1].ParameterType) ? (0, 1)
++            : document.IsAssignableFrom(parameters[0].ParameterType) ? (1, 0) : (-1, -1);
++        if (eventIndex < 0)
++        {
++            return;
++        }
++
++        var returnsDocument = document.IsAssignableFrom(method.ReturnType);
++        appliers[parameters[eventIndex].ParameterType] = (p, e, d) =>
++        {
++            var args = new object[2];
++            args[eventIndex] = e;
++            args[documentIndex] = d;
++            var result = method.Invoke(method.IsStatic ? null : p, args);
++            return returnsDocument ? result : null;
++        };
++    }
+ }

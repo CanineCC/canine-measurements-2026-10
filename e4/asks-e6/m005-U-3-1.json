@@ -1,0 +1,41 @@
+{
+ "run": "m005-U-3",
+ "k": 1,
+ "verdict": "REJECT",
+ "text": "REJECT: the original called `IsSigningKeyValue(value)` on the untrimmed value, but the new `IsRejectedKeyValue` passes it `value.Trim()`, which can change results for quoted literals with leading or trailing whitespace and so breaks the \"behaviour unchanged\" requirement.",
+ "cost_usd": 0.0241424,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 3936,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 817,
+  "output_tokens_details": {
+   "thinking_tokens": 714
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 3936,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 817,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 3936,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 3936
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

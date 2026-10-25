@@ -1,0 +1,41 @@
+{
+ "run": "m004-U-3",
+ "k": 2,
+ "verdict": "REJECT",
+ "text": "REJECT\n\nBehaviour is preserved, but extraction only cuts about 9 points (the original block cost about 14 by the Sonar rules, the replacement `if` / `if` / `else if` costs 5 inside the loop), so the method lands at roughly 25 \u2212 9 = 16, still above 15. I couldn't find the source file locally, so this count assumes the `foreach` sits directly in the method body.",
+ "cost_usd": 0.027589000000000002,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4405,
+  "output_tokens": 1335,
+  "output_tokens_details": {
+   "thinking_tokens": 1070
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1335,
+    "cache_read_input_tokens": 4405,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

@@ -1,0 +1,41 @@
+{
+ "run": "p24-before-1",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE. Both extractions keep the original conditions and short-circuit order, and the new helpers are only called from this method, so behaviour is unchanged. The removed nested `if`/`&&` branches should bring the method well under 15 (roughly 17 \u2192 12). I couldn't check from the diff alone that `sourceTextRefs` is declared as `List<SourceTextRef>` and that `fragment` and `lastSegment` are strings, which the build depends on.",
+ "cost_usd": 0.006342,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4280,
+  "output_tokens": 591,
+  "output_tokens_details": {
+   "thinking_tokens": 438
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 591,
+    "cache_read_input_tokens": 4280,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

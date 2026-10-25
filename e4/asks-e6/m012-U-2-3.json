@@ -1,0 +1,41 @@
+{
+ "run": "m012-U-2",
+ "k": 3,
+ "verdict": "REJECT",
+ "text": "REJECT: behaviour looks preserved, but the patch only removes about 5 points of cognitive complexity (29 down to roughly 24), because it merely extracts boolean sub-expressions and leaves the method's nested loops and branches in place, so it is still well above the threshold of 15.",
+ "cost_usd": 0.008557700000000001,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4137,
+  "output_tokens": 814,
+  "output_tokens_details": {
+   "thinking_tokens": 719
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 814,
+    "cache_read_input_tokens": 4137,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

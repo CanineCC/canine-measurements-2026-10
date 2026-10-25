@@ -1,0 +1,87 @@
+diff --git a/engine/src/Core/ExplicitDebt/YamlDisabledConfigScanner.cs b/engine/src/Core/ExplicitDebt/YamlDisabledConfigScanner.cs
+index ca15ffb1..b1a6b079 100644
+--- a/engine/src/Core/ExplicitDebt/YamlDisabledConfigScanner.cs
++++ b/engine/src/Core/ExplicitDebt/YamlDisabledConfigScanner.cs
+@@ -238,44 +238,53 @@ public static class YamlDisabledConfigScanner
+ 
+         for (var i = 0; i < parsed.Length; i++)
+         {
+-            if (parsed[i].Kind != LineKind.Comment)
++            var entryMarker = CommentedEntryMarker(parsed, blocks, i, path);
++            if (entryMarker is not null)
+             {
+-                continue;
++                markers.Add(entryMarker);
+             }
++        }
+ 
+-            // A line inside a convicted block is already billed by the block row above. Reporting it again is the
+-            // "one defect, two rows" trap D17 is repeatedly fixed for.
+-            if (blocks.Any(b => i >= b.Start && i <= b.End))
+-            {
+-                continue;
+-            }
++        return markers;
++    }
+ 
+-            var entry = MappingEntry.Match(parsed[i].Text);
+-            if (!entry.Success)
+-            {
+-                continue;
+-            }
++    private static DebtMarker? CommentedEntryMarker(YamlLine[] parsed, List<DisabledBlock> blocks, int i, string path)
++    {
++        if (parsed[i].Kind != LineKind.Comment)
++        {
++            return null;
++        }
+ 
+-            var key = entry.Groups["key"].Value;
+-            if (TaskTags.Contains(key) || !IsMachineValue(entry.Groups["value"].Value))
+-            {
+-                continue;
+-            }
++        // A line inside a convicted block is already billed by the block row above. Reporting it again is the
++        // "one defect, two rows" trap D17 is repeatedly fixed for.
++        if (blocks.Any(b => i >= b.Start && i <= b.End))
++        {
++            return null;
++        }
+ 
+-            if (RunContainsProse(parsed, i) || !HasAlignedLiveSibling(parsed, i) || IsAlsoSetLive(parsed, i, key))
+-            {
+-                continue;
+-            }
++        var entry = MappingEntry.Match(parsed[i].Text);
++        if (!entry.Success)
++        {
++            return null;
++        }
+ 
+-            markers.Add(new DebtMarker(
+-                DebtMarkerKind.CommentedOutCode,
+-                path,
+-                i + 1,
+-                $"commented-out configuration entry `{key}`",
+-                IsAnnotated: false));
++        var key = entry.Groups["key"].Value;
++        if (TaskTags.Contains(key) || !IsMachineValue(entry.Groups["value"].Value))
++        {
++            return null;
+         }
+ 
+-        return markers;
++        if (RunContainsProse(parsed, i) || !HasAlignedLiveSibling(parsed, i) || IsAlsoSetLive(parsed, i, key))
++        {
++            return null;
++        }
++
++        return new DebtMarker(
++            DebtMarkerKind.CommentedOutCode,
++            path,
++            i + 1,
++            $"commented-out configuration entry `{key}`",
++            IsAnnotated: false);
+     }
+ 
+     /// <summary>Splits a raw line into its kind, its EFFECTIVE indentation and its text.

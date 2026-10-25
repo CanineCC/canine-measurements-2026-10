@@ -1,0 +1,41 @@
+{
+ "run": "m043-U-3",
+ "k": 3,
+ "verdict": "REJECT",
+ "text": "REJECT: `JudgeAsync` most likely still exceeds the threshold, since by my count (assuming Sonar-style cognitive complexity) it comes to about 17: eight early-return `if`s, six ternaries (one nested, costing +2) in the `moved`, `settled` and `reason` expressions, and the `&&` sequence inside the `unmeasured` lambda; behaviour looks preserved, but I did not build or run the metric tool.",
+ "cost_usd": 0.033584899999999994,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 13409,
+  "output_tokens": 3224,
+  "output_tokens_details": {
+   "thinking_tokens": 3074
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 3224,
+    "cache_read_input_tokens": 13409,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

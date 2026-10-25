@@ -1,0 +1,64 @@
+diff --git a/engine/src/Core/Dependencies/NpmLockfileReader.cs b/engine/src/Core/Dependencies/NpmLockfileReader.cs
+index b675d340..45962320 100644
+--- a/engine/src/Core/Dependencies/NpmLockfileReader.cs
++++ b/engine/src/Core/Dependencies/NpmLockfileReader.cs
+@@ -66,38 +66,35 @@ public static class NpmLockfileReader
+             var found = new List<NpmLockedPackage>();
+             foreach (var entry in packages.EnumerateObject())
+             {
+-                // "" is the root project itself, not a dependency of anything.
+-                if (entry.Name.Length == 0 || entry.Value.ValueKind != JsonValueKind.Object)
++                if (ProductionPackage(entry) is { } package)
+                 {
+-                    continue;
+-                }
+-
+-                var name = PackageNameFromKey(entry.Name);
+-                if (name.Length == 0)
+-                {
+-                    continue;
++                    found.Add(package);
+                 }
+-
+-                if (IsTrue(entry.Value, "dev") || IsTrue(entry.Value, "link"))
+-                {
+-                    // dev: not shipped. link: a directory in this repo, with no published release to be behind.
+-                    continue;
+-                }
+-
+-                if (!entry.Value.TryGetProperty("version", out var version)
+-                    || version.ValueKind != JsonValueKind.String
+-                    || version.GetString() is not { Length: > 0 } text)
+-                {
+-                    continue;
+-                }
+-
+-                found.Add(new NpmLockedPackage(name, text));
+             }
+ 
+             return found;
+         }
+     }
+ 
++    /// <summary>The production package a <c>packages</c> entry denotes, or null when it is not one.</summary>
++    private static NpmLockedPackage? ProductionPackage(JsonProperty entry)
++    {
++        // "" is the root project itself, not a dependency of anything.
++        // dev: not shipped. link: a directory in this repo, with no published release to be behind.
++        if (entry.Name.Length == 0
++            || entry.Value.ValueKind != JsonValueKind.Object
++            || IsTrue(entry.Value, "dev")
++            || IsTrue(entry.Value, "link"))
++        {
++            return null;
++        }
++
++        var name = PackageNameFromKey(entry.Name);
++        return name.Length > 0 && VersionOf(entry.Value) is { } text
++            ? new NpmLockedPackage(name, text)
++            : null;
++    }
++
+     /// <summary>
+     /// The resolved DIRECT PRODUCTION dependencies a <c>package-lock.json</c> (or <c>npm-shrinkwrap.json</c>,
+     /// which is the same document under another name) states — the population <see cref="PnpmLockfileReader"/>

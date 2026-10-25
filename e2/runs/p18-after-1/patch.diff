@@ -1,0 +1,64 @@
+diff --git a/engine/src/Core/Languages/Swift/Readiness/SwiftLibraryProducts.cs b/engine/src/Core/Languages/Swift/Readiness/SwiftLibraryProducts.cs
+index 47ef982b..103916b1 100644
+--- a/engine/src/Core/Languages/Swift/Readiness/SwiftLibraryProducts.cs
++++ b/engine/src/Core/Languages/Swift/Readiness/SwiftLibraryProducts.cs
+@@ -305,28 +305,28 @@ public static class SwiftLibraryProducts
+         return value < call.Length && call[value] == '"' ? StringLiteralAt(call, value) : null;
+     }
+ 
+-    /// <summary>The string literals of an array written for argument label <paramref name="label"/>, or
+-    /// <c>null</c> when the label is absent, its value is not an array literal, or ANY element is not a string
+-    /// literal. All-or-nothing deliberately: a <c>targets:</c> list we can only half read is a published surface we
+-    /// can only half bound.</summary>
+-    private static List<string>? LiteralStringArrayArgument(string call, string label)
++    /// <summary>Locates the array literal written for <paramref name="label"/> at this call's own level, as the
++    /// indices of its brackets. False when the label is absent, its value is not an array literal, or the literal
++    /// is only the first term of a larger expression.</summary>
++    private static bool TryFindArrayLiteral(string call, string label, out int open, out int close)
+     {
++        open = close = -1;
+         var at = IndexOfLabelAtTopLevel(call, label);
+         if (at < 0)
+         {
+-            return null;
++            return false;
+         }
+ 
+-        var open = SkipWhitespace(call, at);
++        open = SkipWhitespace(call, at);
+         if (open >= call.Length || call[open] != '[')
+         {
+-            return null;
++            return false;
+         }
+ 
+-        var close = MatchingBracket(call, open, '[', ']');
++        close = MatchingBracket(call, open, '[', ']');
+         if (close < 0)
+         {
+-            return null;
++            return false;
+         }
+ 
+         // ★ AN ARRAY LITERAL THAT IS ONLY THE FIRST TERM OF AN EXPRESSION IS NOT THE VALUE.
+@@ -336,6 +336,20 @@ public static class SwiftLibraryProducts
+         // comma or at the end of the call; anything else is an operator.
+         var after = SkipWhitespace(call, close + 1);
+         if (after < call.Length && call[after] != ',')
++        {
++            return false;
++        }
++
++        return true;
++    }
++
++    /// <summary>The string literals of an array written for argument label <paramref name="label"/>, or
++    /// <c>null</c> when the label is absent, its value is not an array literal, or ANY element is not a string
++    /// literal. All-or-nothing deliberately: a <c>targets:</c> list we can only half read is a published surface we
++    /// can only half bound.</summary>
++    private static List<string>? LiteralStringArrayArgument(string call, string label)
++    {
++        if (!TryFindArrayLiteral(call, label, out var open, out var close))
+         {
+             return null;
+         }

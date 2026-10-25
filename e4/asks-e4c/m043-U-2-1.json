@@ -1,0 +1,41 @@
+{
+ "run": "m043-U-2",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE\n`JudgeAsync` now scores about 11 (each early-return branch moved into `ShellStop`, `CheckCorpusPinAsync`, `EngineTestsStopAsync` or `MeasureBenchAsync` costs only one `if`). The checks still run in the same order with the same outcomes, reasons, suite, delta, units, items, corpus pin and side gains on every path. I see nothing that should break the build, though I did not compile it, and that assumes `ChangedFilesAsync` returns a type that converts to `IReadOnlyList<string>`.",
+ "cost_usd": 0.1140728,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 10467,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 1494,
+  "output_tokens_details": {
+   "thinking_tokens": 1301
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 10467,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1494,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 10467,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 10467
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

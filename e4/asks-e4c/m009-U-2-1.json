@@ -1,0 +1,41 @@
+{
+ "run": "m009-U-2",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe extraction moves the loops verbatim into three helpers, so behaviour is unchanged, and `InScript` drops from 26 to roughly 5 because the extracted loops carried about 21 points. One caveat: the source isn't on this machine, so I couldn't check that the helper parameter types (`Func<Family, bool>`, `IReadOnlyDictionary<string, bool>`, `IReadOnlySet<string>`) match what `GuardBindings`, `Known` and `InStyleSheet` actually use. Run a build before merging to confirm.",
+ "cost_usd": 0.0397328,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 2457,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 981,
+  "output_tokens_details": {
+   "thinking_tokens": 605
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2457,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 981,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 2457,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2457
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

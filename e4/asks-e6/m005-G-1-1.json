@@ -1,0 +1,41 @@
+{
+ "run": "m005-G-1",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The extraction keeps the original evaluation order and early exits, so behaviour is unchanged. The parent method and each new helper should sit well under 15 complexity, and I see no construct that would break a warnings-as-errors build. I could not see the top of `CryptoKeyBindingType`, so I am assuming its `line` variable is `lines[i]`, which the unchanged `IsMemberOfIdentifierTable(lines, i, \u2026)` calls suggest.",
+ "cost_usd": 0.0286084,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 4565,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 1012,
+  "output_tokens_details": {
+   "thinking_tokens": 855
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 4565,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1012,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 4565,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 4565
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

@@ -1,0 +1,140 @@
+diff --git a/engine/src/Core/Security/NativeSecretScanner.CryptographicKey.cs b/engine/src/Core/Security/NativeSecretScanner.CryptographicKey.cs
+index 6877d219..1304ff51 100644
+--- a/engine/src/Core/Security/NativeSecretScanner.CryptographicKey.cs
++++ b/engine/src/Core/Security/NativeSecretScanner.CryptographicKey.cs
+@@ -107,72 +107,99 @@ public sealed partial class NativeSecretScanner
+                 continue;
+             }
+ 
+-            var at = tail.Index + tail.Length;
++            // A quoted-name setting argument (`UseSetting("Jwt:Key", …)`) must open with the quote that closes the name.
+             if (tail.Groups["arg"].Success && (name.Index == 0 || line[name.Index - 1] != line[tail.Index]))
+             {
+                 continue;
+             }
+ 
+-            var value = tail.Groups["arg"].Success
+-                ? QuotedLiteralAt(line, at) ?? EncodedLiteralAt(line, at)
+-                : tail.Groups["fb"].Success
+-                ? FallbackLiteralAfter(line, at)
+-                : QuotedLiteralAt(line, at)
+-                  ?? EncodedLiteralAt(line, at)
+-                  ?? (unquotedConfig ? UnquotedConfigValue(line, name.Index + name.Length) : null)
+-                  ?? FallbackLiteralAfter(line, at);
++            var value = BoundKeyValue(line, name, tail, unquotedConfig);
+             // The signing-key rule's whole value gate, so the two name-driven key rules answer alike: a key's shape, and
+             // not the key's own name, a secret's address, a row of an identifier table or a guarded empty-default.
+-            if (value is null
+-                || !IsSigningKeyValue(value)
+-                || ScreamingSnakeName.IsMatch(value.Trim())
+-                || IsKeyNameAlias(name.Value, value.Trim())
+-                || BindsTheAddressOfASecret(name.Value, value.Trim())
+-                || IsMemberOfIdentifierTable(lines, i, value.Trim())
+-                || IsGuardedEmptyFallback(lines, i, name.Value))
++            if (value is null || !PassesKeyValueGate(lines, i, name.Value, value))
+             {
+                 continue;
+             }
+ 
+             // The purpose may be the name's own (`JWT_SECRET`) or its config section's (`"Jwt": { "Key": … }`).
+-            if (!words.Any(w => CryptoPurposeWords.Contains(w)))
++            if (!HasPurposeWord(words))
+             {
+                 section ??= EnclosingSection(file, lines, i) ?? "";
+                 words.InsertRange(0, SplitWords(section).ConvertAll(w => w.ToLowerInvariant()));
+             }
+ 
+-            if (!words.Any(w => CryptoPurposeWords.Contains(w)) || words.Any(w => NonSymmetricKeyWords.Contains(w)))
++            if (!HasPurposeWord(words) || words.Any(w => NonSymmetricKeyWords.Contains(w)))
+             {
+                 continue;
+             }
+ 
+-            // A LOOKUP key, not key material: the name's only purpose words are the ones a dictionary key shares with a
+-            // cryptographic one (a session key, a token key, a cookie key) and the value is a name — every segment a
+-            // word (`improve-orchestrator`, `concept-first-p3-packages`) or a configuration path
+-            // (`Kennel__Providers__GitHub__PublicReadToken`). MEASURED (prod run b8dcbfc7, CanineCC/kennel.canine.dev):
+-            // 4 of D13's 7 rows were `OriginSessionKey`, `PackageSessionKey`, `TokenEnvKey` and `KEY=` under a job named
+-            // `set-token`. A name that states a cryptographic purpose (`jwt-secret`, `SigningKey`, `HmacKey`) is not
+-            // ambiguous, and keeps firing on a word-shaped value — a diceware passphrase is a key
+-            // (NativeSecretScannerTests.WordShapedPassphrase_BoundToSecretKey_IsStillFlagged).
+-            if (words[^1] == "key" && words.Where(w => CryptoPurposeWords.Contains(w)).All(w => w is "session" or "token" or "cookie")
+-                && IsReadableWordIdentifier(value.Trim()))
++            if (IsLookupKey(words, value.Trim()))
+             {
+                 continue;
+             }
+ 
+-            return words[^1] switch
+-            {
+-                "passphrase" => "crypto-key-passphrase",
+-                "secret" => "signing-key",
+-                _ when words.Any(w => w is "jwt" or "jws" or "signing" or "sign" or "signature" or "hmac" or "mac"
+-                                      or "token" or "session" or "cookie" or "webhook") => "signing-key",
+-                _ => "hardcoded-crypto-key",
+-            };
++            return KeySecretType(words);
+         }
+ 
+         return null;
+     }
+ 
++    private static bool HasPurposeWord(List<string> words) => words.Any(w => CryptoPurposeWords.Contains(w));
++
++    /// <summary>The literal a key name is bound to by <paramref name="tail"/>, or null: the next argument of a quoted
++    /// setting name, the fallback of a named read, or a quoted / encoded / unquoted-config / fallback literal.</summary>
++    private static string? BoundKeyValue(string line, Match name, Match tail, bool unquotedConfig)
++    {
++        var at = tail.Index + tail.Length;
++        if (tail.Groups["arg"].Success)
++        {
++            return QuotedLiteralAt(line, at) ?? EncodedLiteralAt(line, at);
++        }
++
++        if (tail.Groups["fb"].Success)
++        {
++            return FallbackLiteralAfter(line, at);
++        }
++
++        return QuotedLiteralAt(line, at)
++               ?? EncodedLiteralAt(line, at)
++               ?? (unquotedConfig ? UnquotedConfigValue(line, name.Index + name.Length) : null)
++               ?? FallbackLiteralAfter(line, at);
++    }
++
++    private static bool PassesKeyValueGate(string[] lines, int i, string name, string value)
++    {
++        var trimmed = value.Trim();
++        return IsSigningKeyValue(value)
++               && !ScreamingSnakeName.IsMatch(trimmed)
++               && !IsKeyNameAlias(name, trimmed)
++               && !BindsTheAddressOfASecret(name, trimmed)
++               && !IsMemberOfIdentifierTable(lines, i, trimmed)
++               && !IsGuardedEmptyFallback(lines, i, name);
++    }
++
++    // A LOOKUP key, not key material: the name's only purpose words are the ones a dictionary key shares with a
++    // cryptographic one (a session key, a token key, a cookie key) and the value is a name — every segment a
++    // word (`improve-orchestrator`, `concept-first-p3-packages`) or a configuration path
++    // (`Kennel__Providers__GitHub__PublicReadToken`). MEASURED (prod run b8dcbfc7, CanineCC/kennel.canine.dev):
++    // 4 of D13's 7 rows were `OriginSessionKey`, `PackageSessionKey`, `TokenEnvKey` and `KEY=` under a job named
++    // `set-token`. A name that states a cryptographic purpose (`jwt-secret`, `SigningKey`, `HmacKey`) is not
++    // ambiguous, and keeps firing on a word-shaped value — a diceware passphrase is a key
++    // (NativeSecretScannerTests.WordShapedPassphrase_BoundToSecretKey_IsStillFlagged).
++    private static bool IsLookupKey(List<string> words, string value) =>
++        words[^1] == "key"
++        && words.Where(w => CryptoPurposeWords.Contains(w)).All(w => w is "session" or "token" or "cookie")
++        && IsReadableWordIdentifier(value);
++
++    private static string KeySecretType(List<string> words) => words[^1] switch
++    {
++        "passphrase" => "crypto-key-passphrase",
++        "secret" => "signing-key",
++        _ when words.Any(w => w is "jwt" or "jws" or "signing" or "sign" or "signature" or "hmac" or "mac"
++                              or "token" or "session" or "cookie" or "webhook") => "signing-key",
++        _ => "hardcoded-crypto-key",
++    };
++
+     /// <summary>The unquoted value of a <c>NAME=value</c> / <c>NAME: value</c> line of an unquoted config file, read
+     /// from the first <c>=</c>/<c>:</c> after the name. Read directly rather than through the binding tail: a base64
+     /// value ends in <c>=</c>, which the tail's typed-declaration arm (<c>name: T = …</c>) would otherwise claim.</summary>

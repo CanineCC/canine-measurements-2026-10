@@ -1,0 +1,41 @@
+{
+ "run": "m022-U-1",
+ "k": 3,
+ "verdict": "REJECT",
+ "text": "REJECT\n\nBy the cognitive-complexity rules, the extracted blocks account for 13 of the original 29 points (3 for the `byName` loop and 10 for the dependency walk). The lines still in `ChangeFilters` add up to about 16 (one early-return guard, the outer `foreach`, two nested `if`s, the inner `foreach` with its `if`, and four boolean-operator sequences in the `inputs` lambdas), so the method is still above the threshold of 15. Behaviour does look unchanged. I couldn't check the build: the repo isn't on this machine, and the new helper signatures rely on type names (`CiChangeFilter`, `TestInvocation`, `JsInventory.Inventory`) that the diff doesn't show.",
+ "cost_usd": 0.0363964,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 5642,
+  "output_tokens": 1763,
+  "output_tokens_details": {
+   "thinking_tokens": 1369
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1763,
+    "cache_read_input_tokens": 5642,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

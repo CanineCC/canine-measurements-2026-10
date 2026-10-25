@@ -1,0 +1,59 @@
+diff --git a/engine/src/Core/Languages/Go/Testing/GoModuleTestScanner.cs b/engine/src/Core/Languages/Go/Testing/GoModuleTestScanner.cs
+index f73dae8a..9020844b 100644
+--- a/engine/src/Core/Languages/Go/Testing/GoModuleTestScanner.cs
++++ b/engine/src/Core/Languages/Go/Testing/GoModuleTestScanner.cs
+@@ -226,12 +226,12 @@ public static class GoModuleTestScanner
+         {
+             var dir = stack.Pop();
+ 
+-            IReadOnlyList<string> subdirs;
+-#pragma warning disable CHA0004 // Best-effort scan: an unreadable directory is simply skipped.
+-            try { subdirs = [.. Directory.EnumerateDirectories(dir)]; }
+-            catch (IOException) { continue; }
+-            catch (UnauthorizedAccessException) { continue; }
+-#pragma warning restore CHA0004
++            var subdirs = TryEnumerate(() => Directory.EnumerateDirectories(dir));
++            if (subdirs is null)
++            {
++                continue;
++            }
++
+             foreach (var sub in subdirs)
+             {
+                 if (SourceTreeWalk.ShouldWalkInto(sub)
+@@ -241,12 +241,12 @@ public static class GoModuleTestScanner
+                 }
+             }
+ 
+-            IReadOnlyList<string> files;
+-#pragma warning disable CHA0004 // Best-effort scan: an unreadable directory is simply skipped.
+-            try { files = [.. Directory.EnumerateFiles(dir, "*_test.go")]; }
+-            catch (IOException) { continue; }
+-            catch (UnauthorizedAccessException) { continue; }
+-#pragma warning restore CHA0004
++            var files = TryEnumerate(() => Directory.EnumerateFiles(dir, "*_test.go"));
++            if (files is null)
++            {
++                continue;
++            }
++
+             foreach (var file in files)
+             {
+                 yield return file;
+@@ -254,6 +254,16 @@ public static class GoModuleTestScanner
+         }
+     }
+ 
++    /// <summary>Materialises the enumeration, or returns <see langword="null"/> when the directory is unreadable.</summary>
++    private static List<string>? TryEnumerate(Func<IEnumerable<string>> enumerate)
++    {
++#pragma warning disable CHA0004 // Best-effort scan: an unreadable directory is simply skipped.
++        try { return [.. enumerate()]; }
++        catch (IOException) { return null; }
++        catch (UnauthorizedAccessException) { return null; }
++#pragma warning restore CHA0004
++    }
++
+     /// <summary>A one-line description of what will be run, for the dimension's narrative.</summary>
+     public static string Describe(IReadOnlyList<GoTestModule> modules)
+     {

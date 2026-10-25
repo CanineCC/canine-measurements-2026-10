@@ -1,0 +1,1244 @@
+[
+ {
+  "path": "engine/src/CodeHealth.Reporting/Templates/ReportViewModelFactory.cs",
+  "method": "ReportViewModelFactory.BuildBriefFacts",
+  "identity": null,
+  "line": 457,
+  "endLine": 570,
+  "cyclomatic": 31,
+  "cognitive": 38,
+  "bodyLines": 114,
+  "bodyHash": "4839642F06838A0B",
+  "drivers": null,
+  "type": "ReportViewModelFactory",
+  "testClasses": [
+   "ReportViewModelFactorySeamTests"
+  ],
+  "testFiles": [
+   "engine/tests/CodeHealth.Tests.Unit/Reporting/ReportViewModelFactorySeamTests.cs"
+  ],
+  "id": "m000"
+ },
+ {
+  "path": "engine/src/Core/CodeShape/RoslynDuplicationDetector.ExactSpan.cs",
+  "method": "RoslynDuplicationDetector.TrimToSharedLines",
+  "identity": null,
+  "line": 51,
+  "endLine": 174,
+  "cyclomatic": 31,
+  "cognitive": 32,
+  "bodyLines": 124,
+  "bodyHash": "42DCBB508D69C38D",
+  "drivers": null,
+  "type": "RoslynDuplicationDetector",
+  "testClasses": [
+   "RoslynDuplicationDetectorTests"
+  ],
+  "testFiles": [
+   "engine/tests/CodeHealth.Tests.Unit/CodeShape/CodeShapeDetectorTests.cs"
+  ],
+  "id": "m001"
+ },
+ {
+  "path": "engine/src/Core/Dependencies/NuGetPackageSites.cs",
+  "method": "NuGetPackageSites.Read",
+  "identity": null,
+  "line": 103,
+  "endLine": 178,
+  "cyclomatic": 11,
+  "cognitive": 27,
+  "bodyLines": 76,
+  "bodyHash": "FF13C7681ECD0D00",
+  "drivers": null,
+  "type": "NuGetPackageSites",
+  "testClasses": [
+   "NuGetPackageSitesTests"
+  ],
+  "testFiles": [
+   "engine/tests/CodeHealth.Tests.Unit/Dependencies/NuGetPackageSitesTests.cs"
+  ],
+  "id": "m002"
+ },
+ {
+  "path": "engine/src/Core/Frontend/JsUnusedDeclarations.cs",
+  "method": "JsUnusedDeclarations.DeclaredPrivateMembers",
+  "identity": null,
+  "line": 192,
+  "endLine": 258,
+  "cyclomatic": 21,
+  "cognitive": 27,
+  "bodyLines": 67,
+  "bodyHash": "4EE5FA141507AC3B",
+  "drivers": null,
+  "type": "JsUnusedDeclarations",
+  "testClasses": [
+   "JsUnusedDeclarationsTests"
+  ],
+  "testFiles": [
+   "engine/tests/CodeHealth.Tests.Unit/Frontend/JsUnusedDeclarationsTests.cs"
+  ],
+  "id": "m003",
+  "findingTitle": "JsUnusedDeclarations.DeclaredPrivateMembers (cognitive 27)",
+  "findingDetail": "JsUnusedDeclarations.DeclaredPrivateMembers has cognitive complexity 27 (threshold 15). To reduce it, flatten the nesting: invert conditions into early returns or guard clauses so the happy path stays at one level, and lift the deepest nested block into its own named function.",
+  "csproj": "engine/src/Core/Frontend/CodeHealth.Core.Frontend.csproj",
+  "testProjects": [
+   "engine/tests/CodeHealth.Tests.Unit/CodeHealth.Tests.Unit.csproj"
+  ]
+ },
+ {
+  "path": "engine/src/Core/Languages/Swift/Security/SwiftPackageHygiene.CocoaPods.cs",
+  "method": "SwiftPackageHygiene.ParsePodfileLock",
+  "identity": null,
+  "line": 75,
+  "endLine": 139,
+  "cyclomatic": 15,
+  "cognitive": 25,
+  "bodyLines": 65,
+  "bodyHash": "7AD681E9C9FE52AD",
+  "drivers": null,
+  "type": "SwiftPackageHygiene",
+  "testClasses": [
+   "SwiftPackageHygieneSeamTests",
+   "SwiftPackageHygieneTests"
+  ],
+  "testFiles": [
+   "engine/tests/CodeHealth.Tests.Unit/Dependencies/SwiftPackageHygieneSeamTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/Dependencies/SwiftPackageHygieneTests.cs"
+  ],
+  "id": "m004",
+  "findingTitle": "SwiftPackageHygiene.ParsePodfileLock (cognitive 25)",
+  "findingDetail": "SwiftPackageHygiene.ParsePodfileLock has cognitive complexity 25 (threshold 15). To reduce it, flatten the nesting: invert conditions into early returns or guard clauses so the happy path stays at one level, and lift the deepest nested block into its own named function.",
+  "csproj": "engine/src/Core/Languages/Swift/Security/CodeHealth.Core.Languages.Swift.Security.csproj",
+  "testProjects": [
+   "engine/tests/CodeHealth.Tests.Unit/CodeHealth.Tests.Unit.csproj"
+  ]
+ },
+ {
+  "path": "engine/src/Core/Security/NativeSecretScanner.CryptographicKey.cs",
+  "method": "NativeSecretScanner.CryptoKeyBindingType",
+  "identity": null,
+  "line": 86,
+  "endLine": 174,
+  "cyclomatic": 30,
+  "cognitive": 28,
+  "bodyLines": 89,
+  "bodyHash": "1E8309C714578156",
+  "drivers": null,
+  "type": "NativeSecretScanner",
+  "testClasses": [
+   "NativeSecretScannerLargeConfigFileTests",
+   "NativeSecretScannerPasswordHashTests",
+   "NativeSecretScannerTests"
+  ],
+  "testFiles": [
+   "engine/tests/CodeHealth.Tests.Unit/Security/NativeSecretScannerLargeConfigFileTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/Security/NativeSecretScannerPasswordHashTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/Security/NativeSecretScannerTests.cs"
+  ],
+  "id": "m005",
+  "findingTitle": "NativeSecretScanner.CryptoKeyBindingType (cognitive 28)",
+  "findingDetail": "NativeSecretScanner.CryptoKeyBindingType has cognitive complexity 28 (threshold 15). To reduce it, flatten the nesting: invert conditions into early returns or guard clauses so the happy path stays at one level, and lift the deepest nested block into its own named function.",
+  "csproj": "engine/src/Core/Security/CodeHealth.Core.Security.csproj",
+  "testProjects": [
+   "engine/tests/CodeHealth.Tests.Unit/CodeHealth.Tests.Unit.csproj"
+  ]
+ },
+ {
+  "path": "engine/src/Core/Security/NativeSecretScanner.CryptographicKey.cs",
+  "method": "NativeSecretScanner.EnclosingSection",
+  "identity": null,
+  "line": 201,
+  "endLine": 248,
+  "cyclomatic": 17,
+  "cognitive": 32,
+  "bodyLines": 48,
+  "bodyHash": "36BAD8B5D2D73C43",
+  "drivers": null,
+  "type": "NativeSecretScanner",
+  "testClasses": [
+   "NativeSecretScannerLargeConfigFileTests",
+   "NativeSecretScannerPasswordHashTests",
+   "NativeSecretScannerTests"
+  ],
+  "testFiles": [
+   "engine/tests/CodeHealth.Tests.Unit/Security/NativeSecretScannerLargeConfigFileTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/Security/NativeSecretScannerPasswordHashTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/Security/NativeSecretScannerTests.cs"
+  ],
+  "id": "m006"
+ },
+ {
+  "path": "engine/src/Core/Testing/CoverletCoverageCollector.cs",
+  "method": "CoverletCoverageCollector.CollectUncachedAsync",
+  "identity": null,
+  "line": 83,
+  "endLine": 258,
+  "cyclomatic": 23,
+  "cognitive": 26,
+  "bodyLines": 176,
+  "bodyHash": "C88D3AB2E1A9CF73",
+  "drivers": null,
+  "type": "CoverletCoverageCollector",
+  "testClasses": [
+   "CoverletCoverageCollectorTests"
+  ],
+  "testFiles": [
+   "engine/tests/CodeHealth.Tests.Unit/Testing/TestingCollectorTests.cs"
+  ],
+  "id": "m007"
+ },
+ {
+  "path": "engine/src/Scanner/Accessibility/AC6/FocusOutlineRemoval.cs",
+  "method": "FocusOutlineRemoval.Replaced",
+  "identity": null,
+  "line": 366,
+  "endLine": 411,
+  "cyclomatic": 15,
+  "cognitive": 30,
+  "bodyLines": 46,
+  "bodyHash": "813254B28A7E8B06",
+  "drivers": null,
+  "type": "FocusOutlineRemoval",
+  "testClasses": [
+   "FocusOutlineRemovalTests"
+  ],
+  "testFiles": [
+   "engine/tests/CodeHealth.Tests.Unit/Accessibility/FocusOutlineRemovalTests.cs"
+  ],
+  "id": "m008",
+  "findingTitle": "FocusOutlineRemoval.Replaced (cognitive 30)",
+  "findingDetail": "FocusOutlineRemoval.Replaced has cognitive complexity 30 (threshold 15). To reduce it, flatten the nesting: invert conditions into early returns or guard clauses so the happy path stays at one level, and lift the deepest nested block into its own named function.",
+  "csproj": "engine/src/Scanner/Accessibility/AC6/CodeHealth.Scanner.Accessibility.AC6.csproj",
+  "testProjects": [
+   "engine/tests/CodeHealth.Tests.Unit/CodeHealth.Tests.Unit.csproj"
+  ]
+ },
+ {
+  "path": "engine/src/Scanner/Accessibility/AC6/ReducedMotion.cs",
+  "method": "ReducedMotion.InScript",
+  "identity": null,
+  "line": 356,
+  "endLine": 410,
+  "cyclomatic": 14,
+  "cognitive": 26,
+  "bodyLines": 55,
+  "bodyHash": "1AD433C7DBF4BFAA",
+  "drivers": null,
+  "type": "ReducedMotion",
+  "testClasses": [
+   "ReducedMotionTests"
+  ],
+  "testFiles": [
+   "engine/tests/CodeHealth.Tests.Unit/Accessibility/ReducedMotionTests.cs"
+  ],
+  "id": "m009",
+  "findingTitle": "ReducedMotion.InScript (cognitive 26)",
+  "findingDetail": "ReducedMotion.InScript has cognitive complexity 26 (threshold 15). To reduce it, flatten the nesting: invert conditions into early returns or guard clauses so the happy path stays at one level, and lift the deepest nested block into its own named function.",
+  "csproj": "engine/src/Scanner/Accessibility/AC6/CodeHealth.Scanner.Accessibility.AC6.csproj",
+  "testProjects": [
+   "engine/tests/CodeHealth.Tests.Unit/CodeHealth.Tests.Unit.csproj"
+  ]
+ },
+ {
+  "path": "engine/src/Scanner/AccessibilityRuntime/AccessibilityRuntime.Prework/PagesDeployWorkflow.cs",
+  "method": "PagesDeployWorkflow.PublishedBy",
+  "identity": null,
+  "line": 191,
+  "endLine": 298,
+  "cyclomatic": 32,
+  "cognitive": 51,
+  "bodyLines": 108,
+  "bodyHash": "A9D7BA454CC14EE2",
+  "drivers": null,
+  "type": "PagesDeployWorkflow",
+  "testClasses": [
+   "PagesDeployWorkflowTests"
+  ],
+  "testFiles": [
+   "engine/tests/CodeHealth.Tests.Unit/RuntimeAccessibility/PagesDeployWorkflowTests.cs"
+  ],
+  "id": "m010"
+ },
+ {
+  "path": "engine/src/Scanner/ArchitectureModel/AX7/SliceModuleSites.cs",
+  "method": "SliceModuleSites.ForeignImports",
+  "identity": null,
+  "line": 81,
+  "endLine": 139,
+  "cyclomatic": 23,
+  "cognitive": 29,
+  "bodyLines": 59,
+  "bodyHash": "3BAE3019D3F4C438",
+  "drivers": null,
+  "type": "SliceModuleSites",
+  "testClasses": [
+   "SliceModuleSitesTests"
+  ],
+  "testFiles": [
+   "engine/tests/CodeHealth.Tests.Unit/ModelAware/SliceModuleSitesTests.cs"
+  ],
+  "id": "m011"
+ },
+ {
+  "path": "engine/src/Scanner/ArchitectureModel/AX7/SliceModuleSites.cs",
+  "method": "SliceModuleSites.Uses",
+  "identity": null,
+  "line": 273,
+  "endLine": 338,
+  "cyclomatic": 25,
+  "cognitive": 29,
+  "bodyLines": 66,
+  "bodyHash": "807BFDFEBD713FEC",
+  "drivers": null,
+  "type": "SliceModuleSites",
+  "testClasses": [
+   "SliceModuleSitesTests"
+  ],
+  "testFiles": [
+   "engine/tests/CodeHealth.Tests.Unit/ModelAware/SliceModuleSitesTests.cs"
+  ],
+  "id": "m012",
+  "findingTitle": "SliceModuleSites.Uses (cognitive 29)",
+  "findingDetail": "SliceModuleSites.Uses has cognitive complexity 29 (threshold 15). To reduce it, flatten the nesting: invert conditions into early returns or guard clauses so the happy path stays at one level, and lift the deepest nested block into its own named function.",
+  "csproj": "engine/src/Scanner/ArchitectureModel/AX7/CodeHealth.Scanner.ArchitectureModel.AX7.csproj",
+  "testProjects": [
+   "engine/tests/CodeHealth.Tests.Unit/CodeHealth.Tests.Unit.csproj"
+  ]
+ },
+ {
+  "path": "engine/src/Scanner/ArchitectureModel/AX7/SliceModuleSites.cs",
+  "method": "SliceModuleSites.DeclarationAt",
+  "identity": null,
+  "line": 342,
+  "endLine": 392,
+  "cyclomatic": 36,
+  "cognitive": 27,
+  "bodyLines": 51,
+  "bodyHash": "C6DC6B2D8597614C",
+  "drivers": null,
+  "type": "SliceModuleSites",
+  "testClasses": [
+   "SliceModuleSitesTests"
+  ],
+  "testFiles": [
+   "engine/tests/CodeHealth.Tests.Unit/ModelAware/SliceModuleSitesTests.cs"
+  ],
+  "id": "m013"
+ },
+ {
+  "path": "engine/src/Scanner/Dependencies/D12/NpmDeprecatedDependencies.cs",
+  "method": "PnpmLock.Read",
+  "identity": null,
+  "line": 427,
+  "endLine": 495,
+  "cyclomatic": 21,
+  "cognitive": 32,
+  "bodyLines": 69,
+  "bodyHash": "5F12CA14C63D5F6A",
+  "drivers": null,
+  "type": "PnpmLock",
+  "testClasses": [
+   "PnpmLockPeerContractTests",
+   "PnpmLockfileReaderTests"
+  ],
+  "testFiles": [
+   "engine/tests/CodeHealth.Tests.Unit/Dependencies/PnpmLockfileReaderTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/Frontend/PnpmLockPeerContractTests.cs"
+  ],
+  "id": "m014",
+  "findingTitle": "PnpmLock.Read (cognitive 32)",
+  "findingDetail": "PnpmLock.Read has cognitive complexity 32 (threshold 15). To reduce it, flatten the nesting: invert conditions into early returns or guard clauses so the happy path stays at one level, and lift the deepest nested block into its own named function.",
+  "csproj": "engine/src/Scanner/Dependencies/D12/CodeHealth.Scanner.Dependencies.D12.csproj",
+  "testProjects": [
+   "engine/tests/CodeHealth.Tests.Unit/CodeHealth.Tests.Unit.csproj"
+  ]
+ },
+ {
+  "path": "engine/src/Scanner/Docs/D20/AdrRecordIntegrity.cs",
+  "method": "AdrRecordIntegrity.SupersedeRows",
+  "identity": null,
+  "line": 121,
+  "endLine": 165,
+  "cyclomatic": 13,
+  "cognitive": 28,
+  "bodyLines": 45,
+  "bodyHash": "71CB6F062C3CE77C",
+  "drivers": null,
+  "type": "AdrRecordIntegrity",
+  "testClasses": [
+   "AdrRecordIntegrityTests"
+  ],
+  "testFiles": [
+   "engine/tests/CodeHealth.Tests.Unit/Dimensions/Docs/AdrRecordIntegrityTests.cs"
+  ],
+  "id": "m015"
+ },
+ {
+  "path": "engine/src/Scanner/Docs/D20/AdrRecordIntegrity.cs",
+  "method": "AdrRecordIntegrity.Parse",
+  "identity": null,
+  "line": 249,
+  "endLine": 371,
+  "cyclomatic": 31,
+  "cognitive": 47,
+  "bodyLines": 123,
+  "bodyHash": "9DCCA8F7AAEEF63A",
+  "drivers": null,
+  "type": "AdrRecordIntegrity",
+  "testClasses": [
+   "AdrRecordIntegrityTests"
+  ],
+  "testFiles": [
+   "engine/tests/CodeHealth.Tests.Unit/Dimensions/Docs/AdrRecordIntegrityTests.cs"
+  ],
+  "id": "m016"
+ },
+ {
+  "path": "engine/src/Scanner/Docs/D25/AdrProhibitionConformance.cs",
+  "method": "AdrProhibitionConformance.DecisionSentences",
+  "identity": null,
+  "line": 129,
+  "endLine": 221,
+  "cyclomatic": 19,
+  "cognitive": 31,
+  "bodyLines": 93,
+  "bodyHash": "2C2D7772FFA5C0BF",
+  "drivers": null,
+  "type": "AdrProhibitionConformance",
+  "testClasses": [
+   "AdrProhibitionConformanceTests"
+  ],
+  "testFiles": [
+   "engine/tests/CodeHealth.Tests.Unit/Docs/AdrProhibitionConformanceTests.cs"
+  ],
+  "id": "m017"
+ },
+ {
+  "path": "engine/src/Scanner/Docs/D25/AdrProhibitionConformance.cs",
+  "method": "AdrProhibitionConformance.FromSentence",
+  "identity": null,
+  "line": 223,
+  "endLine": 308,
+  "cyclomatic": 19,
+  "cognitive": 40,
+  "bodyLines": 86,
+  "bodyHash": "06161AB09EDE2203",
+  "drivers": null,
+  "type": "AdrProhibitionConformance",
+  "testClasses": [
+   "AdrProhibitionConformanceTests"
+  ],
+  "testFiles": [
+   "engine/tests/CodeHealth.Tests.Unit/Docs/AdrProhibitionConformanceTests.cs"
+  ],
+  "id": "m018"
+ },
+ {
+  "path": "engine/src/Scanner/Docs/D25/AdrProhibitionConformance.cs",
+  "method": "AdrProhibitionConformance.Blank",
+  "identity": null,
+  "line": 718,
+  "endLine": 783,
+  "cyclomatic": 27,
+  "cognitive": 45,
+  "bodyLines": 66,
+  "bodyHash": "1565B37E5C104BBD",
+  "drivers": null,
+  "type": "AdrProhibitionConformance",
+  "testClasses": [
+   "AdrProhibitionConformanceTests"
+  ],
+  "testFiles": [
+   "engine/tests/CodeHealth.Tests.Unit/Docs/AdrProhibitionConformanceTests.cs"
+  ],
+  "id": "m019"
+ },
+ {
+  "path": "engine/src/Scanner/Readiness/P12/CiTestGateSites.cs",
+  "method": "CiTestGateSites.DotNet",
+  "identity": null,
+  "line": 136,
+  "endLine": 253,
+  "cyclomatic": 32,
+  "cognitive": 50,
+  "bodyLines": 118,
+  "bodyHash": "3FB4C5AA9B96A122",
+  "drivers": null,
+  "type": "CiTestGateSites",
+  "testClasses": [
+   "CiTestGateSitesTests"
+  ],
+  "testFiles": [
+   "engine/tests/CodeHealth.Tests.Unit/Readiness/CiTestGateSitesTests.cs"
+  ],
+  "id": "m020"
+ },
+ {
+  "path": "engine/src/Scanner/Readiness/P12/CiTestGateSites.cs",
+  "method": "CiTestGateSites.Js",
+  "identity": null,
+  "line": 296,
+  "endLine": 474,
+  "cyclomatic": 50,
+  "cognitive": 77,
+  "bodyLines": 179,
+  "bodyHash": "8194E342ACC85A57",
+  "drivers": null,
+  "type": "CiTestGateSites",
+  "testClasses": [
+   "CiTestGateSitesTests"
+  ],
+  "testFiles": [
+   "engine/tests/CodeHealth.Tests.Unit/Readiness/CiTestGateSitesTests.cs"
+  ],
+  "id": "m021",
+  "findingTitle": "CiTestGateSites.Js (cognitive 77)",
+  "findingDetail": "CiTestGateSites.Js has cognitive complexity 77 (threshold 15). To reduce it, flatten the nesting: invert conditions into early returns or guard clauses so the happy path stays at one level, and lift the deepest nested block into its own named function.",
+  "csproj": "engine/src/Scanner/Readiness/P12/CodeHealth.Scanner.Readiness.P12.csproj",
+  "testProjects": [
+   "engine/tests/CodeHealth.Tests.Unit/CodeHealth.Tests.Unit.csproj"
+  ]
+ },
+ {
+  "path": "engine/src/Scanner/Readiness/P12/CiTestGateSites.cs",
+  "method": "CiTestGateSites.ChangeFilters",
+  "identity": null,
+  "line": 479,
+  "endLine": 546,
+  "cyclomatic": 17,
+  "cognitive": 29,
+  "bodyLines": 68,
+  "bodyHash": "6BDAA3601E2520FF",
+  "drivers": null,
+  "type": "CiTestGateSites",
+  "testClasses": [
+   "CiTestGateSitesTests"
+  ],
+  "testFiles": [
+   "engine/tests/CodeHealth.Tests.Unit/Readiness/CiTestGateSitesTests.cs"
+  ],
+  "id": "m022",
+  "findingTitle": "CiTestGateSites.ChangeFilters (cognitive 29)",
+  "findingDetail": "CiTestGateSites.ChangeFilters has cognitive complexity 29 (threshold 15). To reduce it, flatten the nesting: invert conditions into early returns or guard clauses so the happy path stays at one level, and lift the deepest nested block into its own named function.",
+  "csproj": "engine/src/Scanner/Readiness/P12/CodeHealth.Scanner.Readiness.P12.csproj",
+  "testProjects": [
+   "engine/tests/CodeHealth.Tests.Unit/CodeHealth.Tests.Unit.csproj"
+  ]
+ },
+ {
+  "path": "engine/src/Scanner/Security/D29/Scanners/CleartextTransmissionScan.cs",
+  "method": "CleartextTransmissionScan.Lex",
+  "identity": null,
+  "line": 830,
+  "endLine": 963,
+  "cyclomatic": 41,
+  "cognitive": 87,
+  "bodyLines": 134,
+  "bodyHash": "0A95AEE6CA12966E",
+  "drivers": null,
+  "type": "CleartextTransmissionScan",
+  "testClasses": [
+   "CleartextTransmissionScanTests"
+  ],
+  "testFiles": [
+   "engine/tests/CodeHealth.Tests.Unit/Dimensions/Security/CleartextTransmissionScanTests.cs"
+  ],
+  "id": "m023",
+  "findingTitle": "CleartextTransmissionScan.Lex (cognitive 87)",
+  "findingDetail": "CleartextTransmissionScan.Lex has cognitive complexity 87 (threshold 15). To reduce it, flatten the nesting: invert conditions into early returns or guard clauses so the happy path stays at one level, and lift the deepest nested block into its own named function.",
+  "csproj": "engine/src/Scanner/Security/D29/CodeHealth.Scanner.Security.D29.csproj",
+  "testProjects": [
+   "engine/tests/CodeHealth.Tests.Unit/CodeHealth.Tests.Unit.csproj"
+  ]
+ },
+ {
+  "path": "engine/src/Scanner/Security/D29/Scanners/EngineRuleWalk.cs",
+  "method": "EngineRuleWalk.Files",
+  "identity": null,
+  "line": 33,
+  "endLine": 111,
+  "cyclomatic": 13,
+  "cognitive": 27,
+  "bodyLines": 79,
+  "bodyHash": "3DECB0A86CD09002",
+  "drivers": null,
+  "type": "EngineRuleWalk",
+  "testClasses": [
+   "EngineRuleWalkTests"
+  ],
+  "testFiles": [
+   "engine/tests/CodeHealth.Tests.Unit/Dimensions/Security/EngineRuleWalkTests.cs"
+  ],
+  "id": "m024",
+  "findingTitle": "EngineRuleWalk.Files (cognitive 27)",
+  "findingDetail": "EngineRuleWalk.Files has cognitive complexity 27 (threshold 15). To reduce it, flatten the nesting: invert conditions into early returns or guard clauses so the happy path stays at one level, and lift the deepest nested block into its own named function.",
+  "csproj": "engine/src/Scanner/Security/D29/CodeHealth.Scanner.Security.D29.csproj",
+  "testProjects": [
+   "engine/tests/CodeHealth.Tests.Unit/CodeHealth.Tests.Unit.csproj"
+  ]
+ },
+ {
+  "path": "engine/src/Scanner/Security/D29/Scanners/InlineScriptShadow.cs",
+  "method": "InlineScriptShadow.BlankRazor",
+  "identity": null,
+  "line": 208,
+  "endLine": 265,
+  "cyclomatic": 15,
+  "cognitive": 26,
+  "bodyLines": 58,
+  "bodyHash": "6FA523C32B16FD2D",
+  "drivers": null,
+  "type": "InlineScriptShadow",
+  "testClasses": [
+   "InlineScriptShadowTests"
+  ],
+  "testFiles": [
+   "engine/tests/CodeHealth.Tests.Unit/Dimensions/Security/InlineScriptShadowTests.cs"
+  ],
+  "id": "m025"
+ },
+ {
+  "path": "engine/src/Scanner/Security/D29/Scanners/RouteAuthorizationScan.cs",
+  "method": "RouteAuthorizationScan.ExpressAndFastify",
+  "identity": null,
+  "line": 175,
+  "endLine": 248,
+  "cyclomatic": 23,
+  "cognitive": 30,
+  "bodyLines": 74,
+  "bodyHash": "5D2453E3B268B63A",
+  "drivers": null,
+  "type": "RouteAuthorizationScan",
+  "testClasses": [
+   "RouteAuthorizationScanTests"
+  ],
+  "testFiles": [
+   "engine/tests/CodeHealth.Tests.Unit/Dimensions/Security/RouteAuthorizationScanTests.cs"
+  ],
+  "id": "m026",
+  "findingTitle": "RouteAuthorizationScan.ExpressAndFastify (cognitive 30)",
+  "findingDetail": "RouteAuthorizationScan.ExpressAndFastify has cognitive complexity 30 (threshold 15). To reduce it, flatten the nesting: invert conditions into early returns or guard clauses so the happy path stays at one level, and lift the deepest nested block into its own named function.",
+  "csproj": "engine/src/Scanner/Security/D29/CodeHealth.Scanner.Security.D29.csproj",
+  "testProjects": [
+   "engine/tests/CodeHealth.Tests.Unit/CodeHealth.Tests.Unit.csproj"
+  ]
+ },
+ {
+  "path": "engine/src/Scanner/Security/D29/Scanners/RouteAuthorizationScan.cs",
+  "method": "RouteAuthorizationScan.Nest",
+  "identity": null,
+  "line": 279,
+  "endLine": 333,
+  "cyclomatic": 22,
+  "cognitive": 38,
+  "bodyLines": 55,
+  "bodyHash": "7BF49CC8BDAFF5C4",
+  "drivers": null,
+  "type": "RouteAuthorizationScan",
+  "testClasses": [
+   "RouteAuthorizationScanTests"
+  ],
+  "testFiles": [
+   "engine/tests/CodeHealth.Tests.Unit/Dimensions/Security/RouteAuthorizationScanTests.cs"
+  ],
+  "id": "m027",
+  "findingTitle": "RouteAuthorizationScan.Nest (cognitive 38)",
+  "findingDetail": "RouteAuthorizationScan.Nest has cognitive complexity 38 (threshold 15). To reduce it, flatten the nesting: invert conditions into early returns or guard clauses so the happy path stays at one level, and lift the deepest nested block into its own named function.",
+  "csproj": "engine/src/Scanner/Security/D29/CodeHealth.Scanner.Security.D29.csproj",
+  "testProjects": [
+   "engine/tests/CodeHealth.Tests.Unit/CodeHealth.Tests.Unit.csproj"
+  ]
+ },
+ {
+  "path": "engine/src/Scanner/Security/D29/Scanners/RouteAuthorizationScan.cs",
+  "method": "RouteAuthorizationScan.Next",
+  "identity": null,
+  "line": 337,
+  "endLine": 398,
+  "cyclomatic": 34,
+  "cognitive": 49,
+  "bodyLines": 62,
+  "bodyHash": "00AA9EBBBAD00BD5",
+  "drivers": null,
+  "type": "RouteAuthorizationScan",
+  "testClasses": [
+   "RouteAuthorizationScanTests"
+  ],
+  "testFiles": [
+   "engine/tests/CodeHealth.Tests.Unit/Dimensions/Security/RouteAuthorizationScanTests.cs"
+  ],
+  "id": "m028",
+  "findingTitle": "RouteAuthorizationScan.Next (cognitive 49)",
+  "findingDetail": "RouteAuthorizationScan.Next has cognitive complexity 49 (threshold 15). To reduce it, flatten the nesting: invert conditions into early returns or guard clauses so the happy path stays at one level, and lift the deepest nested block into its own named function.",
+  "csproj": "engine/src/Scanner/Security/D29/CodeHealth.Scanner.Security.D29.csproj",
+  "testProjects": [
+   "engine/tests/CodeHealth.Tests.Unit/CodeHealth.Tests.Unit.csproj"
+  ]
+ },
+ {
+  "path": "engine/src/Scanner/Security/D29/Scanners/RouteAuthorizationScan.cs",
+  "method": "Model.Index",
+  "identity": null,
+  "line": 821,
+  "endLine": 866,
+  "cyclomatic": 33,
+  "cognitive": 35,
+  "bodyLines": 46,
+  "bodyHash": "FABA2C0A67960EE4",
+  "drivers": null,
+  "type": "Model",
+  "testClasses": [
+   "ModelAwareBodyNeutralEquivalenceTests",
+   "ModelAwareEventNeutralEquivalenceTests",
+   "ModelAwareJudgeSpendIsBoundedTests",
+   "ModelAwareLlmJudgeBatchingTests",
+   "ModelAwareLlmTests",
+   "ModelAwareNeutralEquivalenceTests",
+   "ModelAwareScoringTests",
+   "ModelAwareTuningTests",
+   "ModelFactsAreGroundedInTheContractTests",
+   "ModelReadableVouchDenominatorTests",
+   "ModelRequiredIsDeclaredLoudlyTests",
+   "ModeledGeneratedModuleTests",
+   "ModelledLanguageIsNotADeclarationCensusTests"
+  ],
+  "testFiles": [
+   "engine/tests/CodeHealth.Tests.Integration/ModelFactsAreGroundedInTheContractTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/Frontend/ModeledGeneratedModuleTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/ModelAware/ModelAwareBodyNeutralEquivalenceTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/ModelAware/ModelAwareEventNeutralEquivalenceTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/ModelAware/ModelAwareJudgeSpendIsBoundedTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/ModelAware/ModelAwareLlmJudgeBatchingTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/ModelAware/ModelAwareLlmTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/ModelAware/ModelAwareNeutralEquivalenceTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/ModelAware/ModelAwareScoringTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/ModelAware/ModelAwareTuningTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/Reporting/ModelRequiredIsDeclaredLoudlyTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/Scoring/ModelReadableVouchDenominatorTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/Scoring/ModelledLanguageIsNotADeclarationCensusTests.cs"
+  ],
+  "id": "m029",
+  "findingTitle": "Model.Index (cognitive 35)",
+  "findingDetail": "Model.Index has cognitive complexity 35 (threshold 15). To reduce it, flatten the nesting: invert conditions into early returns or guard clauses so the happy path stays at one level, and lift the deepest nested block into its own named function.",
+  "csproj": "engine/src/Scanner/Security/D29/CodeHealth.Scanner.Security.D29.csproj",
+  "testProjects": [
+   "engine/tests/CodeHealth.Tests.Integration/CodeHealth.Tests.Integration.csproj",
+   "engine/tests/CodeHealth.Tests.Unit/CodeHealth.Tests.Unit.csproj"
+  ]
+ },
+ {
+  "path": "engine/src/Scanner/Security/D29/Scanners/RouteAuthorizationScan.cs",
+  "method": "Model.NextMiddlewareCovers",
+  "identity": null,
+  "line": 1098,
+  "endLine": 1143,
+  "cyclomatic": 21,
+  "cognitive": 37,
+  "bodyLines": 46,
+  "bodyHash": "A180ED39963BBCBE",
+  "drivers": null,
+  "type": "Model",
+  "testClasses": [
+   "ModelAwareBodyNeutralEquivalenceTests",
+   "ModelAwareEventNeutralEquivalenceTests",
+   "ModelAwareJudgeSpendIsBoundedTests",
+   "ModelAwareLlmJudgeBatchingTests",
+   "ModelAwareLlmTests",
+   "ModelAwareNeutralEquivalenceTests",
+   "ModelAwareScoringTests",
+   "ModelAwareTuningTests",
+   "ModelFactsAreGroundedInTheContractTests",
+   "ModelReadableVouchDenominatorTests",
+   "ModelRequiredIsDeclaredLoudlyTests",
+   "ModeledGeneratedModuleTests",
+   "ModelledLanguageIsNotADeclarationCensusTests"
+  ],
+  "testFiles": [
+   "engine/tests/CodeHealth.Tests.Integration/ModelFactsAreGroundedInTheContractTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/Frontend/ModeledGeneratedModuleTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/ModelAware/ModelAwareBodyNeutralEquivalenceTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/ModelAware/ModelAwareEventNeutralEquivalenceTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/ModelAware/ModelAwareJudgeSpendIsBoundedTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/ModelAware/ModelAwareLlmJudgeBatchingTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/ModelAware/ModelAwareLlmTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/ModelAware/ModelAwareNeutralEquivalenceTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/ModelAware/ModelAwareScoringTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/ModelAware/ModelAwareTuningTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/Reporting/ModelRequiredIsDeclaredLoudlyTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/Scoring/ModelReadableVouchDenominatorTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/Scoring/ModelledLanguageIsNotADeclarationCensusTests.cs"
+  ],
+  "id": "m030"
+ },
+ {
+  "path": "engine/src/Scanner/Security/D29/Scanners/RouteAuthorizationScan.cs",
+  "method": "Model.SessionGate",
+  "identity": null,
+  "line": 1269,
+  "endLine": 1317,
+  "cyclomatic": 23,
+  "cognitive": 35,
+  "bodyLines": 49,
+  "bodyHash": "720CA4E7DB82F6B3",
+  "drivers": null,
+  "type": "Model",
+  "testClasses": [
+   "ModelAwareBodyNeutralEquivalenceTests",
+   "ModelAwareEventNeutralEquivalenceTests",
+   "ModelAwareJudgeSpendIsBoundedTests",
+   "ModelAwareLlmJudgeBatchingTests",
+   "ModelAwareLlmTests",
+   "ModelAwareNeutralEquivalenceTests",
+   "ModelAwareScoringTests",
+   "ModelAwareTuningTests",
+   "ModelFactsAreGroundedInTheContractTests",
+   "ModelReadableVouchDenominatorTests",
+   "ModelRequiredIsDeclaredLoudlyTests",
+   "ModeledGeneratedModuleTests",
+   "ModelledLanguageIsNotADeclarationCensusTests"
+  ],
+  "testFiles": [
+   "engine/tests/CodeHealth.Tests.Integration/ModelFactsAreGroundedInTheContractTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/Frontend/ModeledGeneratedModuleTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/ModelAware/ModelAwareBodyNeutralEquivalenceTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/ModelAware/ModelAwareEventNeutralEquivalenceTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/ModelAware/ModelAwareJudgeSpendIsBoundedTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/ModelAware/ModelAwareLlmJudgeBatchingTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/ModelAware/ModelAwareLlmTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/ModelAware/ModelAwareNeutralEquivalenceTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/ModelAware/ModelAwareScoringTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/ModelAware/ModelAwareTuningTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/Reporting/ModelRequiredIsDeclaredLoudlyTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/Scoring/ModelReadableVouchDenominatorTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/Scoring/ModelledLanguageIsNotADeclarationCensusTests.cs"
+  ],
+  "id": "m031"
+ },
+ {
+  "path": "engine/src/Scanner/Security/D29/Scanners/RouteAuthorizationScan.cs",
+  "method": "Model.AnswersOnlyConstants",
+  "identity": null,
+  "line": 1321,
+  "endLine": 1389,
+  "cyclomatic": 45,
+  "cognitive": 40,
+  "bodyLines": 69,
+  "bodyHash": "878A310D53842B93",
+  "drivers": null,
+  "type": "Model",
+  "testClasses": [
+   "ModelAwareBodyNeutralEquivalenceTests",
+   "ModelAwareEventNeutralEquivalenceTests",
+   "ModelAwareJudgeSpendIsBoundedTests",
+   "ModelAwareLlmJudgeBatchingTests",
+   "ModelAwareLlmTests",
+   "ModelAwareNeutralEquivalenceTests",
+   "ModelAwareScoringTests",
+   "ModelAwareTuningTests",
+   "ModelFactsAreGroundedInTheContractTests",
+   "ModelReadableVouchDenominatorTests",
+   "ModelRequiredIsDeclaredLoudlyTests",
+   "ModeledGeneratedModuleTests",
+   "ModelledLanguageIsNotADeclarationCensusTests"
+  ],
+  "testFiles": [
+   "engine/tests/CodeHealth.Tests.Integration/ModelFactsAreGroundedInTheContractTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/Frontend/ModeledGeneratedModuleTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/ModelAware/ModelAwareBodyNeutralEquivalenceTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/ModelAware/ModelAwareEventNeutralEquivalenceTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/ModelAware/ModelAwareJudgeSpendIsBoundedTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/ModelAware/ModelAwareLlmJudgeBatchingTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/ModelAware/ModelAwareLlmTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/ModelAware/ModelAwareNeutralEquivalenceTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/ModelAware/ModelAwareScoringTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/ModelAware/ModelAwareTuningTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/Reporting/ModelRequiredIsDeclaredLoudlyTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/Scoring/ModelReadableVouchDenominatorTests.cs",
+   "engine/tests/CodeHealth.Tests.Unit/Scoring/ModelledLanguageIsNotADeclarationCensusTests.cs"
+  ],
+  "id": "m032",
+  "findingTitle": "Model.AnswersOnlyConstants (cognitive 40)",
+  "findingDetail": "Model.AnswersOnlyConstants has cognitive complexity 40 (threshold 15). To reduce it, flatten the nesting: invert conditions into early returns or guard clauses so the happy path stays at one level, and lift the deepest nested block into its own named function.",
+  "csproj": "engine/src/Scanner/Security/D29/CodeHealth.Scanner.Security.D29.csproj",
+  "testProjects": [
+   "engine/tests/CodeHealth.Tests.Integration/CodeHealth.Tests.Integration.csproj",
+   "engine/tests/CodeHealth.Tests.Unit/CodeHealth.Tests.Unit.csproj"
+  ]
+ },
+ {
+  "path": "engine/src/Scanner/Security/D31/Scanners/KubernetesFieldAnchor.cs",
+  "method": "KubernetesFieldAnchor.FirstContainerWithout",
+  "identity": null,
+  "line": 187,
+  "endLine": 237,
+  "cyclomatic": 18,
+  "cognitive": 28,
+  "bodyLines": 51,
+  "bodyHash": "50686737B52D375E",
+  "drivers": null,
+  "type": "KubernetesFieldAnchor",
+  "testClasses": [
+   "KubernetesFieldAnchorTests"
+  ],
+  "testFiles": [
+   "engine/tests/CodeHealth.Tests.Unit/Dimensions/Security/KubernetesFieldAnchorTests.cs"
+  ],
+  "id": "m033",
+  "findingTitle": "KubernetesFieldAnchor.FirstContainerWithout (cognitive 28)",
+  "findingDetail": "KubernetesFieldAnchor.FirstContainerWithout has cognitive complexity 28 (threshold 15). To reduce it, flatten the nesting: invert conditions into early returns or guard clauses so the happy path stays at one level, and lift the deepest nested block into its own named function.",
+  "csproj": "engine/src/Scanner/Security/D31/CodeHealth.Scanner.Security.D31.csproj",
+  "testProjects": [
+   "engine/tests/CodeHealth.Tests.Unit/CodeHealth.Tests.Unit.csproj"
+  ]
+ },
+ {
+  "path": "engine/src/Scanner/Security/Shared.CSharp/DestructuredPersonalDataLogScan.cs",
+  "method": "DestructuredPersonalDataLogScan.BuildFacts",
+  "identity": null,
+  "line": 195,
+  "endLine": 245,
+  "cyclomatic": 14,
+  "cognitive": 34,
+  "bodyLines": 51,
+  "bodyHash": "941C48263F1E30F3",
+  "drivers": null,
+  "type": "DestructuredPersonalDataLogScan",
+  "testClasses": [
+   "DestructuredPersonalDataLogScanTests"
+  ],
+  "testFiles": [
+   "engine/tests/CodeHealth.Tests.Unit/Dimensions/Security/DestructuredPersonalDataLogScanTests.cs"
+  ],
+  "id": "m034"
+ },
+ {
+  "path": "engine/src/Scanner/Security/Shared.CSharp/DestructuredPersonalDataLogScan.cs",
+  "method": "DestructuredPersonalDataLogScan.DeclaredTypeNames",
+  "identity": null,
+  "line": 382,
+  "endLine": 440,
+  "cyclomatic": 19,
+  "cognitive": 36,
+  "bodyLines": 59,
+  "bodyHash": "B6870E2812EF3010",
+  "drivers": null,
+  "type": "DestructuredPersonalDataLogScan",
+  "testClasses": [
+   "DestructuredPersonalDataLogScanTests"
+  ],
+  "testFiles": [
+   "engine/tests/CodeHealth.Tests.Unit/Dimensions/Security/DestructuredPersonalDataLogScanTests.cs"
+  ],
+  "id": "m035"
+ },
+ {
+  "path": "engine/src/Scanner/SecurityPosture/D36/SupplyChainProvenanceAnalyzer.TokenSites.cs",
+  "method": "SupplyChainProvenanceAnalyzer.UnusedWriteScopeGrants",
+  "identity": null,
+  "line": 333,
+  "endLine": 381,
+  "cyclomatic": 12,
+  "cognitive": 25,
+  "bodyLines": 49,
+  "bodyHash": "AE4E0ECAC44FF548",
+  "drivers": null,
+  "type": "SupplyChainProvenanceAnalyzer",
+  "testClasses": [
+   "SupplyChainProvenanceAnalyzerTests"
+  ],
+  "testFiles": [
+   "engine/tests/CodeHealth.Tests.Unit/Dimensions/Security/SupplyChainProvenanceAnalyzerTests.cs"
+  ],
+  "id": "m036",
+  "findingTitle": "SupplyChainProvenanceAnalyzer.UnusedWriteScopeGrants (cognitive 25)",
+  "findingDetail": "SupplyChainProvenanceAnalyzer.UnusedWriteScopeGrants has cognitive complexity 25 (threshold 15). To reduce it, flatten the nesting: invert conditions into early returns or guard clauses so the happy path stays at one level, and lift the deepest nested block into its own named function.",
+  "csproj": "engine/src/Scanner/SecurityPosture/D36/CodeHealth.Scanner.SecurityPosture.D36.csproj",
+  "testProjects": [
+   "engine/tests/CodeHealth.Tests.Unit/CodeHealth.Tests.Unit.csproj"
+  ]
+ },
+ {
+  "path": "src/Kennel.Analyzers/UiApiGenerator.cs",
+  "method": "UiApiGenerator.Describe",
+  "identity": null,
+  "line": 117,
+  "endLine": 238,
+  "cyclomatic": 37,
+  "cognitive": 49,
+  "bodyLines": 122,
+  "bodyHash": "1E700C9E41F29E3B",
+  "drivers": null,
+  "type": "UiApiGenerator",
+  "testClasses": [
+   "UiApiGeneratorTests"
+  ],
+  "testFiles": [
+   "tests/Kennel.Analyzers.Tests/UiApiGeneratorTests.cs"
+  ],
+  "id": "m037"
+ },
+ {
+  "path": "src/Kennel.Analyzers/UiApiGenerator.cs",
+  "method": "UiApiGenerator.Emit",
+  "identity": null,
+  "line": 272,
+  "endLine": 362,
+  "cyclomatic": 17,
+  "cognitive": 34,
+  "bodyLines": 91,
+  "bodyHash": "91E9C06269A3BF61",
+  "drivers": null,
+  "type": "UiApiGenerator",
+  "testClasses": [
+   "UiApiGeneratorTests"
+  ],
+  "testFiles": [
+   "tests/Kennel.Analyzers.Tests/UiApiGeneratorTests.cs"
+  ],
+  "id": "m038"
+ },
+ {
+  "path": "src/Kennel.Core/Billing/Application/ConsoleDriftBackfill.cs",
+  "method": "ConsoleDriftBackfill.SurveyAsync",
+  "identity": null,
+  "line": 93,
+  "endLine": 231,
+  "cyclomatic": 24,
+  "cognitive": 29,
+  "bodyLines": 139,
+  "bodyHash": "24E100C1CA8FEF2D",
+  "drivers": null,
+  "type": "ConsoleDriftBackfill",
+  "testClasses": [
+   "ConsoleDriftBackfillTests"
+  ],
+  "testFiles": [
+   "tests/Kennel.Admin.Tests/ConsoleDriftBackfillTests.cs"
+  ],
+  "id": "m039"
+ },
+ {
+  "path": "src/Kennel.Core/Billing/Services/BillingDevSeeder.cs",
+  "method": "BillingDevSeeder.EnsureDemoCatalogAsync",
+  "identity": null,
+  "line": 407,
+  "endLine": 595,
+  "cyclomatic": 21,
+  "cognitive": 36,
+  "bodyLines": 189,
+  "bodyHash": "5FC1D40219A4F3E4",
+  "drivers": null,
+  "type": "BillingDevSeeder",
+  "testClasses": [
+   "BillingDevSeederTests"
+  ],
+  "testFiles": [
+   "tests/Kennel.Billing.Tests/BillingDevSeederTests.cs"
+  ],
+  "id": "m040"
+ },
+ {
+  "path": "src/Kennel.Hosting/Operations/EventsBackfillRunner.cs",
+  "method": "EventsBackfillRunner.RunAsync",
+  "identity": null,
+  "line": 22,
+  "endLine": 126,
+  "cyclomatic": 20,
+  "cognitive": 32,
+  "bodyLines": 105,
+  "bodyHash": "D0D9C0703A0D9D08",
+  "drivers": null,
+  "type": "EventsBackfillRunner",
+  "testClasses": [
+   "EventsBackfillRunnerTests"
+  ],
+  "testFiles": [
+   "tests/Kennel.Infrastructure.Tests/EventsBackfillRunnerTests.cs"
+  ],
+  "id": "m041"
+ },
+ {
+  "path": "src/Kennel.Hosting/Projections/ProjectionFold.cs",
+  "method": "ProjectionFold.BuildPlan",
+  "identity": null,
+  "line": 85,
+  "endLine": 120,
+  "cyclomatic": 13,
+  "cognitive": 25,
+  "bodyLines": 36,
+  "bodyHash": "5059401234E620CD",
+  "drivers": null,
+  "type": "ProjectionFold",
+  "testClasses": [
+   "ProjectionFoldTests"
+  ],
+  "testFiles": [
+   "tests/Kennel.Core.Tests/ProjectionFoldTests.cs"
+  ],
+  "id": "m042",
+  "findingTitle": "ProjectionFold.BuildPlan (cognitive 25)",
+  "findingDetail": "ProjectionFold.BuildPlan has cognitive complexity 25 (threshold 15). To reduce it, flatten the nesting: invert conditions into early returns or guard clauses so the happy path stays at one level, and lift the deepest nested block into its own named function.",
+  "csproj": "src/Kennel.Hosting/Kennel.Hosting.csproj",
+  "testProjects": [
+   "tests/Kennel.Core.Tests/Kennel.Core.Tests.csproj"
+  ]
+ },
+ {
+  "path": "src/Kennel.Improve.Orchestrator/Gates/ShellGate.cs",
+  "method": "ShellGate.JudgeAsync",
+  "identity": null,
+  "line": 99,
+  "endLine": 300,
+  "cyclomatic": 46,
+  "cognitive": 49,
+  "bodyLines": 202,
+  "bodyHash": "29C0880373911973",
+  "drivers": null,
+  "type": "ShellGate",
+  "testClasses": [
+   "ShellGateTests"
+  ],
+  "testFiles": [
+   "tests/Kennel.Improve.Orchestrator.Tests/ShellGateTests.cs"
+  ],
+  "id": "m043",
+  "findingTitle": "ShellGate.JudgeAsync (cognitive 49)",
+  "findingDetail": "ShellGate.JudgeAsync has cognitive complexity 49 (threshold 15). To reduce it, flatten the nesting: invert conditions into early returns or guard clauses so the happy path stays at one level, and lift the deepest nested block into its own named function.",
+  "csproj": "src/Kennel.Improve.Orchestrator/Kennel.Improve.Orchestrator.csproj",
+  "testProjects": [
+   "tests/Kennel.Improve.Orchestrator.Tests/Kennel.Improve.Orchestrator.Tests.csproj"
+  ]
+ },
+ {
+  "path": "src/Kennel.Improve.Orchestrator/Gates/TurnGate.cs",
+  "method": "TurnGate.RunAsync",
+  "identity": null,
+  "line": 83,
+  "endLine": 178,
+  "cyclomatic": 15,
+  "cognitive": 26,
+  "bodyLines": 96,
+  "bodyHash": "971BC33942C1F822",
+  "drivers": null,
+  "type": "TurnGate",
+  "testClasses": [
+   "TurnGateTests"
+  ],
+  "testFiles": [
+   "tests/Kennel.Improve.Orchestrator.Tests/TurnGateTests.cs"
+  ],
+  "id": "m044"
+ },
+ {
+  "path": "src/Kennel.Improve.Orchestrator/Gates/TurnGate.cs",
+  "method": "TurnGate.CheckAsync",
+  "identity": null,
+  "line": 342,
+  "endLine": 445,
+  "cyclomatic": 24,
+  "cognitive": 32,
+  "bodyLines": 104,
+  "bodyHash": "93ADFD8C3E321CEF",
+  "drivers": null,
+  "type": "TurnGate",
+  "testClasses": [
+   "TurnGateTests"
+  ],
+  "testFiles": [
+   "tests/Kennel.Improve.Orchestrator.Tests/TurnGateTests.cs"
+  ],
+  "id": "m045",
+  "findingTitle": "TurnGate.CheckAsync (cognitive 32)",
+  "findingDetail": "TurnGate.CheckAsync has cognitive complexity 32 (threshold 15). To reduce it, flatten the nesting: invert conditions into early returns or guard clauses so the happy path stays at one level, and lift the deepest nested block into its own named function.",
+  "csproj": "src/Kennel.Improve.Orchestrator/Kennel.Improve.Orchestrator.csproj",
+  "testProjects": [
+   "tests/Kennel.Improve.Orchestrator.Tests/Kennel.Improve.Orchestrator.Tests.csproj"
+  ]
+ },
+ {
+  "path": "src/Kennel.Improve.Orchestrator/Turns/Closer.cs",
+  "method": "Closer.Plan",
+  "identity": null,
+  "line": 51,
+  "endLine": 171,
+  "cyclomatic": 23,
+  "cognitive": 40,
+  "bodyLines": 121,
+  "bodyHash": "05AFE267FD8A3584",
+  "drivers": null,
+  "type": "Closer",
+  "testClasses": [
+   "CloserTests"
+  ],
+  "testFiles": [
+   "tests/Kennel.Improve.Orchestrator.Tests/CloserTests.cs"
+  ],
+  "id": "m046"
+ },
+ {
+  "path": "src/Kennel.Improve.Orchestrator/Turns/ServiceLoop.cs",
+  "method": "ServiceLoop.RunAsync",
+  "identity": null,
+  "line": 95,
+  "endLine": 184,
+  "cyclomatic": 18,
+  "cognitive": 34,
+  "bodyLines": 90,
+  "bodyHash": "B2D20800F70ACF49",
+  "drivers": null,
+  "type": "ServiceLoop",
+  "testClasses": [
+   "ServiceLoopTests"
+  ],
+  "testFiles": [
+   "tests/Kennel.Improve.Orchestrator.Tests/ServiceLoopTests.cs"
+  ],
+  "id": "m047"
+ },
+ {
+  "path": "src/Kennel.Improve.Orchestrator/Turns/TurnRunner.cs",
+  "method": "TurnRunner.RunTurnAsync",
+  "identity": null,
+  "line": 196,
+  "endLine": 495,
+  "cyclomatic": 54,
+  "cognitive": 73,
+  "bodyLines": 300,
+  "bodyHash": "1EA47C3D91589AF6",
+  "drivers": null,
+  "type": "TurnRunner",
+  "testClasses": [
+   "TurnRunnerTests"
+  ],
+  "testFiles": [
+   "tests/Kennel.Improve.Orchestrator.Tests/TurnRunnerTests.cs"
+  ],
+  "id": "m048",
+  "findingTitle": "TurnRunner.RunTurnAsync (cognitive 73)",
+  "findingDetail": "TurnRunner.RunTurnAsync has cognitive complexity 73 (threshold 15). To reduce it, flatten the nesting: invert conditions into early returns or guard clauses so the happy path stays at one level, and lift the deepest nested block into its own named function.",
+  "csproj": "src/Kennel.Improve.Orchestrator/Kennel.Improve.Orchestrator.csproj",
+  "testProjects": [
+   "tests/Kennel.Improve.Orchestrator.Tests/Kennel.Improve.Orchestrator.Tests.csproj"
+  ]
+ },
+ {
+  "path": "src/Kennel.Watchdog.Core/Agents/Application/MaintainerKeysBackfill.cs",
+  "method": "MaintainerKeysBackfill.SurveyAsync",
+  "identity": null,
+  "line": 38,
+  "endLine": 99,
+  "cyclomatic": 13,
+  "cognitive": 29,
+  "bodyLines": 62,
+  "bodyHash": "D79A525B9CD29F5A",
+  "drivers": null,
+  "type": "MaintainerKeysBackfill",
+  "testClasses": [
+   "MaintainerKeysBackfillTests"
+  ],
+  "testFiles": [
+   "tests/Kennel.Agents.Tests/MaintainerKeysBackfillTests.cs"
+  ],
+  "id": "m049"
+ }
+]

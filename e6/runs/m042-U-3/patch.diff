@@ -1,0 +1,80 @@
+diff --git a/src/Kennel.Hosting/Projections/ProjectionFold.cs b/src/Kennel.Hosting/Projections/ProjectionFold.cs
+index d513743e..4ec18ff6 100644
+--- a/src/Kennel.Hosting/Projections/ProjectionFold.cs
++++ b/src/Kennel.Hosting/Projections/ProjectionFold.cs
+@@ -82,40 +82,54 @@ public static class ProjectionFold
+         }
+     }
+ 
++    private const BindingFlags HandlerMethods =
++        BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly;
++
+     private static Plan BuildPlan(Type projection, Type document)
+     {
+         var creators = new Dictionary<Type, Func<object, object, object>>();
+         var appliers = new Dictionary<Type, Func<object, object, object, object?>>();
+-        foreach (var method in projection.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly))
++        foreach (var method in projection.GetMethods(HandlerMethods))
+         {
+             var parameters = method.GetParameters();
+             if (method.Name == "Create" && parameters.Length == 1 && document.IsAssignableFrom(method.ReturnType))
+             {
+-                var m = method;
+-                creators[parameters[0].ParameterType] = (p, e) => m.Invoke(m.IsStatic ? null : p, [e])!;
++                creators[parameters[0].ParameterType] = CreateCreator(method);
+             }
+-            else if (method.Name == "Apply" && parameters.Length == 2)
++            else if (method.Name == "Apply" && parameters.Length == 2
++                && TryGetApplyOrder(document, parameters) is var (eventIndex, documentIndex))
+             {
+-                var (eventIndex, documentIndex) = document.IsAssignableFrom(parameters[1].ParameterType) ? (0, 1)
+-                    : document.IsAssignableFrom(parameters[0].ParameterType) ? (1, 0) : (-1, -1);
+-                if (eventIndex < 0)
+-                {
+-                    continue;
+-                }
+-
+-                var m = method;
+-                var returnsDocument = document.IsAssignableFrom(m.ReturnType);
+-                appliers[parameters[eventIndex].ParameterType] = (p, e, d) =>
+-                {
+-                    var args = new object[2];
+-                    args[eventIndex] = e;
+-                    args[documentIndex] = d;
+-                    var result = m.Invoke(m.IsStatic ? null : p, args);
+-                    return returnsDocument ? result : null;
+-                };
++                appliers[parameters[eventIndex].ParameterType] = CreateApplier(method, document, eventIndex, documentIndex);
+             }
+         }
+ 
+         return new Plan(creators, appliers);
+     }
++
++    /// <summary>Which parameter of an Apply is the event and which the document; null when neither is the document.</summary>
++    private static (int EventIndex, int DocumentIndex)? TryGetApplyOrder(Type document, ParameterInfo[] parameters)
++    {
++        if (document.IsAssignableFrom(parameters[1].ParameterType))
++        {
++            return (0, 1);
++        }
++
++        return document.IsAssignableFrom(parameters[0].ParameterType) ? (1, 0) : null;
++    }
++
++    private static Func<object, object, object> CreateCreator(MethodInfo method) =>
++        (projection, e) => method.Invoke(method.IsStatic ? null : projection, [e])!;
++
++    private static Func<object, object, object, object?> CreateApplier(MethodInfo method, Type document, int eventIndex, int documentIndex)
++    {
++        var returnsDocument = document.IsAssignableFrom(method.ReturnType);
++        return (projection, e, d) =>
++        {
++            var args = new object[2];
++            args[eventIndex] = e;
++            args[documentIndex] = d;
++            var result = method.Invoke(method.IsStatic ? null : projection, args);
++            return returnsDocument ? result : null;
++        };
++    }
+ }

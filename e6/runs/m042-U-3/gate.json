@@ -1,0 +1,27 @@
+{
+ "mid": "m042",
+ "touched": [
+  "src/Kennel.Hosting/Projections/ProjectionFold.cs"
+ ],
+ "empty_patch": false,
+ "tests_edited": false,
+ "patch_applies": true,
+ "target_cognitive_after": 6,
+ "newly_over_threshold": [],
+ "touched_total_cognitive_before": 39,
+ "touched_total_cognitive_after": 25,
+ "build_ok": true,
+ "build_errors": [],
+ "tests_first": [
+  {
+   "project": "tests/Kennel.Core.Tests/Kennel.Core.Tests.csproj",
+   "exit": 0,
+   "passed": 2,
+   "failed": 0,
+   "total": 2,
+   "failedNames": []
+  }
+ ],
+ "behaviour": "passed",
+ "outcome": "held"
+}

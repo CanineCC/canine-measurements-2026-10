@@ -1,0 +1,33 @@
+repositories with tickets: 6862
+skipped, no RankReason basis (older run): 18
+no-signal: 6369
+changed: 229
+changed: different SET in top 5: 124
+changed: different #1: 47
+changed: rounding-sensitive: 60
+unchanged: 245
+unchanged: rounding-sensitive: 154
+undetermined: 1
+undetermined: rounding-sensitive: 1
+with churn signal: 475
+with signal, top-5 rows carrying a lift (distribution): {0: 206, 1: 249, 2: 19, 3: 1}
+completed range:  .. 2026-10-25T18:18:49.2126184+00:00
+recent (completed >= 2026-09-25): 6398 repos -> {'no-signal': 5931, 'changed': 227, 'unchanged': 239, 'undetermined': 1}; set differs 122, #1 differs 47
+by engine:
+  preprod-fe8540b5da9b: 2426 -> {'no-signal': 2260, 'unchanged': 103, 'changed': 62, 'undetermined': 1}
+  measure-2026.10.3+preprod-fddbc92cb8df: 1843 -> {'no-signal': 1744, 'changed': 64, 'unchanged': 35}
+  measure-2026.10.6+preprod-d36780c2d857: 1039 -> {'no-signal': 925, 'changed': 66, 'unchanged': 48}
+  measure-2026.10.1+preprod-05382052455d: 774 -> {'no-signal': 717, 'unchanged': 33, 'changed': 24}
+  measure-2026.10.3+preprod-797c94dd8c2e: 194 -> {'no-signal': 177, 'changed': 7, 'unchanged': 10}
+  preprod-13a154b7f5d1: 180 -> {'no-signal': 176, 'unchanged': 4}
+  preprod-5d04157a340d: 157 -> {'no-signal': 155, 'unchanged': 1, 'changed': 1}
+  measure-2026.10.31+preprod-85beac5a16f3: 77 -> {'no-signal': 70, 'changed': 4, 'unchanged': 3}
+robust classification of repos with a lifted task in the served 8:
+  any draw: changed (or undetermined): 384
+  any draw: different SET: 187
+  any draw: different #1: 163
+  depends on rounding/fold: 215
+  unchanged in every draw: 91
+  changed in every draw: 169
+    of which a different SET in top 5: 104
+    of which a different #1: 38

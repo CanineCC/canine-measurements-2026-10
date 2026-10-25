@@ -1,0 +1,41 @@
+{
+ "run": "m022-U-1",
+ "k": 3,
+ "verdict": "REJECT",
+ "text": "REJECT: the behaviour is preserved (the `if (!reported.Add) continue;` inversion and the extracted helpers are equivalent), but by my count the method only drops about 13 points (the dictionary `foreach`+`if` and the `while`/`foreach`/`if`/`&&` dependency loop), leaving roughly 16, which is still over the threshold of 15.",
+ "cost_usd": 0.020598599999999998,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 5646,
+  "output_tokens": 2003,
+  "output_tokens_details": {
+   "thinking_tokens": 1878
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 2003,
+    "cache_read_input_tokens": 5646,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

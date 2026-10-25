@@ -1,0 +1,42 @@
+diff --git a/engine/src/Core/Classification/TemplateDetection.cs b/engine/src/Core/Classification/TemplateDetection.cs
+index 0d393ad4..dc3a6835 100644
+--- a/engine/src/Core/Classification/TemplateDetection.cs
++++ b/engine/src/Core/Classification/TemplateDetection.cs
+@@ -87,8 +87,7 @@ public static class TemplateDetection
+             var dir = Path.TrimEndingDirectorySeparator(Path.GetFullPath(projectDir));
+             for (var i = 0; i < 32 && !string.IsNullOrEmpty(dir); i++)
+             {
+-                var atRepoRoot = string.Equals(dir, boundary, StringComparison.Ordinal)
+-                    || Directory.Exists(Path.Combine(dir, ".git"));
++                var atRepoRoot = IsRepoRoot(dir, boundary);
+ 
+                 // A manifest at the REPO ROOT is a repo-level fact, not a per-project one: it makes EVERY project a
+                 // "template project" and so exempts the entire codebase. This method exists for the opposite shape —
+@@ -116,12 +115,12 @@ public static class TemplateDetection
+                 }
+ 
+                 var parent = Path.GetDirectoryName(dir);
+-                if (string.IsNullOrEmpty(parent) || string.Equals(parent, dir, StringComparison.Ordinal))
++                if (!HasDistinctParent(dir, parent))
+                 {
+                     break;
+                 }
+ 
+-                dir = parent;
++                dir = parent!;
+             }
+ 
+             return false;
+@@ -131,6 +130,12 @@ public static class TemplateDetection
+ #pragma warning restore CHA0004
+     }
+ 
++    private static bool IsRepoRoot(string dir, string? boundary) =>
++        string.Equals(dir, boundary, StringComparison.Ordinal) || Directory.Exists(Path.Combine(dir, ".git"));
++
++    private static bool HasDistinctParent(string dir, string? parent) =>
++        !string.IsNullOrEmpty(parent) && !string.Equals(parent, dir, StringComparison.Ordinal);
++
+     private static bool DownwardIsTemplate(string root)
+     {
+         var templateRoots = new List<string>(); // repo-relative dirs that contain a .template.config/template.json

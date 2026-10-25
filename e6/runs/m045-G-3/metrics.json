@@ -1,0 +1,21 @@
+{
+ "subtype": "success",
+ "is_error": false,
+ "num_turns": 3,
+ "result_segments": 1,
+ "duration_ms": 45809,
+ "cost_usd": 0.0629773,
+ "input_tokens": 6,
+ "cache_creation_input_tokens": 6217,
+ "cache_read_input_tokens": 55873,
+ "output_tokens": 3251,
+ "tool_calls": 2,
+ "read_calls": 1,
+ "files_read": 1,
+ "search_calls": 0,
+ "bash_calls": 1,
+ "build_calls": 1,
+ "test_calls": 0,
+ "tool_result_chars": 8047,
+ "total_tokens": 65347
+}

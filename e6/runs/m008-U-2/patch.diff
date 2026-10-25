@@ -1,0 +1,80 @@
+diff --git a/engine/src/Scanner/Accessibility/AC6/FocusOutlineRemoval.cs b/engine/src/Scanner/Accessibility/AC6/FocusOutlineRemoval.cs
+index ef757d96..d019c91a 100644
+--- a/engine/src/Scanner/Accessibility/AC6/FocusOutlineRemoval.cs
++++ b/engine/src/Scanner/Accessibility/AC6/FocusOutlineRemoval.cs
+@@ -365,44 +365,17 @@ internal static partial class FocusOutlineRemoval
+     /// removal with something visible.</summary>
+     private static bool Replaced(SelectorFacts removed, Rule removing, Decl removal, IReadOnlyList<Rule> rules)
+     {
+-        foreach (var rule in rules)
++        foreach (var rule in rules.Where(r => !r.Print))
+         {
+-            if (rule.Print)
+-            {
+-                continue;
+-            }
++            var isRemovingRule = ReferenceEquals(rule, removing);
+ 
+             foreach (var candidate in rule.Selectors.Select(Analyse))
+             {
+-                if (!candidate.Qualifies || !candidate.FocusState)
+-                {
+-                    continue;
+-                }
+-
+-                if (ReferenceEquals(rule, removing))
+-                {
+-                    if (candidate.Raw != removed.Raw)
+-                    {
+-                        continue;
+-                    }
+-                }
+-                else if (candidate.Key != removed.Key && !candidate.Universal)
++                if (candidate.Qualifies && candidate.FocusState
++                    && TargetsRemovedElement(candidate, removed, isRemovingRule)
++                    && rule.Decls.Any(d => ReplacesRemoval(candidate, rule, d, isRemovingRule, removed, removing, removal)))
+                 {
+-                    continue;
+-                }
+-
+-                foreach (var d in rule.Decls)
+-                {
+-                    if (DrawsIndicator(d.Property, d.Value))
+-                    {
+-                        return true;
+-                    }
+-
+-                    if (!ReferenceEquals(rule, removing) && OutlineEffect(d.Property, d.Value) is false
+-                        && Outranks(candidate, rule, d, removed, removing, removal))
+-                    {
+-                        return true;
+-                    }
++                    return true;
+                 }
+             }
+         }
+@@ -410,6 +383,24 @@ internal static partial class FocusOutlineRemoval
+         return false;
+     }
+ 
++    /// <summary>The removing rule's own focus selector must be the removed selector itself; any other rule must style
++    /// the same element key (or every element).</summary>
++    private static bool TargetsRemovedElement(SelectorFacts candidate, SelectorFacts removed, bool isRemovingRule)
++    {
++        return isRemovingRule
++            ? candidate.Raw == removed.Raw
++            : candidate.Key == removed.Key || candidate.Universal;
++    }
++
++    /// <summary>Whether one declaration of a matching focus rule draws an indicator, or overrides the removal.</summary>
++    private static bool ReplacesRemoval(
++        SelectorFacts candidate, Rule rule, Decl d, bool isRemovingRule, SelectorFacts removed, Rule removing, Decl removal)
++    {
++        return DrawsIndicator(d.Property, d.Value)
++               || (!isRemovingRule && OutlineEffect(d.Property, d.Value) is false
++                   && Outranks(candidate, rule, d, removed, removing, removal));
++    }
++
+     private static bool Outranks(SelectorFacts s, Rule rule, Decl d, SelectorFacts removed, Rule removing, Decl removal)
+     {
+         if (d.Important != removal.Important)

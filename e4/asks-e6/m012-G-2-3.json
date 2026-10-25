@@ -1,0 +1,41 @@
+{
+ "run": "m012-G-2",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE. I traced the new `Uses` loop against the old one and the skip handling, bracket depth (clamped at 0), `;`/declaration handling and the foreign-reference test (including the `k == 0` case and the `seen.Add` short-circuit) all behave the same. I estimate its cognitive complexity at about 14. I could not build the project or see the full file, so the build condition rests on the extracted helpers' parameter types (`List<(int From, int To)>`, `Dictionary<string, Foreign>`) matching what the caller already passes.",
+ "cost_usd": 0.014272400000000001,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4884,
+  "output_tokens": 1378,
+  "output_tokens_details": {
+   "thinking_tokens": 1196
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1378,
+    "cache_read_input_tokens": 4884,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

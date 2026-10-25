@@ -1,0 +1,3 @@
+This method is hard to maintain: `SwiftPackageHygiene.ParsePodfileLock` in `engine/src/Core/Languages/Swift/Security/SwiftPackageHygiene.CocoaPods.cs` (line 75).
+
+Improve its maintainability without changing its behaviour. The project that contains the file must still build with `dotnet build` (warnings are treated as errors in this repository). Do not edit tests. Leave the change in the working tree; do not commit.

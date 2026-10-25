@@ -1,0 +1,47 @@
+diff --git a/engine/src/CodeHealth.Core/Frontend/JsScopeBindings.cs b/engine/src/CodeHealth.Core/Frontend/JsScopeBindings.cs
+index b6e1f5a..fa9003c 100644
+--- a/engine/src/CodeHealth.Core/Frontend/JsScopeBindings.cs
++++ b/engine/src/CodeHealth.Core/Frontend/JsScopeBindings.cs
+@@ -611,23 +611,30 @@ public static class JsScopeBindings
+         }
+         else
+         {
+-            // `(x): void => {` — the same return annotation as a method, one arrow over.
+-            for (var k = arrow - 1; k > 0 && arrow - k <= MaxReturnTypeTokens; k--)
++            close = AnnotatedArrowParameterClose(tokens, arrow);
++        }
++
++        return close >= 0 && match.Backward.TryGetValue(close, out var open) ? (open, close) : (-1, -1);
++    }
++
++    /// <summary>`(x): void => {` — the same return annotation as a method, one arrow over. Returns the index of
++    /// the closing paren before the annotation, or -1.</summary>
++    private static int AnnotatedArrowParameterClose(IReadOnlyList<JsToken> tokens, int arrow)
++    {
++        for (var k = arrow - 1; k > 0 && arrow - k <= MaxReturnTypeTokens; k--)
++        {
++            if (tokens[k].IsPunct(";") || tokens[k].IsPunct("{") || tokens[k].IsPunct("}"))
+             {
+-                if (tokens[k].IsPunct(";") || tokens[k].IsPunct("{") || tokens[k].IsPunct("}"))
+-                {
+-                    break;
+-                }
++                return -1;
++            }
+ 
+-                if (tokens[k].IsPunct(":") && tokens[k - 1].IsPunct(")"))
+-                {
+-                    close = k - 1;
+-                    break;
+-                }
++            if (tokens[k].IsPunct(":") && tokens[k - 1].IsPunct(")"))
++            {
++                return k - 1;
+             }
+         }
+ 
+-        return close >= 0 && match.Backward.TryGetValue(close, out var open) ? (open, close) : (-1, -1);
++        return -1;
+     }
+ 
+     private static void BindArrowParameters(

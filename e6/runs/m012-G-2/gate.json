@@ -1,0 +1,27 @@
+{
+ "mid": "m012",
+ "touched": [
+  "engine/src/Scanner/ArchitectureModel/AX7/SliceModuleSites.cs"
+ ],
+ "empty_patch": false,
+ "tests_edited": false,
+ "patch_applies": true,
+ "target_cognitive_after": 14,
+ "newly_over_threshold": [],
+ "touched_total_cognitive_before": 157,
+ "touched_total_cognitive_after": 156,
+ "build_ok": true,
+ "build_errors": [],
+ "tests_first": [
+  {
+   "project": "engine/tests/CodeHealth.Tests.Unit/CodeHealth.Tests.Unit.csproj",
+   "exit": 0,
+   "passed": 4,
+   "failed": 0,
+   "total": 4,
+   "failedNames": []
+  }
+ ],
+ "behaviour": "passed",
+ "outcome": "held"
+}

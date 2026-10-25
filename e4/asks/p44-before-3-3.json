@@ -1,0 +1,41 @@
+{
+ "run": "p44-before-3",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE: the object construction (ternaries, `&&` chains and lambda) moves unchanged into `ToContainer`, which `Parse` still calls inside the same try block, so behaviour is preserved, `Parse` drops well below 15, and the helper uses only members already in scope.",
+ "cost_usd": 0.0044594,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4254,
+  "output_tokens": 403,
+  "output_tokens_details": {
+   "thinking_tokens": 308
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 403,
+    "cache_read_input_tokens": 4254,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

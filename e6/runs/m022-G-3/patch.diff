@@ -1,0 +1,109 @@
+diff --git a/engine/src/Scanner/Readiness/P12/CiTestGateSites.cs b/engine/src/Scanner/Readiness/P12/CiTestGateSites.cs
+index 9e376c55..379ce7ca 100644
+--- a/engine/src/Scanner/Readiness/P12/CiTestGateSites.cs
++++ b/engine/src/Scanner/Readiness/P12/CiTestGateSites.cs
+@@ -484,15 +484,7 @@ internal static partial class CiTestGateSites
+             return;
+         }
+ 
+-        var byName = new Dictionary<string, string>(StringComparer.Ordinal);
+-        foreach (var dir in inv.Packages.Keys.Where(d => d.Length > 0))
+-        {
+-            if (CiTestCommands.ReadPackage(root, dir)?.Name is { } n)
+-            {
+-                byName.TryAdd(n, dir);
+-            }
+-        }
+-
++        var byName = PackageDirsByName(root, inv);
+         var files = RepoFiles(root).Where(f => SourceExtensions.Contains(Path.GetExtension(f))).ToList();
+         var testFiles = inv.Units.Select(u => u.File).ToHashSet(StringComparer.Ordinal);
+         var reported = new HashSet<(string, int)>();
+@@ -503,20 +495,7 @@ internal static partial class CiTestGateSites
+                 continue;
+             }
+ 
+-            var deps = new List<string>();
+-            var queue = new Queue<string>([dir]);
+-            while (queue.Count > 0)
+-            {
+-                foreach (var dep in CiTestCommands.ReadPackage(root, queue.Dequeue())?.Dependencies ?? new HashSet<string>())
+-                {
+-                    if (byName.TryGetValue(dep, out var d) && d != dir && !deps.Contains(d))
+-                    {
+-                        deps.Add(d);
+-                        queue.Enqueue(d);
+-                    }
+-                }
+-            }
+-
++            var deps = WorkspaceDependencies(root, dir, byName);
+             bool Under(string f, string d) => f.StartsWith(d + "/", StringComparison.Ordinal);
+             var inputs = files.Where(f => (Under(f, dir) && inv.PackageOf(f)?.Dir == dir)
+                                           || (deps.Exists(d => Under(f, d) && inv.PackageOf(f)?.Dir == d) && !testFiles.Contains(f)));
+@@ -528,23 +507,55 @@ internal static partial class CiTestGateSites
+             }
+ 
+             var missedDirs = missed.Select(f => deps.FirstOrDefault(d => Under(f, d)) ?? dir).Distinct(StringComparer.Ordinal).ToList();
+-            foreach (var (filter, run) in runs.Select(i => (i.Site.Changes!, i)).DistinctBy(x => (x.Item1.File, x.Item1.Line)))
++            foreach (var (filter, run) in runs.Select(i => (i.Site.Changes!, i)).DistinctBy(x => (x.Item1.File, x.Item1.Line))
++                         .Where(x => reported.Add((x.Item1.File, x.Item1.Line))))
+             {
+-                if (!reported.Add((filter.File, filter.Line)))
++                sites.Add(ChangeFilterSite(filter, run, dir, missedDirs, missed));
++            }
++        }
++    }
++
++    private static Dictionary<string, string> PackageDirsByName(string root, JsInventory.Inventory inv)
++    {
++        var byName = new Dictionary<string, string>(StringComparer.Ordinal);
++        foreach (var dir in inv.Packages.Keys.Where(d => d.Length > 0))
++        {
++            if (CiTestCommands.ReadPackage(root, dir)?.Name is { } n)
++            {
++                byName.TryAdd(n, dir);
++            }
++        }
++
++        return byName;
++    }
++
++    private static List<string> WorkspaceDependencies(string root, string dir, Dictionary<string, string> byName)
++    {
++        var deps = new List<string>();
++        var queue = new Queue<string>([dir]);
++        while (queue.Count > 0)
++        {
++            foreach (var dep in CiTestCommands.ReadPackage(root, queue.Dequeue())?.Dependencies ?? new HashSet<string>())
++            {
++                if (byName.TryGetValue(dep, out var d) && d != dir && !deps.Contains(d))
+                 {
+-                    continue;
++                    deps.Add(d);
++                    queue.Enqueue(d);
+                 }
+-
+-                sites.Add(new Site(filter.File, filter.Line, "Changed-file filter skips the test gate for code the tests depend on",
+-                    $"`{filter.Key}` runs `{Short(run.Site.Template)}` (the tests of `{dir}`) only when a change touches "
+-                    + $"{filter.Patterns}, but those tests also depend on {string.Join(", ", missedDirs.Select(d => $"`{d}`"))} "
+-                    + $"(e.g. {string.Join(", ", missed.Take(2).Select(f => $"`{f}`"))}) — a change there merges with them not run, "
+-                    + "and no unfiltered gate runs them. List the package's tests and its workspace dependencies in the filter, "
+-                    + "or drop it."));
+             }
+         }
++
++        return deps;
+     }
+ 
++    private static Site ChangeFilterSite(CiChangeFilter filter, TestInvocation run, string dir, List<string> missedDirs, List<string> missed) =>
++        new Site(filter.File, filter.Line, "Changed-file filter skips the test gate for code the tests depend on",
++            $"`{filter.Key}` runs `{Short(run.Site.Template)}` (the tests of `{dir}`) only when a change touches "
++            + $"{filter.Patterns}, but those tests also depend on {string.Join(", ", missedDirs.Select(d => $"`{d}`"))} "
++            + $"(e.g. {string.Join(", ", missed.Take(2).Select(f => $"`{f}`"))}) — a change there merges with them not run, "
++            + "and no unfiltered gate runs them. List the package's tests and its workspace dependencies in the filter, "
++            + "or drop it.");
++
+     /// <summary>A declared workspace package with tests its runner collects that no CI command reaches, beside packages
+     /// the gate does test — at its <c>test</c> script (else line 1 of its manifest). Abstains when a CI command runs a
+     /// build tool or test script this reader cannot follow.</summary>

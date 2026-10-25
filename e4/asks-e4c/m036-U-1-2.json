@@ -1,0 +1,41 @@
+{
+ "run": "m036-U-1",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe cases are preserved: `UnusedWriteScopeGrants` now holds only the file loop and one call. Its logic is split across two helpers, each well under 15. The inverted top-level condition is a correct De Morgan rewrite that keeps the same short-circuit order, so `TopLevelPermissionsIndex` runs under the same conditions. Results come out in the same per-file order, and the moved code reuses the same types and identifiers, so it should still build.",
+ "cost_usd": 0.019431800000000003,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 5219,
+  "output_tokens": 919,
+  "output_tokens_details": {
+   "thinking_tokens": 763
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 919,
+    "cache_read_input_tokens": 5219,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

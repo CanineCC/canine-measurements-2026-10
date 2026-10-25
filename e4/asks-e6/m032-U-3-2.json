@@ -1,0 +1,41 @@
+{
+ "run": "m032-U-3",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The helpers keep the original conditions and their order (including the `is ... or ...` precedence), so behaviour is unchanged. Splitting the method into expression-body, block-body and small predicate helpers should bring each piece well under 15, and I see nothing that would break the warnings-as-errors build. I did not build it or compute the complexity score. Two points rest on what I could not see: `IsConstantSpan` is assumed not to mutate its `locals` set, which the new shared `noLocals` relies on, and the elided part of the block loop is assumed to be unchanged.",
+ "cost_usd": 0.0115001,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 5861,
+  "output_tokens": 1091,
+  "output_tokens_details": {
+   "thinking_tokens": 901
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1091,
+    "cache_read_input_tokens": 5861,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

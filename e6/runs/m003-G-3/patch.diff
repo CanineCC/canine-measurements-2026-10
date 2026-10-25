@@ -1,0 +1,94 @@
+diff --git a/engine/src/Core/Frontend/JsUnusedDeclarations.cs b/engine/src/Core/Frontend/JsUnusedDeclarations.cs
+index f844404e..1b576b09 100644
+--- a/engine/src/Core/Frontend/JsUnusedDeclarations.cs
++++ b/engine/src/Core/Frontend/JsUnusedDeclarations.cs
+@@ -197,9 +197,9 @@ public static class JsUnusedDeclarations
+         for (var i = open + 1; i < close; i++)
+         {
+             var token = tokens[i];
+-            if (token.IsPunct("{") || token.IsPunct("(") || token.IsPunct("["))
++            if (IsAnyPunct(token, "{", "(", "["))
+             {
+-                if (depth == 0 && token.IsPunct("(") && i > open + 1 && tokens[i - 1].IsWord("constructor"))
++                if (IsConstructorParameterList(tokens, i, open, depth))
+                 {
+                     var end = Matching(tokens, i);
+                     members.AddRange(ParameterProperties(tokens, i, end));
+@@ -212,14 +212,10 @@ public static class JsUnusedDeclarations
+                 continue;
+             }
+ 
+-            if (token.IsPunct("}") || token.IsPunct(")") || token.IsPunct("]"))
++            if (IsAnyPunct(token, "}", ")", "]"))
+             {
+                 depth--;
+-                if (depth == 0 && token.IsPunct("}"))
+-                {
+-                    decorated = false;
+-                }
+-
++                decorated &= !(depth == 0 && token.IsPunct("}"));
+                 continue;
+             }
+ 
+@@ -228,28 +224,15 @@ public static class JsUnusedDeclarations
+                 continue;
+             }
+ 
+-            if (token.IsPunct(";"))
+-            {
+-                decorated = false;
+-                continue;
+-            }
+-
+-            if (token.IsPunct("@"))
++            if (IsAnyPunct(token, ";", "@"))
+             {
+-                decorated = true;
++                decorated = token.IsPunct("@");
+                 continue;
+             }
+ 
+-            if (token.Kind == JsTokenKind.PrivateIdentifier && !tokens[i - 1].IsMemberAccessor)
++            if (TryDeclaredMember(tokens, i, close, decorated) is { } member)
+             {
+-                members.Add(new Member(token.Text, KindAfterName(tokens, i, close), i, IsEsPrivate: true, decorated));
+-                decorated = false;
+-                continue;
+-            }
+-
+-            if (token.IsWord("private") && TsPrivateMemberName(tokens, i, close) is { } named)
+-            {
+-                members.Add(new Member(tokens[named.Index].Text, named.Kind, named.Index, IsEsPrivate: false, decorated));
++                members.Add(member);
+                 decorated = false;
+             }
+         }
+@@ -257,6 +240,27 @@ public static class JsUnusedDeclarations
+         return members;
+     }
+ 
++    private static bool IsAnyPunct(JsToken token, params string[] puncts) => puncts.Any(token.IsPunct);
++
++    private static bool IsConstructorParameterList(IReadOnlyList<JsToken> tokens, int i, int open, int depth) =>
++        depth == 0 && tokens[i].IsPunct("(") && i > open + 1 && tokens[i - 1].IsWord("constructor");
++
++    private static Member? TryDeclaredMember(IReadOnlyList<JsToken> tokens, int i, int close, bool decorated)
++    {
++        var token = tokens[i];
++        if (token.Kind == JsTokenKind.PrivateIdentifier && !tokens[i - 1].IsMemberAccessor)
++        {
++            return new Member(token.Text, KindAfterName(tokens, i, close), i, IsEsPrivate: true, decorated);
++        }
++
++        if (token.IsWord("private") && TsPrivateMemberName(tokens, i, close) is { } named)
++        {
++            return new Member(tokens[named.Index].Text, named.Kind, named.Index, IsEsPrivate: false, decorated);
++        }
++
++        return null;
++    }
++
+     private static readonly HashSet<string> Modifiers = new(StringComparer.Ordinal)
+     {
+         "static", "readonly", "override", "async", "declare", "accessor", "abstract",

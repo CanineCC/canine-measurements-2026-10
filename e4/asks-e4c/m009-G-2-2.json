@@ -1,0 +1,41 @@
+{
+ "run": "m009-G-2",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe extraction preserves the original logic exactly (the `continue` became an equivalent `close >= 0` guard, and the loop order and `hasCss`/`hasAnimate` gating are unchanged), and `InScript` drops to roughly 2 with each helper well under 15; however, I couldn't find the source on this machine, so the build condition rests on the helper parameter types (`Func<Family, bool>`, `IReadOnlyDictionary<string, bool>`, `IReadOnlySet<string>`) matching what `GuardBindings`, `Known`, `ReadsGuard` and `ScriptGuarded` actually return and accept, which should be confirmed by a CI build before merging.",
+ "cost_usd": 0.0268316,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4718,
+  "output_tokens": 1294,
+  "output_tokens_details": {
+   "thinking_tokens": 791
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1294,
+    "cache_read_input_tokens": 4718,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

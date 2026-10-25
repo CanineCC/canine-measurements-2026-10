@@ -1,0 +1,21 @@
+diff --git a/engine/src/CodeHealth.Core/Api/SwiftLibraryProducts.cs b/engine/src/CodeHealth.Core/Api/SwiftLibraryProducts.cs
+index 1d91f1c..e72b645 100644
+--- a/engine/src/CodeHealth.Core/Api/SwiftLibraryProducts.cs
++++ b/engine/src/CodeHealth.Core/Api/SwiftLibraryProducts.cs
+@@ -340,8 +340,15 @@ public static class SwiftLibraryProducts
+             return null;
+         }
+ 
++        return ReadStringLiterals(call, open + 1, close);
++    }
++
++    /// <summary>The string literals between <paramref name="start"/> and <paramref name="close"/>, or <c>null</c>
++    /// when any element is not a string literal.</summary>
++    private static List<string>? ReadStringLiterals(string call, int start, int close)
++    {
+         var values = new List<string>();
+-        for (var i = open + 1; i < close;)
++        for (var i = start; i < close;)
+         {
+             i = SkipWhitespace(call, i);
+             if (i >= close)

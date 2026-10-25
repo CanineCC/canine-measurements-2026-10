@@ -1,0 +1,41 @@
+{
+ "run": "m008-G-3",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE\n`Replaced` now has trivial complexity, and the extracted helpers reproduce the same print-rule skip, selector matching, and short-circuiting declaration checks in the same order; the project should still build because `System.Linq` is already in use and no new warnings are introduced.",
+ "cost_usd": 0.0263568,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 1900,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 535,
+  "output_tokens_details": {
+   "thinking_tokens": 441
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 1900,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 535,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 1900,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1900
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

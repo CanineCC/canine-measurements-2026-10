@@ -1,0 +1,55 @@
+diff --git a/engine/src/CodeHealth.Core/Discovery/FrontendSourcePresence.cs b/engine/src/CodeHealth.Core/Discovery/FrontendSourcePresence.cs
+index 65e77ab..c83139c 100644
+--- a/engine/src/CodeHealth.Core/Discovery/FrontendSourcePresence.cs
++++ b/engine/src/CodeHealth.Core/Discovery/FrontendSourcePresence.cs
+@@ -90,26 +90,7 @@ public static class FrontendSourcePresence
+         {
+             foreach (var file in Directory.EnumerateFiles(root, "*", SearchOption.AllDirectories))
+             {
+-                var ext = Path.GetExtension(file);
+-                if (!Array.Exists(SourceExtensions, e => e.Equals(ext, StringComparison.OrdinalIgnoreCase)))
+-                {
+-                    continue;
+-                }
+-
+-                var name = Path.GetFileName(file);
+-                if (CodeHealth.Core.Classification.SourceClassifier.IsAmbientTypeScriptDeclaration(name) // .d.ts/.d.cts/.d.mts
+-                    || name.EndsWith(".min.js", StringComparison.OrdinalIgnoreCase)
+-                    || name.EndsWith(".bundle.js", StringComparison.OrdinalIgnoreCase))
+-                {
+-                    continue;
+-                }
+-
+-                if (IsSkipped(file, root))
+-                {
+-                    continue;
+-                }
+-
+-                if (--count == 0)
++                if (IsFirstPartySource(file, root) && --count == 0)
+                 {
+                     return true;
+                 }
+@@ -252,6 +233,22 @@ public static class FrontendSourcePresence
+     /// first-party manifest count, so it never truncates a genuine tree.</summary>
+     private const int EnumerationCeiling = 4096;
+ 
++    private static bool IsFirstPartySource(string file, string root)
++    {
++        var ext = Path.GetExtension(file);
++        if (!Array.Exists(SourceExtensions, e => e.Equals(ext, StringComparison.OrdinalIgnoreCase)))
++        {
++            return false;
++        }
++
++        var name = Path.GetFileName(file);
++        var isGeneratedOrDeclaration =
++            CodeHealth.Core.Classification.SourceClassifier.IsAmbientTypeScriptDeclaration(name) // .d.ts/.d.cts/.d.mts
++            || name.EndsWith(".min.js", StringComparison.OrdinalIgnoreCase)
++            || name.EndsWith(".bundle.js", StringComparison.OrdinalIgnoreCase);
++        return !isGeneratedOrDeclaration && !IsSkipped(file, root);
++    }
++
+     private static bool IsSkipped(string file, string root) => IsSkipped(file, root, SkipDirs);
+ 
+     private static bool IsSkipped(string file, string root, HashSet<string> skipDirs)

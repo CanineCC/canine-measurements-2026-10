@@ -1,0 +1,17 @@
+umbraco/Umbraco-CMS	MIT	5276	main	483696	false
+App-vNext/Polly	BSD-3-Clause	14255	main	62942	false
+serilog/serilog	Apache-2.0	8053	dev	76363	false
+FluentValidation/FluentValidation	Apache-2.0	9767	main	20039	false
+Humanizr/Humanizer	NOASSERTION	9940	main	15989	false
+nodatime/nodatime	Apache-2.0	3008	main	51314	false
+DapperLib/Dapper	NOASSERTION	18405	main	49967	false
+LuckyPennySoftware/AutoMapper	NOASSERTION	10187	main	127467	false
+LuckyPennySoftware/MediatR	NOASSERTION	11864	main	6103	false
+JamesNK/Newtonsoft.Json	MIT	11315	master	27343	false
+HangfireIO/Hangfire	NOASSERTION	10151	main	41685	false
+dotnet/BenchmarkDotNet	MIT	11518	master	71845	false
+npgsql/npgsql	PostgreSQL	3744	main	67719	false
+restsharp/RestSharp	Apache-2.0	9816	dev	41479	false
+ardalis/CleanArchitecture	MIT	18529	main	3736	false
+jasontaylordev/CleanArchitecture	MIT	20663	main	9931	false
+AvaloniaUI/Avalonia	MIT	31709	main	234567	false

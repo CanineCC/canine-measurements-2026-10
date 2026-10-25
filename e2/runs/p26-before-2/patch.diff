@@ -1,0 +1,76 @@
+diff --git a/engine/src/CodeHealth.Core/Frontend/TsConfigStrictness.cs b/engine/src/CodeHealth.Core/Frontend/TsConfigStrictness.cs
+index 9dc0037..b440c33 100644
+--- a/engine/src/CodeHealth.Core/Frontend/TsConfigStrictness.cs
++++ b/engine/src/CodeHealth.Core/Frontend/TsConfigStrictness.cs
+@@ -73,43 +73,41 @@ public static partial class TsConfigStrictness
+                 continue;
+             }
+ 
+-            var stripped = StripJsonComments(text);
+-            var strict = ReadBool(stripped, "strict");
+-            var relaxed = new List<string>();
+-            var enabled = 0;
+-            var known = 0;
+-            foreach (var option in CoreOptions)
++            return Evaluate(StripJsonComments(text), name);
++        }
++
++        return Strictness.Unknown;
++    }
++
++    private static Strictness Evaluate(string stripped, string name)
++    {
++        var strict = ReadBool(stripped, "strict");
++        var relaxed = new List<string>();
++        var enabled = 0;
++        var known = 0;
++        foreach (var option in CoreOptions)
++        {
++            // An option's effective value is its own explicit setting, else `strict`, else the compiler default
++            // (off). "Declared" needs at least one of the four to be present — a config silent on all of them
++            // tells us nothing about checking and must not be read as "everything off".
++            var effective = ReadBool(stripped, option) ?? strict;
++            if (effective is null)
+             {
+-                // An option's effective value is its own explicit setting, else `strict`, else the compiler default
+-                // (off). "Declared" needs at least one of the four to be present — a config silent on all of them
+-                // tells us nothing about checking and must not be read as "everything off".
+-                var own = ReadBool(stripped, option);
+-                var effective = own ?? strict;
+-                if (effective is null)
+-                {
+-                    continue;
+-                }
+-
+-                known++;
+-                if (effective.Value)
+-                {
+-                    enabled++;
+-                }
+-                else
+-                {
+-                    relaxed.Add(option);
+-                }
++                continue;
+             }
+ 
+-            if (known == 0)
++            known++;
++            if (effective.Value)
+             {
+-                return Strictness.Unknown;
++                enabled++;
++            }
++            else
++            {
++                relaxed.Add(option);
+             }
+-
+-            return new Strictness(true, (double)enabled / known, relaxed, name);
+         }
+ 
+-        return Strictness.Unknown;
++        return known == 0 ? Strictness.Unknown : new Strictness(true, (double)enabled / known, relaxed, name);
+     }
+ 
+     private static string? ReadHead(string path)

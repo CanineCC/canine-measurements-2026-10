@@ -1,0 +1,41 @@
+{
+ "run": "m043-U-3",
+ "k": 1,
+ "verdict": "REJECT",
+ "text": "REJECT: `JudgeAsync` is still above the threshold by my count of cognitive complexity, even though behaviour looks preserved. It has 8 top-level `if`s, 8 ternary increments (the `moved` and `settled` ternaries, plus the five in the `reason` string, one of them nested for +2), and 1 for the `&&` chain in the `unmeasured` lambda. That comes to at least 17, over the limit of 15, and the `or` pattern may add one more. I didn't build the project or run the analyzer, so this is a hand count, not a measured score.\n\nThe extracted helpers, including the inverted hermetic-guard condition, look behaviour-equivalent, and I saw no build breakers.",
+ "cost_usd": 0.0834184,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 11165,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 3853,
+  "output_tokens_details": {
+   "thinking_tokens": 3619
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 11165,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 3853,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 11165,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 11165
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

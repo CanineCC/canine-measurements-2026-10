@@ -1,0 +1,41 @@
+{
+ "run": "p24-before-2",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE: the extraction moves the bare-name `if` (nested, with an `&&`) out of the method, which cuts several cognitive-complexity points to well under 15. The condition order and short-circuit behaviour are unchanged, and the helpers look type-correct from the diff. I couldn't verify the parameter types (such as `sourceTextRefs` being a `List<SourceTextRef>`) because the full file isn't in the diff, and I didn't build it.",
+ "cost_usd": 0.0078831,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4091,
+  "output_tokens": 747,
+  "output_tokens_details": {
+   "thinking_tokens": 594
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 747,
+    "cache_read_input_tokens": 4091,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

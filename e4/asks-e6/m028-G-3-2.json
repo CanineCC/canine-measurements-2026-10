@@ -1,0 +1,41 @@
+{
+ "run": "m028-G-3",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE: the extraction preserves the original logic exactly (same name detection, the same `k+1 < t.Count` guard, the same endpoint selection, and the same order of `FunctionBodyAfter`, `NextMiddlewareCovers`, `BodyExempt` and `BodyChecks`), `Next` and each new helper are well under cognitive complexity 15, and I see no compile or warning problems. I read the diff only and did not build it, so this assumes there is no analyzer rule against `out` parameters.",
+ "cost_usd": 0.0119194,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 5554,
+  "output_tokens": 1136,
+  "output_tokens_details": {
+   "thinking_tokens": 965
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1136,
+    "cache_read_input_tokens": 5554,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

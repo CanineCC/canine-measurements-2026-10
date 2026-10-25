@@ -1,0 +1,54 @@
+diff --git a/engine/src/CodeHealth.Core/Frontend/FrontendPathLiteralRefs.cs b/engine/src/CodeHealth.Core/Frontend/FrontendPathLiteralRefs.cs
+index 8f63197..0632cff 100644
+--- a/engine/src/CodeHealth.Core/Frontend/FrontendPathLiteralRefs.cs
++++ b/engine/src/CodeHealth.Core/Frontend/FrontendPathLiteralRefs.cs
+@@ -884,11 +884,7 @@ internal static class FrontendPathLiteralRefs
+             {
+                 // A bare name is only evidence when it is unmistakably a FILE (it carries a source extension) and
+                 // exactly one file under the naming module's own tree answers to it.
+-                if (FrontendWorkspaceLoader.SourceExtensions.Contains(Path.GetExtension(lastSegment))
+-                    && FrontendEmittedTemplateRefs.UniqueSubtreeSource(rootFull, directory, fragment) is { } hit)
+-                {
+-                    sourceTextRefs.Add(new SourceTextRef(namingFile, hit, ExactOnly: true));
+-                }
++                AddBareNameRef(rootFull, namingFile, directory, fragment, lastSegment, sourceTextRefs);
+ 
+                 continue;
+             }
+@@ -919,11 +915,7 @@ internal static class FrontendPathLiteralRefs
+                 //  - it is NOT existsSync-proximity (rejected round 8): the guard is not read at all. A probe guard
+                 //    is equally consistent with a single computed path, which is proximity standing in for binding;
+                 //    the iteration header IS the binding.
+-                if (iterationBoundIdentifiers.Contains(f.Groups["base"].Value)
+-                    && FrontendWorkspaceLoader.SourceExtensions.Contains(Path.GetExtension(lastSegment)))
+-                {
+-                    sourceTextRefs.Add(new SourceTextRef(namingFile, fragment, AllSuffixMatches: true));
+-                }
++                AddIterationBoundRef(namingFile, fragment, lastSegment, iterationBoundIdentifiers.Contains(f.Groups["base"].Value), sourceTextRefs);
+ 
+                 continue; // Otherwise extension-bearing fragments are the quoted-literal arm's, which reads components.
+             }
+@@ -934,4 +926,23 @@ internal static class FrontendPathLiteralRefs
+             }
+         }
+     }
++
++    private static void AddBareNameRef(string rootFull, string namingFile, string directory, string fragment, string lastSegment,
++        List<SourceTextRef> sourceTextRefs)
++    {
++        if (FrontendWorkspaceLoader.SourceExtensions.Contains(Path.GetExtension(lastSegment))
++            && FrontendEmittedTemplateRefs.UniqueSubtreeSource(rootFull, directory, fragment) is { } hit)
++        {
++            sourceTextRefs.Add(new SourceTextRef(namingFile, hit, ExactOnly: true));
++        }
++    }
++
++    private static void AddIterationBoundRef(string namingFile, string fragment, string lastSegment, bool baseIsIterationBound,
++        List<SourceTextRef> sourceTextRefs)
++    {
++        if (baseIsIterationBound && FrontendWorkspaceLoader.SourceExtensions.Contains(Path.GetExtension(lastSegment)))
++        {
++            sourceTextRefs.Add(new SourceTextRef(namingFile, fragment, AllSuffixMatches: true));
++        }
++    }
+ }

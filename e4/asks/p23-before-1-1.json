@@ -1,0 +1,41 @@
+{
+ "run": "p23-before-1",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The patch moves the inner loop body into a static helper, `AddGoEmbedRef`, with each `continue` becoming an equivalent `return`. That removes the nested ifs, the `||` conditions and the ternaries from `CollectGoEmbedRefs`, which should bring its complexity well under 15. Behaviour is unchanged, and the helper takes only the values the original body used, so it should build cleanly. I could not confirm the declared type of `hostEmbeds`, so I'm assuming it is `List<HostEmbedRef>`, as the helper's signature expects.",
+ "cost_usd": 0.014334399999999999,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 2064,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 585,
+  "output_tokens_details": {
+   "thinking_tokens": 389
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2064,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 585,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 2064,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2064
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

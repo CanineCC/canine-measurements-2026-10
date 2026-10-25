@@ -1,0 +1,228 @@
+diff --git a/engine/sidecars/java-spoon/NDJSON-SCHEMA.md b/engine/sidecars/java-spoon/NDJSON-SCHEMA.md
+index 179606c6c4..66101c6104 100644
+--- a/engine/sidecars/java-spoon/NDJSON-SCHEMA.md
++++ b/engine/sidecars/java-spoon/NDJSON-SCHEMA.md
+@@ -39,7 +39,8 @@ coordinates + annotation FQNs, never by resolving their bytecode).
+ 
+ ## `sourceCensus` — what the frontend actually READ (optional, additive)
+ 
+-Emitted **at most once**, immediately after `header`. Every OTHER record in this schema is a *declaration*
++Emitted **at most once**, immediately after `header` (java-spoon: as the **last** record, because its `files`
++is what the emit delivered, which is only known once the emit has run; the provider reads it in any position). Every OTHER record in this schema is a *declaration*
+ census, and each is legitimately empty for source that declares nothing — which downstream is
+ indistinguishable from source that was never opened. This record is the only one that answers
+ "did this frontend read the tree at all?".
+@@ -48,7 +49,7 @@ indistinguishable from source that was never opened. This record is the only one
+ |---|---|---|---|
+ | `record` | `"sourceCensus"` | — | discriminator |
+ | `files` | int | `ICodeModel.SourceFilesRead` | **The load-bearing number: source files OPENED AND PARSED**, product and test together. Deliberately NOT the discovered count — a walk that finds 400 files and parses none of them has read nothing, and reporting the discovery would let exactly that pass as measured. |
+-| `discovered` | int? | — | Files the walk FOUND, before any parse was attempted. Optional: an arm handed source *roots* rather than a file list (java-spoon) does not measure it and omits it rather than inventing a number. `discovered > 0` with `files == 0` is the sharpest possible statement of an analyzer gap. |
++| `discovered` | int? | `ICodeModel.SourceFilesDiscovered` | Files the walk FOUND, before any parse was attempted. Optional: an arm that does not measure it omits it rather than inventing a number. java-spoon walks the roots it hands Spoon (production and test, `package-info`/`module-info` excluded) and counts as `files` only those that reached the snapshot as a type or a token-only unit (backlog `01a1715a-4a1c`). `discovered > files` is a partial shortfall the engine names; `discovered > 0` with `files == 0` is the sharpest possible statement of an analyzer gap. |
+ 
+ **Absent ⇒ `SourceFilesRead` is `null`, and `null` is NOT `0`.** An arm that does not emit the record is
+ *silent*, not clean. The 13-arm rollout is staged and an image can always hold a sidecar binary that predates
+diff --git a/engine/sidecars/java-spoon/src/main/java/dev/canine/codehealth/java/Emitter.java b/engine/sidecars/java-spoon/src/main/java/dev/canine/codehealth/java/Emitter.java
+index abc48915b1..e8f252ffa0 100644
+--- a/engine/sidecars/java-spoon/src/main/java/dev/canine/codehealth/java/Emitter.java
++++ b/engine/sidecars/java-spoon/src/main/java/dev/canine/codehealth/java/Emitter.java
+@@ -77,19 +77,21 @@ final class Emitter {
+     }
+ 
+     /**
+-     * ★ The source census (backlog 01a0a50d-afb3): how many COMPILATION UNITS this build actually read. Every
+-     * other record in this snapshot is a DECLARATION census, legitimately empty for source that declares nothing —
+-     * which downstream is indistinguishable from source that was never opened.
++     * ★ The source census (backlog 01a0a50d-afb3): {@code files} is the number of SOURCE FILES that reached this
++     * snapshot, {@code discovered} the number of {@code .java} files the walk found under the roots handed to Spoon.
++     * Every other record here is a DECLARATION census, legitimately empty for source that declares nothing, which
++     * downstream is indistinguishable from source that was never opened.
+      *
+-     * <p>{@code discovered} is deliberately NOT emitted by this arm: Spoon is handed source ROOTS rather than a file
+-     * list, so the sidecar never counts the {@code .java} on disk and would have to invent the number. The field is
+-     * optional precisely so an arm that has not measured it can stay silent instead of reporting a figure it does
+-     * not hold.</p>
++     * <p>Written ONCE, as the LAST record, because {@code files} is what the emit actually delivered: a type that
++     * failed to emit leaves its file unread, and the engine names the shortfall (backlog 01a1715a-4a1c). Before that,
++     * the record was written ahead of the emit, {@code files} counted type units rather than files, and a type
++     * dropped at emit time still counted as read, which is how 13 non-UTF-8 files vanished without a warning.</p>
+      */
+-    void sourceCensus(int files) {
++    void sourceCensus(int files, int discovered) {
+         out.println(new Jw.Obj()
+                 .s("record", "sourceCensus")
+                 .n("files", files)
++                .n("discovered", discovered)
+                 .end());
+     }
+ 
+diff --git a/engine/sidecars/java-spoon/src/main/java/dev/canine/codehealth/java/EmitterNames.java b/engine/sidecars/java-spoon/src/main/java/dev/canine/codehealth/java/EmitterNames.java
+index 37e060120d..4f9377f696 100644
+--- a/engine/sidecars/java-spoon/src/main/java/dev/canine/codehealth/java/EmitterNames.java
++++ b/engine/sidecars/java-spoon/src/main/java/dev/canine/codehealth/java/EmitterNames.java
+@@ -176,7 +176,7 @@ final class EmitterNames {
+             return element.toString();
+         }
+ 
+-        String source = position.getCompilationUnit().getOriginalSourceCode();
++        String source = SourceText.original(position.getCompilationUnit());
+         int start = position.getSourceStart();
+         int end = position.getSourceEnd();
+         if (source == null || start < 0 || end < start || end >= source.length()) {
+diff --git a/engine/sidecars/java-spoon/src/main/java/dev/canine/codehealth/java/Fallback.java b/engine/sidecars/java-spoon/src/main/java/dev/canine/codehealth/java/Fallback.java
+index 81b9cd2409..6d3ca44f8e 100644
+--- a/engine/sidecars/java-spoon/src/main/java/dev/canine/codehealth/java/Fallback.java
++++ b/engine/sidecars/java-spoon/src/main/java/dev/canine/codehealth/java/Fallback.java
+@@ -254,7 +254,7 @@ final class Fallback {
+             return null;
+         }
+ 
+-        String src = pos.getCompilationUnit().getOriginalSourceCode();
++        String src = SourceText.original(pos.getCompilationUnit());
+         int start = pos.getSourceStart();
+         if (src == null || start <= 0 || start > src.length()) {
+             return null;
+diff --git a/engine/sidecars/java-spoon/src/main/java/dev/canine/codehealth/java/Main.java b/engine/sidecars/java-spoon/src/main/java/dev/canine/codehealth/java/Main.java
+index d95438e034..666caa8dbf 100644
+--- a/engine/sidecars/java-spoon/src/main/java/dev/canine/codehealth/java/Main.java
++++ b/engine/sidecars/java-spoon/src/main/java/dev/canine/codehealth/java/Main.java
+@@ -92,9 +92,9 @@ public final class Main {
+ 
+         Emitter emitter = new Emitter(out, inRepoFqns);
+         emitter.header(srcDir.toString(), spoonVersion());
+-        // ★ What this build actually READ, on the wire — the compilation units gathered from the production and
+-        // test models. See Emitter#sourceCensus (backlog 01a0a50d-afb3).
+-        emitter.sourceCensus(seenUnits.size() + testUnits.size());
++        // ★ The source census is written LAST, once the emit has happened (see the closing block below).
++        Set<String> discoveredFiles = discoverJavaFiles(roots, testRoots);
++        Set<String> representedFiles = new LinkedHashSet<>();
+ 
+         List<ModuleInfo> modules = discoverModules(srcDir);
+         for (ModuleInfo m : modules) {
+@@ -106,15 +106,35 @@ public final class Main {
+         List<ModuleInfo> byDepth = new ArrayList<>(modules);
+         byDepth.sort((a, b) -> Integer.compare(b.path().length(), a.path().length()));
+ 
+-        int emitted = emitEach(emitter, types, byDepth, defaultModule, false);
+-        int testEmitted = emitEach(emitter, testTypes, byDepth, defaultModule, true);
++        int emitted = emitEach(emitter, types, byDepth, defaultModule, false, representedFiles);
++        int testEmitted = emitEach(emitter, testTypes, byDepth, defaultModule, true, representedFiles);
+ 
+         emitter.flushBodies();
+-        int fragments = emitUnparsedFragments(emitter, roots, seenUnits, byDepth, defaultModule);
++        int fragments = emitUnparsedFragments(emitter, roots, seenUnits, byDepth, defaultModule, representedFiles);
+         if (fragments > 0) {
+             System.err.println("codehealth-java-sidecar: " + fragments + " file(s) with no parsed type emitted as token-only units.");
+         }
+ 
++        // ★ THE SOURCE CENSUS, written after the emit and not before it: files the walk found against files that actually reached this snapshot, as a type or
++        // a token-only unit. A file that was found and is in neither is UNREAD, and it is said here, so the engine's
++        // partial-shortfall warning names it instead of the file vanishing from the model (backlog 01a1715a-4a1c:
++        // 13 non-UTF-8 files dropped from five projects while the census still counted them as read).
++        int read = 0;
++        List<String> unread = new ArrayList<>();
++        for (String f : discoveredFiles) {
++            if (representedFiles.contains(f)) {
++                read++;
++            } else {
++                unread.add(f);
++            }
++        }
++        emitter.sourceCensus(read, discoveredFiles.size());
++        if (!unread.isEmpty()) {
++            System.err.println("codehealth-java-sidecar: " + unread.size() + " of " + discoveredFiles.size()
++                    + " discovered .java file(s) did not reach the model:");
++            unread.stream().limit(50).forEach(f -> System.err.println("  unread: " + f));
++        }
++
+         out.flush();
+         if (!"-".equals(outPath)) {
+             out.close();
+@@ -207,12 +227,14 @@ public final class Main {
+      * whole model (a partial Java survey beats a degraded no-model run).
+      */
+     private static int emitEach(Emitter emitter, List<CtType<?>> types, List<ModuleInfo> byDepth,
+-            String defaultModule, boolean isTestCode) {
++            String defaultModule, boolean isTestCode, Set<String> representedFiles) {
+         int emitted = 0;
+         for (CtType<?> t : types) {
+             try {
+                 emitter.type(t, moduleFor(t, byDepth, defaultModule), isTestCode);
+                 emitted++;
++                String key = unitKey(t);
++                representedFiles.add(key.substring(0, Math.max(0, key.indexOf('\0'))));
+             } catch (Throwable perType) {
+                 System.err.println("  " + (isTestCode ? "test " : "") + "type emit failed, skipping: "
+                         + (t.getQualifiedName() == null ? "<unnamed>" : t.getQualifiedName())
+@@ -232,6 +254,9 @@ public final class Main {
+         launcher.getEnvironment().setComplianceLevel(21);
+         launcher.getEnvironment().setCommentEnabled(false);
+         launcher.getEnvironment().setIgnoreDuplicateDeclarations(true);
++        // Each file decoded as javac would (BOM, else UTF-8, else ISO-8859-1), by the rule every later read of the
++        // same file uses, so a non-UTF-8 source is parsed AND emitted (backlog 01a1715a-4a1c).
++        launcher.getEnvironment().setEncodingProvider(SourceText.PROVIDER);
+         return launcher.buildModel();
+     }
+ 
+@@ -316,6 +341,29 @@ public final class Main {
+         }
+     }
+ 
++    /**
++     * Every {@code .java} file under the roots handed to Spoon (production and test), normalised as {@link #unitKey}
++     * normalises a type's file: the census's {@code discovered}. {@code package-info}/{@code module-info} declare no
++     * type and are never emitted, so they are not counted as source that could go unread.
++     */
++    static Set<String> discoverJavaFiles(List<Path> roots, List<Path> testRoots) {
++        Set<String> found = new java.util.TreeSet<>();
++        for (List<Path> group : List.of(roots, testRoots)) {
++            for (Path root : group) {
++                try (Stream<Path> walk = Files.walk(root)) {
++                    walk.filter(p -> p.getFileName().toString().endsWith(".java"))
++                            .filter(Files::isRegularFile)
++                            .filter(p -> !p.getFileName().toString().equals("package-info.java")
++                                    && !p.getFileName().toString().equals("module-info.java"))
++                            .forEach(p -> found.add(p.toAbsolutePath().normalize().toString()));
++                } catch (IOException | java.io.UncheckedIOException e) {
++                    System.err.println("  census walk warning: " + root + " (" + e.getMessage() + ")");
++                }
++            }
++        }
++        return found;
++    }
++
+     /** {@code <package>.<filename>} for a Java source file, or null if it declares no package-qualified top-level name. */
+     private static String declaredFqn(Path file) {
+         String name = file.getFileName().toString();
+@@ -324,7 +372,7 @@ public final class Main {
+             return null;
+         }
+         try {
+-            for (String line : Files.readAllLines(file, StandardCharsets.UTF_8)) {
++            for (String line : SourceText.read(file).split("\\R")) {
+                 Matcher m = PACKAGE_DECL.matcher(line);
+                 if (m.find()) {
+                     return m.group(1) + "." + simple;
+@@ -398,6 +446,11 @@ public final class Main {
+      */
+     static int emitUnparsedFragments(Emitter emitter, List<Path> roots, Set<String> seenUnits,
+                                      List<ModuleInfo> byDepth, String defaultModule) {
++        return emitUnparsedFragments(emitter, roots, seenUnits, byDepth, defaultModule, new HashSet<>());
++    }
++
++    static int emitUnparsedFragments(Emitter emitter, List<Path> roots, Set<String> seenUnits,
++                                     List<ModuleInfo> byDepth, String defaultModule, Set<String> representedFiles) {
+         Set<String> covered = new HashSet<>();
+         for (String key : seenUnits) {
+             covered.add(key.substring(0, Math.max(0, key.indexOf('\0'))));
+@@ -422,8 +475,10 @@ public final class Main {
+                     continue;
+                 }
+                 try {
+-                    String text = Files.readString(f, StandardCharsets.UTF_8);
++                    String text = SourceText.read(f);
+                     List<Tokenizer.Token> tokens = Tokenizer.tokenize(text, Set.of());
++                    // Read is read: a file of comments alone holds nothing to measure, and is not unread source.
++                    representedFiles.add(abs);
+                     if (!tokens.isEmpty()) {
+                         emitter.decl(moduleForFile(abs, byDepth, defaultModule), abs, tokens);
+                         emitted++;

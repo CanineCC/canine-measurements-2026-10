@@ -1,0 +1,41 @@
+{
+ "run": "m009-U-2",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE: The loop bodies moved verbatim into three helpers called in the original order (templates, then style objects, then animate calls), and the remaining `InScript` complexity is roughly 5, well under 15. I could only see the diff, so I could not confirm that the helper parameter types (`IReadOnlySet<string>` for `guards`, `IReadOnlyDictionary<string,bool>` for `keyframes`) match the existing declarations. I judged a build break unlikely.",
+ "cost_usd": 0.011034500000000001,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4705,
+  "output_tokens": 1056,
+  "output_tokens_details": {
+   "thinking_tokens": 897
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1056,
+    "cache_read_input_tokens": 4705,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

@@ -1,0 +1,41 @@
+{
+ "run": "m009-U-1",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The extraction keeps the same order (templates, then style objects, then animate calls), the same filters and the same Site values, and `InScript` is left with only a few shallow `if`s, so it should be well under 15. I couldn't see the declared types of `guards`, `keyframes` and `projectReset` in the visible hunk, so the build depends on them matching the new parameter types (`IReadOnlySet<string>`, `IReadOnlyDictionary<string, bool>`, `Func<Family, bool>`).",
+ "cost_usd": 0.0088689,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4849,
+  "output_tokens": 838,
+  "output_tokens_details": {
+   "thinking_tokens": 666
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 838,
+    "cache_read_input_tokens": 4849,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

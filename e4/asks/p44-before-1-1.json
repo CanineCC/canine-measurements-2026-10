@@ -1,0 +1,41 @@
+{
+ "run": "p44-before-1",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The body is moved verbatim into a private static `ToContainer` helper, which removes the ternaries, boolean chains and lambda from `Parse` (enough to drop it below 15). The call still sits inside the same try/catch and after the same `continue` guard, so behaviour is unchanged, and the helper only uses members already in the class, so the build should be unaffected.",
+ "cost_usd": 0.0129384,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 2010,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 467,
+  "output_tokens_details": {
+   "thinking_tokens": 343
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2010,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 467,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 2010,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2010
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

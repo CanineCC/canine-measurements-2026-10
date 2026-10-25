@@ -1,0 +1,41 @@
+{
+ "run": "m028-U-3",
+ "k": 2,
+ "verdict": "REJECT",
+ "text": "REJECT\n\nThe new `isActions = kind == NextKind.Actions` is now false for `app/**/route` and `pages/api/**` files that begin with `\"use server\"`, whereas the original computed it independently, so any later use of `isActions` in `Next` behaves differently for those files.",
+ "cost_usd": 0.015017399999999998,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 5147,
+  "output_tokens": 699,
+  "output_tokens_details": {
+   "thinking_tokens": 606
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 699,
+    "cache_read_input_tokens": 5147,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

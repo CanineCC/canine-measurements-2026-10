@@ -1,0 +1,41 @@
+{
+ "run": "m032-U-3",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE\n`AnswersOnlyConstants` is now a simple dispatch, the extracted helpers keep the same conditions in the same order (the added `k > 0` always holds because the expression loop starts at `body.Start + 1`, and sharing one `noLocals` set is safe if `IsConstantSpan` only reads it), and every new parameter and local is used, so it should build with warnings as errors.",
+ "cost_usd": 0.0238794,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 5857,
+  "output_tokens": 1135,
+  "output_tokens_details": {
+   "thinking_tokens": 1001
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1135,
+    "cache_read_input_tokens": 5857,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

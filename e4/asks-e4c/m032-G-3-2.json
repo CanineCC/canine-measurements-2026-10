@@ -1,0 +1,41 @@
+{
+ "run": "m032-G-3",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe original method is now about 4 in cognitive complexity, the extracted helpers keep the same checks in the same order with the same short-circuit and `locals` side effects (the added `k > 0` is always true since `k \u2265 body.Start + 1`), and every helper uses its parameters with the existing `Lexed`/`Span`/`IsConstantSpan` types, so it should build cleanly with warnings as errors.",
+ "cost_usd": 0.022655,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 5935,
+  "output_tokens": 1073,
+  "output_tokens_details": {
+   "thinking_tokens": 932
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1073,
+    "cache_read_input_tokens": 5935,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

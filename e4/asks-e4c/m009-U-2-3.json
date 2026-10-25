@@ -1,0 +1,41 @@
+{
+ "run": "m009-U-2",
+ "k": 3,
+ "verdict": "UNPARSEABLE",
+ "text": "<invoke name=\"Bash\">\n<parameter name=\"command\">cd /tmp; f=$(find / -path '*engine/src/Scanner/Accessibility/AC6/ReducedMotion.cs' 2>/dev/null | head -1); echo \"$f\"; [ -n \"$f\" ] && sed -n 340,420p \"$f\" && grep -n \"GuardBindings\\|ReadsGuard(\\|ScriptGuarded(\\|Known(\\|InStyleSheet(\\|ReducedMotion\" \"$f\" | head -40</parameter>\n</invoke>\n**Bash**: `(no output)`",
+ "cost_usd": 0.0081282,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4701,
+  "output_tokens": 359,
+  "output_tokens_details": {
+   "thinking_tokens": 140
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 359,
+    "cache_read_input_tokens": 4701,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

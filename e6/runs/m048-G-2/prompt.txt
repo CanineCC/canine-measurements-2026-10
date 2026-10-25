@@ -1,0 +1,8 @@
+A code analysis of this repository reported this finding in `src/Kennel.Improve.Orchestrator/Turns/TurnRunner.cs` (line 196):
+
+  TurnRunner.RunTurnAsync (cognitive 73)
+  TurnRunner.RunTurnAsync has cognitive complexity 73 (threshold 15). To reduce it, flatten the nesting: invert conditions into early returns or guard clauses so the happy path stays at one level, and lift the deepest nested block into its own named function.
+
+To re-measure after a change, run `measure src/Kennel.Improve.Orchestrator/Turns/TurnRunner.cs` from the repository root: it prints the analysis's cognitive complexity for every method in that file.
+
+Refactor the method so that its cognitive complexity is 15 or lower, without changing its behaviour. The project that contains the file must still build with `dotnet build` (warnings are treated as errors in this repository). Do not edit tests. Leave the change in the working tree; do not commit.

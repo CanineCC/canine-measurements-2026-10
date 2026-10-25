@@ -1,0 +1,41 @@
+{
+ "run": "p08-before-3",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE. `ResolveRoot` and `IsFirstPartySource` preserve the original guard conditions and the check order (extension, then name, then `IsSkipped`), and extracting the nested ifs removes far more than the 2 points needed from the complexity score. I couldn't build it or see the rest of the file, so the nullability handling and the cognitive-complexity score are both unconfirmed.",
+ "cost_usd": 0.007395,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4310,
+  "output_tokens": 696,
+  "output_tokens_details": {
+   "thinking_tokens": 564
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 696,
+    "cache_read_input_tokens": 4310,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

@@ -1,0 +1,41 @@
+{
+ "run": "p20-before-3",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The ternary plus the extracted `AnnotatedArrowParameterClose` helper keeps behaviour identical, including the `arrow == 0` case and the scan limit. Both methods fall well under the threshold (roughly 4 for the original method and 7 for the helper), and nothing in the diff should trip warnings-as-errors.\n\nI only read the diff and did not build or run tests.",
+ "cost_usd": 0.0073032999999999995,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 3993,
+  "output_tokens": 690,
+  "output_tokens_details": {
+   "thinking_tokens": 558
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 690,
+    "cache_read_input_tokens": 3993,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

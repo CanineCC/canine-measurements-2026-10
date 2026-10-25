@@ -1,0 +1,41 @@
+{
+ "run": "m008-U-3",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The extracted `TargetsRemovedElement` is the exact De Morgan inverse of the original skip conditions, `ReplacesIndicator` and `Decls.Any` preserve the original declaration order, short-circuiting and results, and `Replaced` drops well below 15 (about 7\u20138) with no new build-breaking warnings apparent.",
+ "cost_usd": 0.0077118,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4378,
+  "output_tokens": 727,
+  "output_tokens_details": {
+   "thinking_tokens": 607
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 727,
+    "cache_read_input_tokens": 4378,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

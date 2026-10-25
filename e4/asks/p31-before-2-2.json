@@ -1,0 +1,41 @@
+{
+ "run": "p31-before-2",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE: `GatherLcov` now only loops and calls two helpers, so its complexity drops well below 15, and the extracted code is behaviour-identical (same merge order, same partial `found`/`hit` accumulation via `ref` before an `IOException` is swallowed). The `CHA0004` pragma still wraps the same catch clause, and no new warnings are apparent.",
+ "cost_usd": 0.0073192,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4452,
+  "output_tokens": 687,
+  "output_tokens_details": {
+   "thinking_tokens": 561
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 687,
+    "cache_read_input_tokens": 4452,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

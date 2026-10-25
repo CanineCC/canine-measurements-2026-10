@@ -1,0 +1,41 @@
+{
+ "run": "m009-U-2",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The split preserves the original order and conditions (templates, then style objects under `hasCss`, then animate calls under `hasAnimate`), and the extracted helpers leave only two simple `if`s in `InScript`, well under 15. I could not build it or check the parameter types (such as `IReadOnlySet<string>` for `guards`) against the real signatures, so the build is unverified.",
+ "cost_usd": 0.0173524,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 2461,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 728,
+  "output_tokens_details": {
+   "thinking_tokens": 598
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2461,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 728,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 2461,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2461
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

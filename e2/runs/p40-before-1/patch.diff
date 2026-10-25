@@ -1,0 +1,29 @@
+diff --git a/engine/src/CodeHealth.Core/ModelAware/TemplateDetection.cs b/engine/src/CodeHealth.Core/ModelAware/TemplateDetection.cs
+index e5acbaf..463f419 100644
+--- a/engine/src/CodeHealth.Core/ModelAware/TemplateDetection.cs
++++ b/engine/src/CodeHealth.Core/ModelAware/TemplateDetection.cs
+@@ -109,8 +109,8 @@ public static class TemplateDetection
+                     break; // reached the repo root — don't probe above it
+                 }
+ 
+-                var parent = Path.GetDirectoryName(dir);
+-                if (string.IsNullOrEmpty(parent) || string.Equals(parent, dir, StringComparison.Ordinal))
++                var parent = ParentOrNull(dir);
++                if (parent is null)
+                 {
+                     break;
+                 }
+@@ -125,6 +125,13 @@ public static class TemplateDetection
+ #pragma warning restore CHA0004
+     }
+ 
++    // The parent directory, or null when there is none (filesystem root) or it doesn't differ from <paramref name="dir"/>.
++    private static string? ParentOrNull(string dir)
++    {
++        var parent = Path.GetDirectoryName(dir);
++        return string.IsNullOrEmpty(parent) || string.Equals(parent, dir, StringComparison.Ordinal) ? null : parent;
++    }
++
+     private static bool DownwardIsTemplate(string root)
+     {
+         var templateRoots = new List<string>(); // repo-relative dirs that contain a .template.config/template.json

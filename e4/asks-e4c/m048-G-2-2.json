@@ -1,0 +1,41 @@
+{
+ "run": "m048-G-2",
+ "k": 2,
+ "verdict": "REJECT",
+ "text": "REJECT\nThe remaining `RunTurnAsync` most likely still scores above 15: the visible conditionals alone add up to about 14 (`dryRun ?` for the backlog, the `result.Broken` `if`, the `shipUnjudged` ternary and `if`, the two `wouldLand` ternaries, `if (!dryRun)`, and the final summary `Say` with five ternaries, one of them nested), the unchanged base-arm ternary makes 15, and the four-line `finally` body very likely holds one more control structure.",
+ "cost_usd": 0.10822079999999999,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 17564,
+  "output_tokens": 5235,
+  "output_tokens_details": {
+   "thinking_tokens": 5058
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 5235,
+    "cache_read_input_tokens": 17564,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

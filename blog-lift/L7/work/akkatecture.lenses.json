@@ -1,0 +1,47 @@
+{
+  "rubricVersion": "rubric-2026.10.5",
+  "commit": "3b948b48a78db9b10565acae946690158571dd26",
+  "headlineScore": 57.8,
+  "lenses": [
+    {
+      "lens": "codeHealth",
+      "score": 54.5,
+      "owaWeight": 0
+    },
+    {
+      "lens": "architecture",
+      "score": 97.1,
+      "owaWeight": 0
+    },
+    {
+      "lens": "maturity",
+      "score": 51.5,
+      "owaWeight": 0
+    },
+    {
+      "lens": "productionReadiness",
+      "score": 70.7,
+      "owaWeight": 0
+    },
+    {
+      "lens": "securityCompliance",
+      "score": 67.1,
+      "owaWeight": 0
+    },
+    {
+      "lens": "domainModelling",
+      "score": 97.9,
+      "owaWeight": 0
+    },
+    {
+      "lens": "eventDriven",
+      "score": 83.2,
+      "owaWeight": 0
+    },
+    {
+      "lens": "performance",
+      "score": 66.1,
+      "owaWeight": 0
+    }
+  ]
+}

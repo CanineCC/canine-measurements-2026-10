@@ -1,0 +1,41 @@
+{
+ "run": "m036-U-3",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE: The extraction preserves the original control flow and result ordering (per-job grants first, then top-level grants), the new private helpers and record are accessibility-consistent so the build should hold, and each resulting method scores well below 15 on cognitive complexity.",
+ "cost_usd": 0.012248900000000002,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 5249,
+  "output_tokens": 1172,
+  "output_tokens_details": {
+   "thinking_tokens": 1086
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1172,
+    "cache_read_input_tokens": 5249,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

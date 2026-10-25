@@ -1,0 +1,237 @@
+diff --git a/engine/src/Scanner/Security/D29/Scanners/CleartextTransmissionScan.cs b/engine/src/Scanner/Security/D29/Scanners/CleartextTransmissionScan.cs
+index 6597e2d2..19716157 100644
+--- a/engine/src/Scanner/Security/D29/Scanners/CleartextTransmissionScan.cs
++++ b/engine/src/Scanner/Security/D29/Scanners/CleartextTransmissionScan.cs
+@@ -833,33 +833,10 @@ internal static partial class CleartextTransmissionScan
+         var code = text.ToCharArray();
+         var literals = new List<Literal>();
+         var cs = kind == Kind.CSharp;
+-        var js = kind is Kind.Script or Kind.Jsx;
++        var backtickQuotes = kind is Kind.Script or Kind.Jsx;
+         var i = 0;
+         var n = text.Length;
+ 
+-        void BlankBoth(int from, int to)
+-        {
+-            for (var k = from; k < to; k++)
+-            {
+-                if (text[k] != '\n')
+-                {
+-                    comment[k] = ' ';
+-                    code[k] = ' ';
+-                }
+-            }
+-        }
+-
+-        void BlankCode(int from, int to)
+-        {
+-            for (var k = from; k < to; k++)
+-            {
+-                if (text[k] != '\n')
+-                {
+-                    code[k] = ' ';
+-                }
+-            }
+-        }
+-
+         while (i < n)
+         {
+             var c = text[i];
+@@ -868,98 +845,130 @@ internal static partial class CleartextTransmissionScan
+             {
+                 var end = text.IndexOf('\n', i);
+                 end = end < 0 ? n : end;
+-                BlankBoth(i, end);
++                Blank(text, i, end, comment, code);
+                 i = end;
+-                continue;
+             }
+-
+-            if (c == '/' && next == '*')
++            else if (c == '/' && next == '*')
+             {
+                 var end = text.IndexOf("*/", i + 2, StringComparison.Ordinal);
+                 end = end < 0 ? n : end + 2;
+-                BlankBoth(i, end);
++                Blank(text, i, end, comment, code);
+                 i = end;
+-                continue;
+             }
++            else if (c is '"' or '\'' || (backtickQuotes && c == '`'))
++            {
++                i = LexString(text, i, cs, literals, code);
++            }
++            else
++            {
++                i++;
++            }
++        }
++
++        return new Lexed(literals, new string(comment), new string(code));
++    }
+ 
+-            if (c is '"' or '\'' || (js && c == '`'))
++    /// <summary>Blanks <c>[from, to)</c> in the code mask, and in the comment mask too when one is given. Newlines stay.</summary>
++    private static void Blank(string text, int from, int to, char[]? comment, char[] code)
++    {
++        for (var k = from; k < to; k++)
++        {
++            if (text[k] != '\n')
+             {
+-                var prefixStart = i;
+-                var verbatim = false;
+-                if (cs)
++                if (comment is not null)
+                 {
+-                    while (prefixStart > 0 && text[prefixStart - 1] is '$' or '@')
+-                    {
+-                        verbatim |= text[prefixStart - 1] == '@';
+-                        prefixStart--;
+-                    }
++                    comment[k] = ' ';
+                 }
+ 
+-                if (cs && c == '"' && i + 2 < n && text[i + 1] == '"' && text[i + 2] == '"')
+-                {
+-                    var q = 0;
+-                    while (i + q < n && text[i + q] == '"')
+-                    {
+-                        q++;
+-                    }
++                code[k] = ' ';
++            }
++        }
++    }
+ 
+-                    var fence = new string('"', q);
+-                    var close = text.IndexOf(fence, i + q, StringComparison.Ordinal);
+-                    var contentEnd = close < 0 ? n : close;
+-                    var rawEnd = close < 0 ? n : close + q;
+-                    literals.Add(new Literal(prefixStart, i + q, contentEnd, rawEnd));
+-                    BlankCode(i + q, contentEnd);
+-                    i = rawEnd;
+-                    continue;
+-                }
++    /// <summary>Lexes the string literal opening at <paramref name="i"/>, records it and blanks its contents in
++    /// <paramref name="code"/>. Returns the offset just past the literal.</summary>
++    private static int LexString(string text, int i, bool cs, List<Literal> literals, char[] code)
++    {
++        var n = text.Length;
++        var c = text[i];
++        var prefixStart = i;
++        var verbatim = false;
++        if (cs)
++        {
++            while (prefixStart > 0 && text[prefixStart - 1] is '$' or '@')
++            {
++                verbatim |= text[prefixStart - 1] == '@';
++                prefixStart--;
++            }
++        }
+ 
+-                var j = i + 1;
+-                while (j < n)
+-                {
+-                    var ch = text[j];
+-                    if (verbatim && c == '"')
+-                    {
+-                        if (ch == '"')
+-                        {
+-                            if (j + 1 < n && text[j + 1] == '"')
+-                            {
+-                                j += 2;
+-                                continue;
+-                            }
+-
+-                            break;
+-                        }
+-
+-                        j++;
+-                        continue;
+-                    }
++        if (cs && c == '"' && i + 2 < n && text[i + 1] == '"' && text[i + 2] == '"')
++        {
++            var q = 0;
++            while (i + q < n && text[i + q] == '"')
++            {
++                q++;
++            }
+ 
+-                    if (ch == '\\')
+-                    {
+-                        j += 2;
+-                        continue;
+-                    }
++            var fence = new string('"', q);
++            var close = text.IndexOf(fence, i + q, StringComparison.Ordinal);
++            var contentEnd = close < 0 ? n : close;
++            var rawEnd = close < 0 ? n : close + q;
++            literals.Add(new Literal(prefixStart, i + q, contentEnd, rawEnd));
++            Blank(text, i + q, contentEnd, null, code);
++            return rawEnd;
++        }
+ 
+-                    if (ch == c || (ch == '\n' && c != '`'))
+-                    {
+-                        break;
+-                    }
++        var j = FindStringEnd(text, i, verbatim && c == '"');
++        var terminated = j < n && text[j] == c;
++        literals.Add(new Literal(prefixStart, i + 1, j, terminated ? j + 1 : j));
++        Blank(text, i + 1, j, null, code);
++        return terminated ? j + 1 : j;
++    }
+ 
++    /// <summary>Offset of the closing quote of the literal opened at <paramref name="open"/>, or where it stops
++    /// unterminated (a newline, except in backtick strings, or the end of the text).</summary>
++    private static int FindStringEnd(string text, int open, bool verbatim)
++    {
++        var n = text.Length;
++        var quote = text[open];
++        var j = open + 1;
++        while (j < n)
++        {
++            var ch = text[j];
++            if (verbatim)
++            {
++                if (ch != '"')
++                {
+                     j++;
+                 }
++                else if (j + 1 < n && text[j + 1] == '"')
++                {
++                    j += 2;
++                }
++                else
++                {
++                    break;
++                }
+ 
+-                j = Math.Min(j, n);
+-                var terminated = j < n && text[j] == c;
+-                literals.Add(new Literal(prefixStart, i + 1, j, terminated ? j + 1 : j));
+-                BlankCode(i + 1, j);
+-                i = terminated ? j + 1 : j;
+                 continue;
+             }
+ 
+-            i++;
++            if (ch == '\\')
++            {
++                j += 2;
++                continue;
++            }
++
++            if (ch == quote || (ch == '\n' && quote != '`'))
++            {
++                break;
++            }
++
++            j++;
+         }
+ 
+-        return new Lexed(literals, new string(comment), new string(code));
++        return Math.Min(j, n);
+     }
+ 
+     private sealed class LineIndex

@@ -1,0 +1,41 @@
+{
+ "run": "m021-U-1",
+ "k": 2,
+ "verdict": "REJECT",
+ "text": "REJECT\nThe extracted blocks (shard matrix, pass-with-no-tests, uncommitted-only and the dropped/outside/config loops) account for only about 25\u201330 of the original 77 complexity points, while the large invocation-classification loop between lines ~312\u2013400 stays in `Js`, so the method is almost certainly still well above 15.",
+ "cost_usd": 0.0161082,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 7001,
+  "output_tokens": 735,
+  "output_tokens_details": {
+   "thinking_tokens": 621
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 735,
+    "cache_read_input_tokens": 7001,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

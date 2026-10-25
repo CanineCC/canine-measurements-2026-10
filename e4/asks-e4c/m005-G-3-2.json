@@ -1,0 +1,41 @@
+{
+ "run": "m005-G-3",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe loop body is moved unchanged into helpers, which leaves the method well under 15 and still compiles; the only differences are that `EnclosingSection` is now looked up once per matched name rather than once per line, which only costs time, and the helper reads `lines[i]` itself, which I couldn't check against the outer method's `line` because the source isn't available here.",
+ "cost_usd": 0.024336800000000002,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 6744,
+  "output_tokens": 1149,
+  "output_tokens_details": {
+   "thinking_tokens": 803
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1149,
+    "cache_read_input_tokens": 6744,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

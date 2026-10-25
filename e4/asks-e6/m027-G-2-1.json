@@ -1,0 +1,41 @@
+{
+ "run": "m027-G-2",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The extraction preserves the original logic: the same guard/continue conditions, the same `Guarded`/`Anonymous`/`None` decision precedence, the same `k = bodySpan.End - 1` skip, and lazy iteration through `yield`. Each resulting method is well under a complexity of 15. I couldn't build it here, since no repo is available, so I'm assuming the types match, in particular that `DecoratorsBefore` returns `List<Decorator>`.",
+ "cost_usd": 0.0265284,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 3295,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 1312,
+  "output_tokens_details": {
+   "thinking_tokens": 1152
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 3295,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1312,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 3295,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 3295
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

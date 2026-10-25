@@ -1,0 +1,79 @@
+diff --git a/engine/src/Scanner/Security/D29/Scanners/RouteAuthorizationScan.cs b/engine/src/Scanner/Security/D29/Scanners/RouteAuthorizationScan.cs
+index 503b0f39..9a604983 100644
+--- a/engine/src/Scanner/Security/D29/Scanners/RouteAuthorizationScan.cs
++++ b/engine/src/Scanner/Security/D29/Scanners/RouteAuthorizationScan.cs
+@@ -303,35 +303,53 @@ internal static class RouteAuthorizationScan
+             var global = model.AppHasGlobalGuard(f.App);
+             for (var k = bodyOpen + 1; k < f.M[bodyOpen]; k++)
+             {
+-                if (!t[k].IsName || k + 1 >= t.Count || !t[k + 1].IsPunct("(") || f.Depth(k) != f.Depth(bodyOpen) + 1)
++                var judged = NestRoute(model, f, t[i + 1].Text, bodyOpen, k, classGuard, classPublic, global, out var methodEnd);
++                if (judged is null)
+                 {
+                     continue;
+                 }
+ 
+-                var decorators = f.DecoratorsBefore(k);
+-                var route = decorators.FirstOrDefault(d => d.Name is not null && NestRouteDecorators.Contains(d.Name));
+-                if (route.Name is null)
+-                {
+-                    continue;
+-                }
+-
+-                var paramsClose = f.M[k + 1];
+-                var body = Enumerable.Range(paramsClose + 1, Math.Max(0, f.M[bodyOpen] - paramsClose - 1))
+-                    .FirstOrDefault(x => t[x].IsPunct("{"));
+-                var bodySpan = body > 0 && f.M[body] > 0 ? new Span(body, f.M[body] + 1) : new Span(k, k + 1);
+-                var endpoint = new Endpoint(f.Relative, t[k].Line, $"{t[i + 1].Text}.{t[k].Text}",
+-                    WritingVerbs.Contains(route.Name), f.App);
+-                var isPublic = classPublic || decorators.Any(d => model.IsPublicMarker(f, d.Name));
+-                var decision = decorators.Any(d => d.Name == "UseGuards") || classGuard ? Decision.Guarded
+-                    : isPublic && global ? Decision.Anonymous
+-                    : global ? Decision.Guarded
+-                    : Decision.None;
+-                yield return new Judged(endpoint, decision, model.BodyExempt(f, bodySpan, null), model.BodyChecks(f, bodySpan));
+-                k = bodySpan.End - 1;
++                yield return judged;
++                k = methodEnd - 1;
+             }
+         }
+     }
+ 
++    /// <summary>Judges the Nest controller member starting at <paramref name="k"/>, or null when it is not a routed method.</summary>
++    private static Judged? NestRoute(Model model, Lexed f, string className, int bodyOpen, int k,
++        bool classGuard, bool classPublic, bool global, out int methodEnd)
++    {
++        var t = f.T;
++        methodEnd = k + 1;
++        if (!t[k].IsName || k + 1 >= t.Count || !t[k + 1].IsPunct("(") || f.Depth(k) != f.Depth(bodyOpen) + 1)
++        {
++            return null;
++        }
++
++        var decorators = f.DecoratorsBefore(k);
++        var route = decorators.FirstOrDefault(d => d.Name is not null && NestRouteDecorators.Contains(d.Name));
++        if (route.Name is null)
++        {
++            return null;
++        }
++
++        var paramsClose = f.M[k + 1];
++        var body = Enumerable.Range(paramsClose + 1, Math.Max(0, f.M[bodyOpen] - paramsClose - 1))
++            .FirstOrDefault(x => t[x].IsPunct("{"));
++        var bodySpan = body > 0 && f.M[body] > 0 ? new Span(body, f.M[body] + 1) : new Span(k, k + 1);
++        methodEnd = bodySpan.End;
++
++        var endpoint = new Endpoint(f.Relative, t[k].Line, $"{className}.{t[k].Text}",
++            WritingVerbs.Contains(route.Name), f.App);
++        var isPublic = classPublic || decorators.Any(d => model.IsPublicMarker(f, d.Name));
++        var guarded = classGuard || decorators.Any(d => d.Name == "UseGuards");
++        var decision = guarded ? Decision.Guarded
++            : isPublic && global ? Decision.Anonymous
++            : global ? Decision.Guarded
++            : Decision.None;
++        return new Judged(endpoint, decision, model.BodyExempt(f, bodySpan, null), model.BodyChecks(f, bodySpan));
++    }
++
+     // ---- Next.js -----------------------------------------------------------------------------------------------
+ 
+     private static IEnumerable<Judged> Next(Model model, Lexed f)

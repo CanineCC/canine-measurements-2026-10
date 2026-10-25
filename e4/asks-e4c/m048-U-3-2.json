@@ -1,0 +1,41 @@
+{
+ "run": "m048-U-3",
+ "k": 2,
+ "verdict": "REJECT",
+ "text": "REJECT\nCounting only the visible parts of the remaining `RunTurnAsync` under Sonar's rules already gives about 16. That comes from the ternaries, the `if`s, the mixed `||`/`&&` in the `Closer` lambda, and the nested `i.Covered ? \u2026 : \u2026` ternary. The unshown parts (the inner `try`/`catch`, the early setup and the final `Say`) only add more, so the method is still above the threshold of 15, even though the extractions look behaviour-preserving.",
+ "cost_usd": 0.06478880000000001,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 14404,
+  "output_tokens": 3095,
+  "output_tokens_details": {
+   "thinking_tokens": 2925
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 3095,
+    "cache_read_input_tokens": 14404,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

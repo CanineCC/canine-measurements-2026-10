@@ -1,0 +1,41 @@
+{
+ "run": "m028-G-2",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE: the extracted helpers reproduce the original logic exactly (the bounds checks, `default`/`async` skipping, function and const/let name extraction, endpoint selection and the `FunctionBodyAfter` check all match), and by my estimate `Next` is left at about 4, with the extracted helpers each well under 15. I could not compile it, so the one residual risk is whether `JsToken` is the real token type name.",
+ "cost_usd": 0.020011,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4970,
+  "output_tokens": 1951,
+  "output_tokens_details": {
+   "thinking_tokens": 1811
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1951,
+    "cache_read_input_tokens": 4970,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

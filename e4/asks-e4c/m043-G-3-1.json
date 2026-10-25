@@ -1,0 +1,41 @@
+{
+ "run": "m043-G-3",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe refactor moves each gate stage into helpers that return the same outcomes, reasons, suites, deltas, units and items in the same order. This should bring `JudgeAsync` well under 15 and compiles cleanly (the `input.Report!` matches the null check now inside `UnfinishedStop`), though I reviewed the diff only and did not build it or measure the complexity.",
+ "cost_usd": 0.1094328,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 9697,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 1570,
+  "output_tokens_details": {
+   "thinking_tokens": 1442
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 9697,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1570,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 9697,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 9697
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

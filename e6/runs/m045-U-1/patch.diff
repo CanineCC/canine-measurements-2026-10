@@ -1,0 +1,140 @@
+diff --git a/src/Kennel.Improve.Orchestrator/Gates/TurnGate.cs b/src/Kennel.Improve.Orchestrator/Gates/TurnGate.cs
+index 4576fb5b..f2e8b5bf 100644
+--- a/src/Kennel.Improve.Orchestrator/Gates/TurnGate.cs
++++ b/src/Kennel.Improve.Orchestrator/Gates/TurnGate.cs
+@@ -337,26 +337,22 @@ public sealed class TurnGate(IGit git, IGateRunner gates, ITurnWorkspace workspa
+             ? new TurnCheck(stage, $"the {what} run reached no verdict — its script failed before any check reported (see {log})", null, Broken: true, Log: log)
+             : new TurnCheck(stage, $"{what} red (see {log})", null, Log: log);
+ 
++    private static string Short(string sha) => sha[..Math.Min(10, sha.Length)];
++
+     /// <summary>The turn check, cheapest stage first; <paramref name="only"/> runs one stage (a bisect re-runs only
+     /// the stage that failed), null runs all three.</summary>
+     private async Task<TurnCheck> CheckAsync(string wt, string name, IReadOnlyList<ShellVerdict> merged, BenchArm baseArm,
+         Func<ShellVerdict, IReadOnlySet<string>> related, TurnStage? only, List<string> gateLog, CancellationToken ct)
+     {
+-        // ★ The merged corpus pin must hold every merged branch's bench entry. tools/bench/merge_pins.py merges two moved
+-        //   pins to the one that contains the other (the corpus's main is linear); anything else is refused here, before
+-        //   any stage runs: a turn that pinned a corpus without a shell's entry would measure that shell's item on nothing.
+         var basePin = await _corpus.PinOfAsync(baseArm.Worktree, ct).ConfigureAwait(false);
+         var headPin = await _corpus.PinOfAsync(wt, ct).ConfigureAwait(false);
+-        if (headPin is not null && headPin != basePin)
++        var pinsMoved = headPin is not null && headPin != basePin;
++        if (pinsMoved)
+         {
+-            foreach (var m in merged.Where(m => m.CorpusPin is not null && m.CorpusPin != basePin))
++            var lost = await CheckMergedPinAsync(headPin!, basePin, merged, ct).ConfigureAwait(false);
++            if (lost is not null)
+             {
+-                if (!await _corpus.ContainsAsync(headPin, m.CorpusPin!, ct).ConfigureAwait(false))
+-                {
+-                    return new TurnCheck(TurnStage.Bench, $"the merged corpus pin {headPin[..Math.Min(10, headPin.Length)]} does not contain "
+-                        + $"{m.Package.Key}'s pin {m.CorpusPin![..Math.Min(10, m.CorpusPin!.Length)]}: the merge lost a bench entry "
+-                        + "(tools/bench/merge_pins.py takes the pin that contains the other)", null, Broken: true);
+-                }
++                return lost;
+             }
+         }
+ 
+@@ -386,38 +382,75 @@ public sealed class TurnGate(IGit git, IGateRunner gates, ITurnWorkspace workspa
+             return new TurnCheck(TurnStage.None, "", null);
+         }
+ 
++        return await CheckBenchAsync(wt, name, merged, baseArm, pinsMoved ? headPin : null, related, gateLog, ct).ConfigureAwait(false);
++    }
++
++    // ★ The merged corpus pin must hold every merged branch's bench entry. tools/bench/merge_pins.py merges two moved
++    //   pins to the one that contains the other (the corpus's main is linear); anything else is refused here, before
++    //   any stage runs: a turn that pinned a corpus without a shell's entry would measure that shell's item on nothing.
++    private async Task<TurnCheck?> CheckMergedPinAsync(string headPin, string? basePin, IReadOnlyList<ShellVerdict> merged, CancellationToken ct)
++    {
++        foreach (var m in merged.Where(m => m.CorpusPin is not null && m.CorpusPin != basePin))
++        {
++            if (!await _corpus.ContainsAsync(headPin, m.CorpusPin!, ct).ConfigureAwait(false))
++            {
++                return new TurnCheck(TurnStage.Bench, $"the merged corpus pin {Short(headPin)} does not contain "
++                    + $"{m.Package.Key}'s pin {Short(m.CorpusPin!)}: the merge lost a bench entry "
++                    + "(tools/bench/merge_pins.py takes the pin that contains the other)", null, Broken: true);
++            }
++        }
++
++        return null;
++    }
++
++    /// <summary>The base arm at the merged head's corpus pin: the base engine on the units the branches' entries added,
++    /// every unit scored on the one corpus commit the head reads (BENCH_CORPUS_PIN). Null arm = could not be measured.</summary>
++    private async Task<BenchArm?> BaseArmAtPinAsync(string name, BenchArm baseArm, string headPin, List<string> gateLog, CancellationToken ct)
++    {
++        if (_baseAtPin.TryGetValue(headPin, out var atPin))
++        {
++            return atPin;
++        }
++
++        var path = workspace.FileFor(name, $"bench-base-at-{Short(headPin)}.json");
++        var scored = await gates.BenchAtPinAsync(baseArm.Worktree, baseArm.Label, null, headPin, path, ct).ConfigureAwait(false);
++        if (scored is null)
++        {
++            return null;
++        }
++
++        atPin = new BenchArm(baseArm.Worktree, baseArm.Label, null, scored, headPin);
++        _baseAtPin[headPin] = atPin;
++        gateLog.Add($"  bench {name}: base arm scored at the merged corpus pin {Short(headPin)}");
++        return atPin;
++    }
++
++    private async Task<TurnCheck> CheckBenchAsync(string wt, string name, IReadOnlyList<ShellVerdict> merged, BenchArm baseArm,
++        string? movedHeadPin, Func<ShellVerdict, IReadOnlySet<string>> related, List<string> gateLog, CancellationToken ct)
++    {
+         var head = await git.HeadAsync(wt, ct).ConfigureAwait(false);
+-        var label = $"turn-{name}-{head[..Math.Min(10, head.Length)]}";
++        var label = $"turn-{name}-{Short(head)}";
+         var arm = await gates.BenchAsync(wt, label, null, workspace.FileFor(name, "bench-head.json"), ct).ConfigureAwait(false);
+         if (arm is null)
+         {
+             return new TurnCheck(TurnStage.Bench, "the full bench could not be measured", null);
+         }
+ 
+-        // The base arm at the merged head's corpus pin: the base engine on the units the branches' entries added, every
+-        // unit scored on the one corpus commit the head reads (BENCH_CORPUS_PIN).
+-        if (headPin is not null && headPin != basePin)
++        if (movedHeadPin is not null)
+         {
+-            if (!_baseAtPin.TryGetValue(headPin, out var atPin))
++            var atPin = await BaseArmAtPinAsync(name, baseArm, movedHeadPin, gateLog, ct).ConfigureAwait(false);
++            if (atPin is null)
+             {
+-                var path = workspace.FileFor(name, $"bench-base-at-{headPin[..Math.Min(10, headPin.Length)]}.json");
+-                var scored = await gates.BenchAtPinAsync(baseArm.Worktree, baseArm.Label, null, headPin, path, ct).ConfigureAwait(false);
+-                if (scored is null)
+-                {
+-                    return new TurnCheck(TurnStage.Bench, $"the base arm could not be measured at corpus {headPin[..Math.Min(10, headPin.Length)]}",
+-                        null, Broken: true);
+-                }
+-
+-                atPin = new BenchArm(baseArm.Worktree, baseArm.Label, null, scored, headPin);
+-                _baseAtPin[headPin] = atPin;
+-                gateLog.Add($"  bench {name}: base arm scored at the merged corpus pin {headPin[..Math.Min(10, headPin.Length)]}");
++                return new TurnCheck(TurnStage.Bench, $"the base arm could not be measured at corpus {Short(movedHeadPin)}",
++                    null, Broken: true);
+             }
+ 
+             baseArm = atPin;
+         }
+ 
++        var deltaPath = workspace.FileFor(name, "bench-delta.json");
+         var delta = await BenchPairing.CompareAsync(gates, baseArm, new BenchArm(wt, label, null, arm),
+-            workspace.FileFor(name, "bench-delta.json"), n => gateLog.Add($"  bench {name}: {n}"), ct).ConfigureAwait(false);
++            deltaPath, n => gateLog.Add($"  bench {name}: {n}"), ct).ConfigureAwait(false);
+         if (delta.Verdict == BenchVerdict.InstrumentMismatch)
+         {
+             // GatePolicy: a mismatch is neither a gain nor a regression and blames nobody — the turn's too.
+@@ -433,7 +466,7 @@ public sealed class TurnGate(IGit git, IGateRunner gates, ITurnWorkspace workspa
+ 
+         var turnDims = merged.SelectMany(related).ToHashSet(StringComparer.Ordinal);
+         var side = await SideMoves.JudgeAsync(gates, index, wt, BenchLines.Of(delta), turnDims,
+-            Path.GetDirectoryName(workspace.FileFor(name, "bench-delta.json")) ?? wt, ct).ConfigureAwait(false);
++            Path.GetDirectoryName(deltaPath) ?? wt, ct).ConfigureAwait(false);
+         foreach (var gain in side.Accepted)
+         {
+             gateLog.Add($"  bench {name}: side gain admitted: {gain}");

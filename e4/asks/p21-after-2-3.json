@@ -1,0 +1,41 @@
+{
+ "run": "p21-after-2",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE\n\nThe helper's early-return condition is the exact negation of the original `i + 1 < glob.Length && glob[i + 1] == '*'` check, and it returns the same index (`i`, `i + 2` or `i + 1`) that the original left in `i`, so behaviour is unchanged. Moving the nested branches out drops several nesting-weighted increments from `ToRegex`, bringing it below 15. The new private static method uses only types already in use, so I see nothing that would add a warning. I haven't run the build or the complexity analyser, so those two conclusions come from reading the diff.",
+ "cost_usd": 0.005471599999999999,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 3776,
+  "output_tokens": 509,
+  "output_tokens_details": {
+   "thinking_tokens": 314
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 509,
+    "cache_read_input_tokens": 3776,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

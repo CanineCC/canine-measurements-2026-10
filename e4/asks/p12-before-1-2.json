@@ -1,0 +1,41 @@
+{
+ "run": "p12-before-1",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE. Extracting the nested match check into `MatchesRequestedVersion` removes a nested `if` and a `&&` from `Parse`, which should drop its complexity from 17 to 15 or below. Behaviour looks preserved: a mismatch still hits `continue`, a match falls through to what appears to be the same `ReadVersion` return, and the unchanged no-version path is the same. The helper is a plain static method, so I expect no new warnings. I could not see the few lines between the two hunks, or build the project, so the fall-through equivalence and the build are inferred from the diff, not verified.",
+ "cost_usd": 0.0127933,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 3693,
+  "output_tokens": 1242,
+  "output_tokens_details": {
+   "thinking_tokens": 1044
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1242,
+    "cache_read_input_tokens": 3693,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

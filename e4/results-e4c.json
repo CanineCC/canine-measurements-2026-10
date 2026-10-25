@@ -1,0 +1,1397 @@
+{
+ "summary": {
+  "patches": 120,
+  "excluded": {},
+  "by_arm": {
+   "all": {
+    "good": 94,
+    "bad": 26,
+    "false_approvals": 19,
+    "asks_on_bad": 78,
+    "false_approval_ci95": [
+     0.11538461538461539,
+     0.38461538461538464
+    ],
+    "false_rejections": 26,
+    "asks_on_good": 282,
+    "false_rejection_ci95": [
+     0.04964539007092199,
+     0.14184397163120568
+    ],
+    "self_consistent": 84,
+    "bad_approved_by_majority": [
+     "m004-U-3",
+     "m005-U-1",
+     "m005-U-2",
+     "m032-U-1",
+     "m032-U-2",
+     "m032-U-3",
+     "m048-U-2"
+    ]
+   },
+   "G": {
+    "good": 60,
+    "bad": 0,
+    "false_approvals": 0,
+    "asks_on_bad": 0,
+    "false_approval_ci95": null,
+    "false_rejections": 14,
+    "asks_on_good": 180,
+    "false_rejection_ci95": [
+     0.027777777777777776,
+     0.1388888888888889
+    ],
+    "self_consistent": 43,
+    "bad_approved_by_majority": []
+   },
+   "U": {
+    "good": 34,
+    "bad": 26,
+    "false_approvals": 19,
+    "asks_on_bad": 78,
+    "false_approval_ci95": [
+     0.11538461538461539,
+     0.38461538461538464
+    ],
+    "false_rejections": 12,
+    "asks_on_good": 102,
+    "false_rejection_ci95": [
+     0.0392156862745098,
+     0.21568627450980393
+    ],
+    "self_consistent": 41,
+    "bad_approved_by_majority": [
+     "m004-U-3",
+     "m005-U-1",
+     "m005-U-2",
+     "m032-U-1",
+     "m032-U-2",
+     "m032-U-3",
+     "m048-U-2"
+    ]
+   }
+  }
+ },
+ "rows": [
+  {
+   "run": "m003-G-1",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m003-G-2",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m003-G-3",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m003-U-1",
+   "arm": "U",
+   "truth": "bad",
+   "outcome": "did_not_clear",
+   "votes": [
+    "REJECT",
+    "REJECT",
+    "REJECT"
+   ]
+  },
+  {
+   "run": "m003-U-2",
+   "arm": "U",
+   "truth": "bad",
+   "outcome": "did_not_clear",
+   "votes": [
+    "REJECT",
+    "REJECT",
+    "REJECT"
+   ]
+  },
+  {
+   "run": "m003-U-3",
+   "arm": "U",
+   "truth": "bad",
+   "outcome": "did_not_clear",
+   "votes": [
+    "REJECT",
+    "REJECT",
+    "REJECT"
+   ]
+  },
+  {
+   "run": "m004-G-1",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m004-G-2",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m004-G-3",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m004-U-1",
+   "arm": "U",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m004-U-2",
+   "arm": "U",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m004-U-3",
+   "arm": "U",
+   "truth": "bad",
+   "outcome": "did_not_clear",
+   "votes": [
+    "APPROVE",
+    "REJECT",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m005-G-1",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "REJECT",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m005-G-2",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m005-G-3",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "UNPARSEABLE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m005-U-1",
+   "arm": "U",
+   "truth": "bad",
+   "outcome": "did_not_clear",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "REJECT"
+   ]
+  },
+  {
+   "run": "m005-U-2",
+   "arm": "U",
+   "truth": "bad",
+   "outcome": "did_not_clear",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m005-U-3",
+   "arm": "U",
+   "truth": "bad",
+   "outcome": "did_not_clear",
+   "votes": [
+    "REJECT",
+    "REJECT",
+    "REJECT"
+   ]
+  },
+  {
+   "run": "m008-G-1",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m008-G-2",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m008-G-3",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "UNPARSEABLE"
+   ]
+  },
+  {
+   "run": "m008-U-1",
+   "arm": "U",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m008-U-2",
+   "arm": "U",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m008-U-3",
+   "arm": "U",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m009-G-1",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m009-G-2",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m009-G-3",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m009-U-1",
+   "arm": "U",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m009-U-2",
+   "arm": "U",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "TIMEOUT",
+    "UNPARSEABLE"
+   ]
+  },
+  {
+   "run": "m009-U-3",
+   "arm": "U",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "TIMEOUT",
+    "REJECT",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m012-G-1",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "TIMEOUT",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m012-G-2",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "TIMEOUT",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m012-G-3",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "TIMEOUT",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m012-U-1",
+   "arm": "U",
+   "truth": "bad",
+   "outcome": "did_not_clear",
+   "votes": [
+    "REJECT",
+    "REJECT",
+    "REJECT"
+   ]
+  },
+  {
+   "run": "m012-U-2",
+   "arm": "U",
+   "truth": "bad",
+   "outcome": "did_not_clear",
+   "votes": [
+    "REJECT",
+    "REJECT",
+    "REJECT"
+   ]
+  },
+  {
+   "run": "m012-U-3",
+   "arm": "U",
+   "truth": "bad",
+   "outcome": "did_not_clear",
+   "votes": [
+    "REJECT",
+    "REJECT",
+    "REJECT"
+   ]
+  },
+  {
+   "run": "m014-G-1",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m014-G-2",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m014-G-3",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m014-U-1",
+   "arm": "U",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m014-U-2",
+   "arm": "U",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m014-U-3",
+   "arm": "U",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m021-G-1",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m021-G-2",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "REJECT",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m021-G-3",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m021-U-1",
+   "arm": "U",
+   "truth": "bad",
+   "outcome": "did_not_clear",
+   "votes": [
+    "REJECT",
+    "REJECT",
+    "REJECT"
+   ]
+  },
+  {
+   "run": "m021-U-2",
+   "arm": "U",
+   "truth": "bad",
+   "outcome": "did_not_clear",
+   "votes": [
+    "REJECT",
+    "REJECT",
+    "UNPARSEABLE"
+   ]
+  },
+  {
+   "run": "m021-U-3",
+   "arm": "U",
+   "truth": "bad",
+   "outcome": "did_not_clear",
+   "votes": [
+    "REJECT",
+    "REJECT",
+    "REJECT"
+   ]
+  },
+  {
+   "run": "m022-G-1",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "UNPARSEABLE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m022-G-2",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "TIMEOUT",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m022-G-3",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "TIMEOUT",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m022-U-1",
+   "arm": "U",
+   "truth": "bad",
+   "outcome": "did_not_clear",
+   "votes": [
+    "REJECT",
+    "REJECT",
+    "REJECT"
+   ]
+  },
+  {
+   "run": "m022-U-2",
+   "arm": "U",
+   "truth": "bad",
+   "outcome": "did_not_clear",
+   "votes": [
+    "TIMEOUT",
+    "APPROVE",
+    "REJECT"
+   ]
+  },
+  {
+   "run": "m022-U-3",
+   "arm": "U",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "TIMEOUT",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m023-G-1",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m023-G-2",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m023-G-3",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m023-U-1",
+   "arm": "U",
+   "truth": "bad",
+   "outcome": "moved",
+   "votes": [
+    "REJECT",
+    "REJECT",
+    "REJECT"
+   ]
+  },
+  {
+   "run": "m023-U-2",
+   "arm": "U",
+   "truth": "bad",
+   "outcome": "did_not_clear",
+   "votes": [
+    "REJECT",
+    "REJECT",
+    "REJECT"
+   ]
+  },
+  {
+   "run": "m023-U-3",
+   "arm": "U",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "REJECT",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m024-G-1",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m024-G-2",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m024-G-3",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m024-U-1",
+   "arm": "U",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m024-U-2",
+   "arm": "U",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m024-U-3",
+   "arm": "U",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m026-G-1",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m026-G-2",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m026-G-3",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m026-U-1",
+   "arm": "U",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "REJECT",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m026-U-2",
+   "arm": "U",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m026-U-3",
+   "arm": "U",
+   "truth": "bad",
+   "outcome": "did_not_clear",
+   "votes": [
+    "REJECT",
+    "REJECT",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m027-G-1",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m027-G-2",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "TIMEOUT",
+    "TIMEOUT",
+    "TIMEOUT"
+   ]
+  },
+  {
+   "run": "m027-G-3",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m027-U-1",
+   "arm": "U",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "TIMEOUT",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m027-U-2",
+   "arm": "U",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "TIMEOUT",
+    "APPROVE",
+    "UNPARSEABLE"
+   ]
+  },
+  {
+   "run": "m027-U-3",
+   "arm": "U",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "TIMEOUT",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m028-G-1",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "TIMEOUT",
+    "APPROVE",
+    "TIMEOUT"
+   ]
+  },
+  {
+   "run": "m028-G-2",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "REJECT",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m028-G-3",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m028-U-1",
+   "arm": "U",
+   "truth": "bad",
+   "outcome": "did_not_clear",
+   "votes": [
+    "REJECT",
+    "REJECT",
+    "REJECT"
+   ]
+  },
+  {
+   "run": "m028-U-2",
+   "arm": "U",
+   "truth": "bad",
+   "outcome": "did_not_clear",
+   "votes": [
+    "REJECT",
+    "REJECT",
+    "REJECT"
+   ]
+  },
+  {
+   "run": "m028-U-3",
+   "arm": "U",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "REJECT",
+    "REJECT",
+    "REJECT"
+   ]
+  },
+  {
+   "run": "m032-G-1",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m032-G-2",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m032-G-3",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m032-U-1",
+   "arm": "U",
+   "truth": "bad",
+   "outcome": "moved",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m032-U-2",
+   "arm": "U",
+   "truth": "bad",
+   "outcome": "moved",
+   "votes": [
+    "REJECT",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m032-U-3",
+   "arm": "U",
+   "truth": "bad",
+   "outcome": "moved",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m036-G-1",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m036-G-2",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m036-G-3",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m036-U-1",
+   "arm": "U",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m036-U-2",
+   "arm": "U",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m036-U-3",
+   "arm": "U",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "REJECT",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m042-G-1",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "TIMEOUT",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m042-G-2",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m042-G-3",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m042-U-1",
+   "arm": "U",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m042-U-2",
+   "arm": "U",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m042-U-3",
+   "arm": "U",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m043-G-1",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "TIMEOUT"
+   ]
+  },
+  {
+   "run": "m043-G-2",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m043-G-3",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m043-U-1",
+   "arm": "U",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m043-U-2",
+   "arm": "U",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m043-U-3",
+   "arm": "U",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "REJECT",
+    "REJECT",
+    "REJECT"
+   ]
+  },
+  {
+   "run": "m045-G-1",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "REJECT",
+    "APPROVE",
+    "TIMEOUT"
+   ]
+  },
+  {
+   "run": "m045-G-2",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "REJECT",
+    "REJECT",
+    "REJECT"
+   ]
+  },
+  {
+   "run": "m045-G-3",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m045-U-1",
+   "arm": "U",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "UNPARSEABLE",
+    "APPROVE",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m045-U-2",
+   "arm": "U",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "REJECT",
+    "TIMEOUT",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m045-U-3",
+   "arm": "U",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "APPROVE",
+    "REJECT",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m048-G-1",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "REJECT",
+    "REJECT",
+    "REJECT"
+   ]
+  },
+  {
+   "run": "m048-G-2",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "TIMEOUT",
+    "REJECT",
+    "REJECT"
+   ]
+  },
+  {
+   "run": "m048-G-3",
+   "arm": "G",
+   "truth": "good",
+   "outcome": "held",
+   "votes": [
+    "TIMEOUT",
+    "REJECT",
+    "REJECT"
+   ]
+  },
+  {
+   "run": "m048-U-1",
+   "arm": "U",
+   "truth": "bad",
+   "outcome": "did_not_clear",
+   "votes": [
+    "REJECT",
+    "REJECT",
+    "REJECT"
+   ]
+  },
+  {
+   "run": "m048-U-2",
+   "arm": "U",
+   "truth": "bad",
+   "outcome": "did_not_clear",
+   "votes": [
+    "APPROVE",
+    "REJECT",
+    "APPROVE"
+   ]
+  },
+  {
+   "run": "m048-U-3",
+   "arm": "U",
+   "truth": "bad",
+   "outcome": "did_not_clear",
+   "votes": [
+    "REJECT",
+    "REJECT",
+    "REJECT"
+   ]
+  }
+ ]
+}

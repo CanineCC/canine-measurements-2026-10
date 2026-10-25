@@ -1,0 +1,41 @@
+{
+ "run": "p23-before-3",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE: The extracted `ResolveGoEmbedPattern` returns null in exactly the two cases that were `continue` before and builds the same `HostEmbedRef` otherwise, so behaviour is unchanged. The caller's `is not null` check keeps nullable flow analysis clean, and moving the ternary and the `||` conditions out of the nested loops should bring `CollectGoEmbedRefs` well under 15. I could not build or run a complexity analyzer here, so the build and the final score rest on reading the diff, and it assumes `HostEmbedRef` is a reference type (a record class).",
+ "cost_usd": 0.0157524,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 2076,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 722,
+  "output_tokens_details": {
+   "thinking_tokens": 521
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2076,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 722,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 2076,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2076
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

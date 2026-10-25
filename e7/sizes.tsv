@@ -1,0 +1,12 @@
+umbraco/Umbraco-CMS	prod_cs=420655	test_cs=262811	generated=1693	test_projects=6
+App-vNext/Polly	prod_cs=34746	test_cs=52595	generated=0	test_projects=8
+serilog/serilog	prod_cs=12576	test_cs=8952	generated=0	test_projects=5
+FluentValidation/FluentValidation	prod_cs=11308	test_cs=11281	generated=62	test_projects=2
+nodatime/nodatime	prod_cs=41287	test_cs=30545	generated=0	test_projects=4
+JamesNK/Newtonsoft.Json	prod_cs=62041	test_cs=107157	generated=1659	test_projects=3
+dotnet/BenchmarkDotNet	prod_cs=0	test_cs=103219	generated=1175	test_projects=16
+npgsql/npgsql	prod_cs=53311	test_cs=37591	generated=310	test_projects=5
+restsharp/RestSharp	prod_cs=9296	test_cs=9198	generated=0	test_projects=8
+ardalis/CleanArchitecture	prod_cs=3787	test_cs=5136	generated=500	test_projects=7
+jasontaylordev/CleanArchitecture	prod_cs=2017	test_cs=997	generated=0	test_projects=6
+AvaloniaUI/Avalonia	prod_cs=367454	test_cs=202907	generated=2512	test_projects=35

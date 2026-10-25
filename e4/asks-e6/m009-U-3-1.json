@@ -1,0 +1,41 @@
+{
+ "run": "m009-U-3",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE: The extraction keeps the original order (template sites, then style-object sites, then animate sites) and the same guards and conditions, and moving the nested loops into three helpers leaves `InScript` with only two top-level `if`s. I could only review the diff, not the repo, so the parameter types (`IReadOnlySet<string>` for `guards`, `IReadOnlyDictionary<string, bool>` for `keyframes`) are unchecked against the helper signatures they feed into.",
+ "cost_usd": 0.019058400000000003,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 2455,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 901,
+  "output_tokens_details": {
+   "thinking_tokens": 740
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2455,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 901,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 2455,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2455
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

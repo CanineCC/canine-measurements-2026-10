@@ -1,0 +1,41 @@
+{
+ "run": "m003-G-1",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe extracted helpers keep the same evaluation order and `decorated` updates (`decorated &= depth != 0 || !token.IsPunct(\"}\")` only clears the flag at depth 0 on `}`, as the original did), and the method drops from 27 to about 14; I couldn't build it because the source file isn't here, so this assumes the helpers' `IReadOnlyList<JsToken>`/`List<Member>` parameter types match the file's existing signatures.",
+ "cost_usd": 0.0626418,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 3773,
+  "cache_read_input_tokens": 649,
+  "output_tokens": 1616,
+  "output_tokens_details": {
+   "thinking_tokens": 1283
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 3773,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1616,
+    "cache_read_input_tokens": 649,
+    "cache_creation_input_tokens": 3773,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 3773
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

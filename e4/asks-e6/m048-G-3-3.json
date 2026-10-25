@@ -1,0 +1,41 @@
+{
+ "run": "m048-G-3",
+ "k": 3,
+ "verdict": "REJECT",
+ "text": "REJECT: `ShipAsync` returns `ship.MainMoved` as `Requeued` even when `ship.Unjudged` is also set, whereas the original only set `requeued` in the `else if` branch, so the unjudged case took precedence. If both are ever set, the refactor also parks the merged packages as requeued and records `Requeued` in the turn record, which changes behaviour; it should return `ship.Unjudged is null ? ship.MainMoved : null`.",
+ "cost_usd": 0.043384599999999995,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 18206,
+  "output_tokens": 4156,
+  "output_tokens_details": {
+   "thinking_tokens": 4000
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 4156,
+    "cache_read_input_tokens": 18206,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

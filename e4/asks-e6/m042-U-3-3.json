@@ -1,0 +1,41 @@
+{
+ "run": "m042-U-3",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE: The extracted helpers keep the same Create/Apply matching, the same (0,1)/(1,0)/skip ordering logic, and the same invocation and return semantics, and the `is var (eventIndex, documentIndex)` pattern on the nullable tuple compiles and skips on null, as the old `continue` did. `BuildPlan` is now well under 15 (a foreach, two ifs and a few `&&`s), and I see no new compiler warnings; I haven't run the build, so a stylistic analyzer rule such as constant-before-method ordering is the one thing I couldn't rule out.",
+ "cost_usd": 0.0126417,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4477,
+  "output_tokens": 1219,
+  "output_tokens_details": {
+   "thinking_tokens": 1018
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1219,
+    "cache_read_input_tokens": 4477,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

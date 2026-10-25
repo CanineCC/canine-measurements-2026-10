@@ -1,0 +1,386 @@
+diff --git a/src/Kennel.Improve.Orchestrator/Gates/ShellGate.cs b/src/Kennel.Improve.Orchestrator/Gates/ShellGate.cs
+index cd2238e5..eb8eb9d8 100644
+--- a/src/Kennel.Improve.Orchestrator/Gates/ShellGate.cs
++++ b/src/Kennel.Improve.Orchestrator/Gates/ShellGate.cs
+@@ -99,19 +99,94 @@ public sealed partial class ShellGate(IGit git, IGateRunner gates, IBenchIndex i
+     public async Task<ShellVerdict> JudgeAsync(ShellGateInput input, CancellationToken ct)
+     {
+         var p = input.Package;
+-        ShellVerdict Verdict(ShellOutcome o, string why, string? head = null, SuiteResult? suite = null,
+-            BenchDelta? delta = null, IReadOnlyList<string>? units = null, IReadOnlyList<ItemVerdict>? items = null) =>
+-            new ShellVerdict(p, input.Branch, head, o, why, suite, delta, units ?? [], items ?? NotCovered(p, why),
+-                Residuals(input)) { Reroutes = Reroutes(input) };
+ 
+         // The branch's head is recorded on every verdict: an unfinished shell's commits are its rescue pointer.
+         var head = await git.HeadAsync(input.Worktree, ct).ConfigureAwait(false);
+ 
++        if (UnfinishedVerdict(input, head) is { } unfinished)
++        {
++            return unfinished;
++        }
++
++        var changed = await git.ChangedFilesAsync(input.Worktree, input.BaseSha, ct).ConfigureAwait(false);
++        if (changed.Count == 0)
++        {
++            return Verdict(input, ShellOutcome.Unfinished, "nothing committed on the branch", head);
++        }
++
++        var corpus = await CheckCorpusPinAsync(input, head, ct).ConfigureAwait(false);
++        if (corpus.Stop is not null)
++        {
++            return corpus.Stop;
++        }
++
++        var (newPin, added) = (corpus.NewPin, corpus.Added);
++
++        // L1: the concept suite.
++        var suite = await gates.RunConceptSuiteAsync(input.Worktree, p.Key, Path.Combine(input.PackageDir, "concepts"), ct)
++            .ConfigureAwait(false);
++        if (suite.Status == SuiteStatus.Unscanned)
++        {
++            return Verdict(input, ShellOutcome.Instrument, $"concept suite {suite.Status}: {suite.Detail}", head, suite);
++        }
++
++        if (suite.Status != SuiteStatus.Green)
++        {
++            return Verdict(input, ShellOutcome.Rejected, $"concept suite {suite.Status}: {suite.Figure} {suite.Detail}".TrimEnd(),
++                head, suite);
++        }
++
++        var items = Items(p, input.Report!, suite);
++
++        if (await CheckEngineGatesAsync(input, changed, head, suite, items, ct).ConfigureAwait(false) is { } engineStop)
++        {
++            return engineStop;
++        }
++
++        // The affected bench subset, paired against the turn's base arm.
++        var related = Related(p);
++        // The index's units of the package's cells (L2 and, with a corpus, L3) and every unit the branch's corpus pin added.
++        var units = index.UnitsFor(related, p.Key.Language).Union(added, StringComparer.Ordinal).ToList();
++        var bench = BenchStage.Skipped;
++        if (units.Count > 0)
++        {
++            bench = await MeasureBenchAsync(input, head, suite, items, units, related, newPin, ct).ConfigureAwait(false);
++            if (bench.Stop is not null)
++            {
++                return bench.Stop;
++            }
++        }
++
++        // G3: the package's measured rows — the bench entries of this concept that moved between the two arms.
++        var moved = units.Count == 0 ? [] : await MovedAsync(input, related).ConfigureAwait(false);
++        // Covered with no delta yet: an item measurable on its own repo is never here (Items keeps it uncovered without
++        // its repo delta), so these are the repo-less items the bench alone could have measured.
++        var unmeasured = items.Where(v => v.Covered && v.Delta is null && v.Item.Kind is ItemKind.FalseNegative or ItemKind.FalsePositive)
++            .Select(v => v.Item.Id).ToHashSet(StringComparer.Ordinal);
++        items = Measure(items, moved, input.BaseSha, head);
++        items = await AlreadyFixedAsync(input, head, items, unmeasured, ct).ConfigureAwait(false);
++        // An entry the shell built that the BASE engine already gets right measures nothing: it is no delta, and says so.
++        var settled = added.Count == 0 ? [] : await SettledAsync(input, added).ConfigureAwait(false);
++        return Verdict(input, ShellOutcome.Passed, PassedReason(newPin, added, settled, bench),
++            head, suite, bench.Delta, units, items) with
++        {
++            Moved = moved, SideGains = bench.Side.Accepted, CorpusPin = corpus.HeadPin, CorpusUnits = added,
++        };
++    }
++
++    private ShellVerdict Verdict(ShellGateInput input, ShellOutcome o, string why, string? head = null, SuiteResult? suite = null,
++        BenchDelta? delta = null, IReadOnlyList<string>? units = null, IReadOnlyList<ItemVerdict>? items = null) =>
++        new ShellVerdict(input.Package, input.Branch, head, o, why, suite, delta, units ?? [],
++            items ?? NotCovered(input.Package, why), Residuals(input)) { Reroutes = Reroutes(input) };
++
++    /// <summary>The verdict of a shell that did not finish (or whose instrument failed), or null when it finished.</summary>
++    private ShellVerdict? UnfinishedVerdict(ShellGateInput input, string head)
++    {
+         // ★ A limit stops a shell that has not finished. One that wrote its result as done finished its work before the
+         //   limit (if any) mattered, and is judged on it; the limit still pauses the service (TurnRunner, ServiceLoop).
+         if (input.Run.Limit != UsageLimit.None && input.Report is not { Done: true })
+         {
+-            return Verdict(ShellOutcome.Unfinished, $"the shell hit the {input.Run.Limit} usage limit", head);
++            return Verdict(input, ShellOutcome.Unfinished, $"the shell hit the {input.Run.Limit} usage limit", head);
+         }
+ 
+         // ★ The API failing under a shell is the instrument, not the package: not admitted, no attempt counted, and the
+@@ -119,77 +194,70 @@ public sealed partial class ShellGate(IGit git, IGateRunner gates, IBenchIndex i
+         //   finished before the failure and is judged on it.
+         if (input.Run.ApiError is { } api && input.Report is not { Done: true })
+         {
+-            return Verdict(ShellOutcome.Instrument, $"the Claude API failed under the shell ({api})", head);
++            return Verdict(input, ShellOutcome.Instrument, $"the Claude API failed under the shell ({api})", head);
+         }
+ 
+         if (input.Run.TimedOut)
+         {
+-            return Verdict(ShellOutcome.Unfinished, "the shell timed out", head);
++            return Verdict(input, ShellOutcome.Unfinished, "the shell timed out", head);
+         }
+ 
+         if (input.Report is null)
+         {
+-            return Verdict(ShellOutcome.Unfinished, $"no result file (shell exit {input.Run.ExitCode})", head);
++            return Verdict(input, ShellOutcome.Unfinished, $"no result file (shell exit {input.Run.ExitCode})", head);
+         }
+ 
+-        if (!input.Report.Done)
+-        {
+-            return Verdict(ShellOutcome.Unfinished, $"the shell reported '{input.Report.Status}': {input.Report.Summary}", head);
+-        }
++        return input.Report.Done
++            ? null
++            : Verdict(input, ShellOutcome.Unfinished,
++                $"the shell reported '{input.Report.Status}': {input.Report.Summary}", head);
++    }
+ 
+-        var changed = await git.ChangedFilesAsync(input.Worktree, input.BaseSha, ct).ConfigureAwait(false);
+-        if (changed.Count == 0)
+-        {
+-            return Verdict(ShellOutcome.Unfinished, "nothing committed on the branch", head);
+-        }
++    /// <summary>What the corpus-pin check found: a verdict to stop on, or the moved pin and the units it added.</summary>
++    private sealed record CorpusStage(ShellVerdict? Stop, string? HeadPin, string? NewPin, IReadOnlyList<string> Added);
+ 
+-        // The corpus pin. A shell that built a bench entry (tools/bench/corpus_entry.py) published it to the corpus and
+-        // moved the pin on its branch: the instrument both arms read is then the HEAD's pin, the entry's units join the
+-        // subset, and the entry must have come first (red first) and only ever move the corpus forward.
++    /// <summary>
++    /// The corpus pin. A shell that built a bench entry (tools/bench/corpus_entry.py) published it to the corpus and
++    /// moved the pin on its branch: the instrument both arms read is then the HEAD's pin, the entry's units join the
++    /// subset, and the entry must have come first (red first) and only ever move the corpus forward.
++    /// </summary>
++    private async Task<CorpusStage> CheckCorpusPinAsync(ShellGateInput input, string head, CancellationToken ct)
++    {
+         var basePin = await _corpus.PinOfAsync(input.BaseWorktree, ct).ConfigureAwait(false);
+         var headPin = await _corpus.PinOfAsync(input.Worktree, ct).ConfigureAwait(false);
+-        IReadOnlyList<string> added = [];
+-        var newPin = headPin is not null && headPin != basePin ? headPin : null;
+-        if (newPin is not null)
++        if (headPin is null || headPin == basePin)
+         {
+-            if (basePin is null || !await _corpus.ContainsAsync(newPin, basePin, ct).ConfigureAwait(false))
+-            {
+-                return Verdict(ShellOutcome.Rejected, $"the branch pins corpus {Short(newPin)}, which does not contain the base's "
+-                    + $"{(basePin is null ? "(none)" : Short(basePin))}: a bench entry is published on the corpus's main, and the "
+-                    + "instrument only moves forward along it", head);
+-            }
+-
+-            if (RedFirstProblem(await _corpus.CommitsAsync(input.Worktree, input.BaseSha, ct).ConfigureAwait(false)) is { } late)
+-            {
+-                return Verdict(ShellOutcome.Rejected, late, head);
+-            }
++            return new CorpusStage(null, headPin, null, []);
++        }
+ 
+-            var atHead = await _corpus.UnitsAtAsync(input.Worktree, null, ct).ConfigureAwait(false);
+-            var atBase = await _corpus.UnitsAtAsync(input.BaseWorktree, null, ct).ConfigureAwait(false);
+-            if (atHead is null || atBase is null)
+-            {
+-                return Verdict(ShellOutcome.Instrument, $"the bench units at corpus {Short(newPin)} could not be listed", head);
+-            }
++        CorpusStage Stop(ShellOutcome o, string why) => new(Verdict(input, o, why, head), headPin, headPin, []);
+ 
+-            added = atHead.Except(atBase, StringComparer.Ordinal).ToList();
++        if (basePin is null || !await _corpus.ContainsAsync(headPin, basePin, ct).ConfigureAwait(false))
++        {
++            return Stop(ShellOutcome.Rejected, $"the branch pins corpus {Short(headPin)}, which does not contain the base's "
++                + $"{(basePin is null ? "(none)" : Short(basePin))}: a bench entry is published on the corpus's main, and the "
++                + "instrument only moves forward along it");
+         }
+ 
+-        // L1: the concept suite.
+-        var suite = await gates.RunConceptSuiteAsync(input.Worktree, p.Key, Path.Combine(input.PackageDir, "concepts"), ct)
+-            .ConfigureAwait(false);
+-        if (suite.Status == SuiteStatus.Unscanned)
++        if (RedFirstProblem(await _corpus.CommitsAsync(input.Worktree, input.BaseSha, ct).ConfigureAwait(false)) is { } late)
+         {
+-            return Verdict(ShellOutcome.Instrument, $"concept suite {suite.Status}: {suite.Detail}", head, suite);
++            return Stop(ShellOutcome.Rejected, late);
+         }
+ 
+-        if (suite.Status != SuiteStatus.Green)
++        var atHead = await _corpus.UnitsAtAsync(input.Worktree, null, ct).ConfigureAwait(false);
++        var atBase = await _corpus.UnitsAtAsync(input.BaseWorktree, null, ct).ConfigureAwait(false);
++        if (atHead is null || atBase is null)
+         {
+-            return Verdict(ShellOutcome.Rejected, $"concept suite {suite.Status}: {suite.Figure} {suite.Detail}".TrimEnd(),
+-                head, suite);
++            return Stop(ShellOutcome.Instrument, $"the bench units at corpus {Short(headPin)} could not be listed");
+         }
+ 
+-        var items = Items(p, input.Report, suite);
++        return new CorpusStage(null, headPin, headPin, atHead.Except(atBase, StringComparer.Ordinal).ToList());
++    }
+ 
++    /// <summary>The engine unit tests of the touched area and the hermetic guards: a rejecting verdict, or null when both hold.</summary>
++    private async Task<ShellVerdict?> CheckEngineGatesAsync(ShellGateInput input, IReadOnlyList<string> changed, string head,
++        SuiteResult suite, IReadOnlyList<ItemVerdict> items, CancellationToken ct)
++    {
+         // The engine unit tests of the touched area.
+         var filter = TestFilter(changed);
+         if (filter is not null)
+@@ -198,7 +266,7 @@ public sealed partial class ShellGate(IGit git, IGateRunner gates, IBenchIndex i
+                 .ConfigureAwait(false);
+             if (!ok)
+             {
+-                return Verdict(ShellOutcome.Rejected,
++                return Verdict(input, ShellOutcome.Rejected,
+                     $"engine unit tests of the touched area are red ({(filter.Length == 0 ? "whole suite" : filter)})",
+                     head, suite, items: items);
+             }
+@@ -214,91 +282,84 @@ public sealed partial class ShellGate(IGit git, IGateRunner gates, IBenchIndex i
+                 && await gates.RunHermeticGuardsAsync(input.BaseWorktree, Path.Combine(input.PackageDir, "hermetic-guards-base.log"), ct)
+                     .ConfigureAwait(false))
+             {
+-                return Verdict(ShellOutcome.Rejected,
++                return Verdict(input, ShellOutcome.Rejected,
+                     $"the engine's hermetic guards are red and the base's are green (see {log}): a guard ship.sh runs on the turn",
+                     head, suite, items: items);
+             }
+         }
+ 
+-        // The affected bench subset, paired against the turn's base arm.
+-        var related = Related(p);
+-        // The index's units of the package's cells (L2 and, with a corpus, L3) and every unit the branch's corpus pin added.
+-        var units = index.UnitsFor(related, p.Key.Language).Union(added, StringComparer.Ordinal).ToList();
+-        var delta = BenchDelta.NotMeasured;
+-        var rescans = new List<string>();
+-        var side = SideMoveVerdict.None;
+-        if (units.Count > 0)
++        return null;
++    }
++
++    /// <summary>What the bench stage measured: a verdict to stop on, or the paired delta, its rescans and the side moves.</summary>
++    private sealed record BenchStage(ShellVerdict? Stop, BenchDelta Delta, IReadOnlyList<string> Rescans, SideMoveVerdict Side)
++    {
++        public static readonly BenchStage Skipped = new(null, BenchDelta.NotMeasured, [], SideMoveVerdict.None);
++    }
++
++    private async Task<BenchStage> MeasureBenchAsync(ShellGateInput input, string head, SuiteResult suite,
++        IReadOnlyList<ItemVerdict> items, IReadOnlyList<string> units, IReadOnlyList<string> related, string? newPin,
++        CancellationToken ct)
++    {
++        BenchStage Stop(ShellOutcome o, string why, BenchDelta? delta = null, IReadOnlyList<string>? rescans = null) =>
++            new(Verdict(input, o, why, head, suite, delta, units, items), delta ?? BenchDelta.NotMeasured, rescans ?? [],
++                SideMoveVerdict.None);
++
++        var label = $"{input.Branch.Replace('/', '-')}-{head[..Math.Min(10, head.Length)]}";
++        var headArm = await gates.BenchAsync(input.Worktree, label, units, Path.Combine(input.PackageDir, "bench-head.json"), ct)
++            .ConfigureAwait(false);
++        // ★ One instrument for both arms. The turn's base arm was read at the BASE's corpus pin and lacks the units the
++        //   branch's pin added: at a new pin the base engine (its Release build, its label) is scanned on the new units
++        //   and every unit is scored at the head's pin. Paired on two pins, the delta would measure the corpus.
++        var basePath = Path.Combine(input.PackageDir, "bench-base.json");
++        var baseArm = headArm is null
++            ? null
++            : newPin is null
++                ? await gates.ScoreAsync(input.BaseWorktree, input.BaseLabel, units, basePath, ct).ConfigureAwait(false)
++                : await gates.BenchAtPinAsync(input.BaseWorktree, input.BaseLabel, units, newPin, basePath, ct).ConfigureAwait(false);
++        if (headArm is null || baseArm is null)
+         {
+-            var label = $"{input.Branch.Replace('/', '-')}-{head[..Math.Min(10, head.Length)]}";
+-            var headArm = await gates.BenchAsync(input.Worktree, label, units, Path.Combine(input.PackageDir, "bench-head.json"), ct)
+-                .ConfigureAwait(false);
+-            // ★ One instrument for both arms. The turn's base arm was read at the BASE's corpus pin and lacks the units the
+-            //   branch's pin added: at a new pin the base engine (its Release build, its label) is scanned on the new units
+-            //   and every unit is scored at the head's pin. Paired on two pins, the delta would measure the corpus.
+-            var basePath = Path.Combine(input.PackageDir, "bench-base.json");
+-            var baseArm = headArm is null
+-                ? null
+-                : newPin is null
+-                    ? await gates.ScoreAsync(input.BaseWorktree, input.BaseLabel, units, basePath, ct).ConfigureAwait(false)
+-                    : await gates.BenchAtPinAsync(input.BaseWorktree, input.BaseLabel, units, newPin, basePath, ct).ConfigureAwait(false);
+-            if (headArm is null || baseArm is null)
+-            {
+-                return Verdict(ShellOutcome.Instrument, "the bench subset could not be measured", head, suite, units: units,
+-                    items: items);
+-            }
++            return Stop(ShellOutcome.Instrument, "the bench subset could not be measured");
++        }
+ 
+-            delta = await BenchPairing.CompareAsync(gates,
+-                    new BenchArm(input.BaseWorktree, input.BaseLabel, units, baseArm, newPin),
+-                    new BenchArm(input.Worktree, label, units, headArm),
+-                    Path.Combine(input.PackageDir, "bench-delta.json"), rescans.Add, ct)
+-                .ConfigureAwait(false);
+-            switch (delta.Verdict)
+-            {
+-                case BenchVerdict.InstrumentMismatch:
+-                case BenchVerdict.Failed:
+-                    return Verdict(ShellOutcome.Instrument, $"bench compare: {delta.Verdict}"
+-                        + (rescans.Count > 0 ? $" ({string.Join("; ", rescans)})" : ""), head, suite, delta, units, items);
+-                case BenchVerdict.Regressed:
+-                    return Verdict(ShellOutcome.Rejected, "bench regression: " + string.Join("; ", delta.Regressions),
+-                        head, suite, delta, units, items);
+-            }
++        var rescans = new List<string>();
++        var delta = await BenchPairing.CompareAsync(gates,
++                new BenchArm(input.BaseWorktree, input.BaseLabel, units, baseArm, newPin),
++                new BenchArm(input.Worktree, label, units, headArm),
++                Path.Combine(input.PackageDir, "bench-delta.json"), rescans.Add, ct)
++            .ConfigureAwait(false);
++        switch (delta.Verdict)
++        {
++            case BenchVerdict.InstrumentMismatch:
++            case BenchVerdict.Failed:
++                return Stop(ShellOutcome.Instrument, $"bench compare: {delta.Verdict}"
++                    + (rescans.Count > 0 ? $" ({string.Join("; ", rescans)})" : ""), delta);
++            case BenchVerdict.Regressed:
++                return Stop(ShellOutcome.Rejected, "bench regression: " + string.Join("; ", delta.Regressions), delta);
++        }
+ 
+-            side = await SideMoves.JudgeAsync(gates, index, input.Worktree, BenchLines.Of(delta),
+-                related.ToHashSet(StringComparer.Ordinal), input.PackageDir, ct).ConfigureAwait(false);
+-            if (side.Rejected.Count > 0)
+-            {
+-                return Verdict(ShellOutcome.Rejected, "an unrelated dimension moved: " + string.Join("; ", side.Rejected),
+-                    head, suite, delta, units, items);
+-            }
++        var side = await SideMoves.JudgeAsync(gates, index, input.Worktree, BenchLines.Of(delta),
++            related.ToHashSet(StringComparer.Ordinal), input.PackageDir, ct).ConfigureAwait(false);
++        if (side.Rejected.Count > 0)
++        {
++            return Stop(ShellOutcome.Rejected, "an unrelated dimension moved: " + string.Join("; ", side.Rejected), delta);
++        }
+ 
+-            if (side.Unmeasured.Count > 0)
+-            {
+-                return Verdict(ShellOutcome.Instrument, "a side gain could not be checked: " + string.Join("; ", side.Unmeasured),
+-                    head, suite, delta, units, items);
+-            }
++        if (side.Unmeasured.Count > 0)
++        {
++            return Stop(ShellOutcome.Instrument, "a side gain could not be checked: " + string.Join("; ", side.Unmeasured), delta);
+         }
+ 
+-        // G3: the package's measured rows — the bench entries of this concept that moved between the two arms.
+-        var moved = units.Count == 0 ? [] : await MovedAsync(input, related).ConfigureAwait(false);
+-        // Covered with no delta yet: an item measurable on its own repo is never here (Items keeps it uncovered without
+-        // its repo delta), so these are the repo-less items the bench alone could have measured.
+-        var unmeasured = items.Where(v => v.Covered && v.Delta is null && v.Item.Kind is ItemKind.FalseNegative or ItemKind.FalsePositive)
+-            .Select(v => v.Item.Id).ToHashSet(StringComparer.Ordinal);
+-        items = Measure(items, moved, input.BaseSha, head);
+-        items = await AlreadyFixedAsync(input, head, items, unmeasured, ct).ConfigureAwait(false);
+-        // An entry the shell built that the BASE engine already gets right measures nothing: it is no delta, and says so.
+-        var settled = added.Count == 0 ? [] : await SettledAsync(input, added).ConfigureAwait(false);
+-        return Verdict(ShellOutcome.Passed, "every per-shell gate held"
+-                + (newPin is null ? "" : $"; corpus {Short(newPin)} adds {(added.Count == 0 ? "no unit" : string.Join(", ", added))}")
+-                + (settled.Count > 0 ? $"; the base engine already gets {string.Join(", ", settled)} right — no delta there" : "")
+-                + (side.Accepted.Count > 0 ? $"; side gain(s) admitted: {string.Join("; ", side.Accepted)}" : "")
+-                + (rescans.Count > 0 ? $" ({string.Join("; ", rescans)})" : ""),
+-            head, suite, delta, units, items) with
+-        {
+-            Moved = moved, SideGains = side.Accepted, CorpusPin = headPin, CorpusUnits = added,
+-        };
++        return new BenchStage(null, delta, rescans, side);
+     }
+ 
++    private static string PassedReason(string? newPin, IReadOnlyList<string> added, IReadOnlyList<string> settled, BenchStage bench) =>
++        "every per-shell gate held"
++        + (newPin is null ? "" : $"; corpus {Short(newPin)} adds {(added.Count == 0 ? "no unit" : string.Join(", ", added))}")
++        + (settled.Count > 0 ? $"; the base engine already gets {string.Join(", ", settled)} right — no delta there" : "")
++        + (bench.Side.Accepted.Count > 0 ? $"; side gain(s) admitted: {string.Join("; ", bench.Side.Accepted)}" : "")
++        + (bench.Rescans.Count > 0 ? $" ({string.Join("; ", bench.Rescans)})" : "");
++
+     private static string Short(string sha) => sha[..Math.Min(10, sha.Length)];
+ 
+     /// <summary>

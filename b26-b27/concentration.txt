@@ -1,0 +1,28 @@
+rows 9071  repositories 268  languages 17
+top 10 repositories carry 4963 of 9071 rows = 54.7 %
+  top  1: 15.3 %
+  top  3: 30.7 %
+  top  5: 41.2 %
+  top 20: 71.1 %
+half the rows come from 9 of 268 repositories (3.4 %)
+
+TOP 5 KINDS BY ROWS (rows, repos hit, share of its rows from its single largest repo)
+    965 rows    3 repos   99.8 %  D29 · Medium: unquoted-attribute-var
+    771 rows    1 repos  100.0 %  X18 · Owned disposable field is never released
+    204 rows    3 repos   98.0 %  D29 · Low: request-host-used
+    145 rows   50 repos   13.8 %  D31 · Medium IaC: CKV_DOCKER_3
+    140 rows   12 repos   17.9 %  R4 · No test reaches this file
+
+TOP 5 KINDS BY REPOSITORIES HIT (repos, languages, rows)
+   50 repos  14 langs    145 rows  D31 · Medium IaC: CKV_DOCKER_3
+   33 repos   9 langs     33 rows  M3 · No tests/ separation
+   33 repos   5 langs     33 rows  P5 · No DR/backup evidence in the repo
+   30 repos   8 langs     30 rows  M3 · No src/ separation
+   24 repos  14 langs     93 rows  D28 · Secret: generic-api-key
+
+TOP 5 DIMENSIONS BY ROWS, with their largest single repository's share
+    D29  1881 rows   70 repos  largest repo  51.2 %
+     R7  1053 rows   26 repos  largest repo  37.5 %
+    X18   778 rows    5 repos  largest repo  99.2 %
+    R10   722 rows   31 repos  largest repo  36.6 %
+    D31   621 rows   62 repos  largest repo  29.8 %

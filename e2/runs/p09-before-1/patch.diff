@@ -1,0 +1,50 @@
+diff --git a/engine/src/CodeHealth.Core/Dependencies/GemVersion.cs b/engine/src/CodeHealth.Core/Dependencies/GemVersion.cs
+index 999ea3a..289766b 100644
+--- a/engine/src/CodeHealth.Core/Dependencies/GemVersion.cs
++++ b/engine/src/CodeHealth.Core/Dependencies/GemVersion.cs
+@@ -120,21 +120,7 @@ public static partial class GemVersion
+         {
+             var x = i < left.Count ? left[i] : 0;
+             var y = i < right.Count ? right[i] : 0;
+-            int c;
+-            if (x is int xi && y is int yi)
+-            {
+-                c = xi.CompareTo(yi);
+-            }
+-            else if (x is string xs && y is string ys)
+-            {
+-                c = string.CompareOrdinal(xs, ys);
+-            }
+-            else
+-            {
+-                // Mixed: the alphabetic side is a prerelease marker and ranks BELOW the numeric one.
+-                return x is string ? -1 : 1;
+-            }
+-
++            var c = CompareSegment(x, y);
+             if (c != 0)
+             {
+                 return c;
+@@ -144,6 +130,22 @@ public static partial class GemVersion
+         return 0;
+     }
+ 
++    private static int CompareSegment(object x, object y)
++    {
++        if (x is int xi && y is int yi)
++        {
++            return xi.CompareTo(yi);
++        }
++
++        if (x is string xs && y is string ys)
++        {
++            return string.CompareOrdinal(xs, ys);
++        }
++
++        // Mixed: the alphabetic side is a prerelease marker and ranks BELOW the numeric one.
++        return x is string ? -1 : 1;
++    }
++
+     /// <summary>Whether <paramref name="candidate"/> is strictly newer than <paramref name="current"/>. False when
+     /// either is unparseable — "cannot compare" is not "is newer".
+     /// <para>★ STRICTLY ONE-DIRECTIONAL, and that is the guard with the loudest corpus specimen. rubygems.org

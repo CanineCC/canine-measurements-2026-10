@@ -1,0 +1,41 @@
+{
+ "run": "m026-U-1",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE\n`ExpressAndFastify` now holds only the loop and one `if` (well under 15), the extracted `JudgeCall` and `RouteTarget` keep every early-exit, chain-versus-plain branch and guard expression in the same order with the same types, and the nullable-tuple `is not var (path, receiver, middle)` pattern compiles and leaves the locals definitely assigned after the check.",
+ "cost_usd": 0.047637599999999995,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 5248,
+  "output_tokens": 2329,
+  "output_tokens_details": {
+   "thinking_tokens": 2192
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 2329,
+    "cache_read_input_tokens": 5248,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

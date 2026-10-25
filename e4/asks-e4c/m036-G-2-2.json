@@ -1,0 +1,41 @@
+{
+ "run": "m036-G-2",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe extracted helpers keep the same order, early exits and `inheriting` side effects, the braces still balance, and pulling out the two nested blocks removes roughly 14 complexity points from 25; I couldn't find the source file here, so I haven't confirmed that the called helpers are static or that `body`'s type matches the new signature.",
+ "cost_usd": 0.0408214,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4867,
+  "output_tokens": 1992,
+  "output_tokens_details": {
+   "thinking_tokens": 1630
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1992,
+    "cache_read_input_tokens": 4867,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

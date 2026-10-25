@@ -1,0 +1,149 @@
+diff --git a/engine/src/Scanner/Dependencies/D12/NpmDeprecatedDependencies.cs b/engine/src/Scanner/Dependencies/D12/NpmDeprecatedDependencies.cs
+index ceba9e9f..c914cd80 100644
+--- a/engine/src/Scanner/Dependencies/D12/NpmDeprecatedDependencies.cs
++++ b/engine/src/Scanner/Dependencies/D12/NpmDeprecatedDependencies.cs
+@@ -426,72 +426,97 @@ internal static class NpmDeprecatedDependencies
+ 
+         public static Lock Read(string file, string dir, string[] lines)
+         {
+-            var importers = new Dictionary<string, Dictionary<string, string>>(StringComparer.Ordinal);
+-            var packages = new Dictionary<string, LockEntry>(StringComparer.Ordinal);
+-            string? top = null;
+-            string? importer = null;
+-            string? section = null;
+-            string? dependency = null;
+-            string? packageKey = null;
++            var reader = new Reader();
+             for (var i = 0; i < lines.Length; i++)
+             {
+-                var raw = lines[i];
+-                if (raw.Trim().Length == 0 || raw.TrimStart().StartsWith('#'))
++                reader.Line(lines[i], i + 1);
++            }
++
++            return new PnpmLock(file, dir, reader.Importers, reader.Packages);
++        }
++
++        /// <summary>The line-by-line parse state of one lockfile.</summary>
++        private sealed class Reader
++        {
++            private string? _top;
++            private string? _importer;
++            private string? _section;
++            private string? _dependency;
++            private string? _packageKey;
++
++            public Dictionary<string, Dictionary<string, string>> Importers { get; } = new(StringComparer.Ordinal);
++
++            public Dictionary<string, LockEntry> Packages { get; } = new(StringComparer.Ordinal);
++
++            public void Line(string raw, int lineNumber)
++            {
++                var text = raw.Trim();
++                if (text.Length == 0 || text.StartsWith('#'))
+                 {
+-                    continue;
++                    return;
+                 }
+ 
+                 var indent = raw.Length - raw.TrimStart().Length;
+-                var text = raw.Trim();
+                 if (indent == 0)
+                 {
+-                    top = Key(text);
+-                    importer = top is "dependencies" or "devDependencies" or "optionalDependencies" ? "." : null;
+-                    section = importer is null ? null : top;
+-                    dependency = null;
+-                    packageKey = null;
+-                    continue;
++                    TopLevel(text);
++                }
++                else if (_top == "importers")
++                {
++                    ImporterLine(indent, text);
++                }
++                else if (_importer == "." && IsDependencySection(_top))
++                {
++                    _dependency = Dependency(Importers, _importer, indent, 2, text, _dependency);
++                }
++                else if (_top == "packages")
++                {
++                    PackageLine(indent, text, lineNumber);
+                 }
++            }
++
++            private void TopLevel(string text)
++            {
++                _top = Key(text);
++                _importer = IsDependencySection(_top) ? "." : null;
++                _section = _importer is null ? null : _top;
++                _dependency = null;
++                _packageKey = null;
++            }
+ 
+-                if (top == "importers")
++            private void ImporterLine(int indent, string text)
++            {
++                if (indent == 2)
+                 {
+-                    if (indent == 2)
+-                    {
+-                        importer = Key(text);
+-                        section = null;
+-                    }
+-                    else if (indent == 4)
+-                    {
+-                        section = Key(text);
+-                    }
+-                    else if (importer is not null && IsDependencySection(section))
+-                    {
+-                        dependency = Dependency(importers, importer, indent, 6, text, dependency);
+-                    }
++                    _importer = Key(text);
++                    _section = null;
+                 }
+-                else if (importer == "." && IsDependencySection(top))
++                else if (indent == 4)
+                 {
+-                    dependency = Dependency(importers, importer, indent, 2, text, dependency);
++                    _section = Key(text);
+                 }
+-                else if (top == "packages")
++                else if (_importer is not null && IsDependencySection(_section))
+                 {
+-                    if (indent == 2)
+-                    {
+-                        packageKey = Key(text);
+-                        if (PackageOf(packageKey) is { } p)
+-                        {
+-                            packages[packageKey] = new LockEntry(p.Name, p.Version, null, i + 1);
+-                        }
+-                    }
+-                    else if (indent == 4 && packageKey is not null && text.StartsWith("deprecated:", StringComparison.Ordinal)
+-                             && packages.TryGetValue(packageKey, out var entry))
++                    _dependency = Dependency(Importers, _importer, indent, 6, text, _dependency);
++                }
++            }
++
++            private void PackageLine(int indent, string text, int lineNumber)
++            {
++                if (indent == 2)
++                {
++                    _packageKey = Key(text);
++                    if (PackageOf(_packageKey) is { } p)
+                     {
+-                        packages[packageKey] = entry with { Mark = Unquote(text["deprecated:".Length..].Trim()) };
++                        Packages[_packageKey] = new LockEntry(p.Name, p.Version, null, lineNumber);
+                     }
+                 }
++                else if (indent == 4 && _packageKey is not null && text.StartsWith("deprecated:", StringComparison.Ordinal)
++                         && Packages.TryGetValue(_packageKey, out var entry))
++                {
++                    Packages[_packageKey] = entry with { Mark = Unquote(text["deprecated:".Length..].Trim()) };
++                }
+             }
+-
+-            return new PnpmLock(file, dir, importers, packages);
+         }
+ 
+         private static bool IsDependencySection(string? section) =>

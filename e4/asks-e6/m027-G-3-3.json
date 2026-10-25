@@ -1,0 +1,41 @@
+{
+ "run": "m027-G-3",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The extracted iterator keeps the same evaluation order, `t[classAt + 1]` equals the original `t[i + 1]`, and `NestDecision` yields the same decision for every input. The helper's complexity is roughly 13, and the outer method loses its inner loop, so both should be under 15 with no new build-warning risk. I only had the diff, not the surrounding file, so the outer method's remaining complexity is an estimate.",
+ "cost_usd": 0.009692300000000001,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4983,
+  "output_tokens": 919,
+  "output_tokens_details": {
+   "thinking_tokens": 772
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 919,
+    "cache_read_input_tokens": 4983,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

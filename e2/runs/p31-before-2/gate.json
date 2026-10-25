@@ -1,0 +1,44 @@
+{
+ "side": "before",
+ "pair": "p31",
+ "touched": [
+  "engine/src/CodeHealth.Core/Testing/NodeTestSuiteCoverageCollector.cs"
+ ],
+ "empty_patch": false,
+ "tests_edited": false,
+ "patch_applies": true,
+ "target_cognitive_after": 2,
+ "target_present": true,
+ "newly_over_threshold": [],
+ "max_cognitive_in_touched_files_after": 17,
+ "build_ok": true,
+ "build_errors": [],
+ "test_classes": [
+  "CorepackPinnedManagerFallbackTests",
+  "InstallFailureNamesTheHostThatStoppedItTests",
+  "NodeErrorLineScrubTests",
+  "NodeTestReliabilityCollectorTests",
+  "NodeTestSuiteCoverageCollectorTests",
+  "PolyglotCoverageCollectorTests",
+  "RegistryRetryReportsWhatActuallyBlockedItTests",
+  "UndeclStubComplexity",
+  "UndeclStubCoverage",
+  "UndeclaredRunnerIsTheirCoverageGapTests",
+  "UndriveableNodeRunnerIsNotAMissingJsCoverageRunnerTests",
+  "UndriveableStubComplexity",
+  "UndriveableStubCoverage",
+  "WorkspaceSiblingBuildTests",
+  "YarnBerryDefaultRegistryRescueTests",
+  "YarnBerryProxyIsRestatedTests",
+  "filename"
+ ],
+ "tests": {
+  "exit": 0,
+  "passed": 114,
+  "failed": 0,
+  "total": 114,
+  "tail": "Test run for <scratch>/blog-method/e2/lanes/gate-before/engine/tests/CodeHealth.Tests.Unit/bin/Debug/net10.0/CodeHealth.Tests.Unit.dll (.NETCoreApp,Version=v10.0)\nVSTest version 18.0.2 (x64)\n\nStarting test execution, please wait...\nA total of 1 test files matched the specified pattern.\n\nPassed!  - Failed:     0, Passed:   114, Skipped:     0, Total:   114, Duration: 116 ms - CodeHealth.Tests.Unit.dll (net10.0)\nbuild-lock.sh: dotnet is <home>/.dotnet-microsoft (Microsoft build): /usr/lib/dotnet's runtime links the system libunwind, whose race aborts concurrent throws with 'Internal CLR error (0x80131506)' (dotnet/runtime#130577)\n"
+ },
+ "outcome": "held",
+ "behaviour": "tests_passed"
+}

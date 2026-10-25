@@ -1,0 +1,59 @@
+diff --git a/engine/src/Core/Frontend/FrontendPathLiteralRefs.cs b/engine/src/Core/Frontend/FrontendPathLiteralRefs.cs
+index dfb61ffe..82cfddb6 100644
+--- a/engine/src/Core/Frontend/FrontendPathLiteralRefs.cs
++++ b/engine/src/Core/Frontend/FrontendPathLiteralRefs.cs
+@@ -567,27 +567,38 @@ internal static class FrontendPathLiteralRefs
+         {
+             foreach (var pattern in SplitGoEmbedPatterns(m.Groups["patterns"].Value))
+             {
+-                // `all:` only widens the set a pattern includes (dotfiles and `_`-prefixed names); the path is the rest.
+-                var path = pattern.StartsWith("all:", StringComparison.Ordinal) ? pattern[4..] : pattern;
+-                if (path.Length == 0 || path.StartsWith("..", StringComparison.Ordinal))
++                if (TryBuildGoEmbedRef(rel, directory, pattern, out var embed))
+                 {
+-                    continue;   // `//go:embed` cannot escape the package directory; anything that looks like it is not one
++                    hostEmbeds.Add(embed);
+                 }
++            }
++        }
++    }
+ 
+-                var resolved = FrontendMarkupRefs.JoinDirLiteral(directory, path.TrimStart('.', '/'));
+-                if (resolved.Length == 0)
+-                {
+-                    continue;
+-                }
++    private static bool TryBuildGoEmbedRef(string rel, string directory, string pattern, out HostEmbedRef embed)
++    {
++        embed = default!;
+ 
+-                // A pattern with no extension names a directory (Go allows a `dir` pattern and embeds it recursively);
+-                // one with a glob names a family in its own directory. Both are resolved against the real source set by
+-                // the consumers, which know it.
+-                var isTree = resolved.Contains('*', StringComparison.Ordinal)
+-                    || !Path.GetFileName(resolved).Contains('.', StringComparison.Ordinal);
+-                hostEmbeds.Add(new HostEmbedRef(rel, resolved.TrimEnd('/'), isTree, HostPackageTested: false));
+-            }
++        // `all:` only widens the set a pattern includes (dotfiles and `_`-prefixed names); the path is the rest.
++        var path = pattern.StartsWith("all:", StringComparison.Ordinal) ? pattern[4..] : pattern;
++        if (path.Length == 0 || path.StartsWith("..", StringComparison.Ordinal))
++        {
++            return false;   // `//go:embed` cannot escape the package directory; anything that looks like it is not one
+         }
++
++        var resolved = FrontendMarkupRefs.JoinDirLiteral(directory, path.TrimStart('.', '/'));
++        if (resolved.Length == 0)
++        {
++            return false;
++        }
++
++        // A pattern with no extension names a directory (Go allows a `dir` pattern and embeds it recursively);
++        // one with a glob names a family in its own directory. Both are resolved against the real source set by
++        // the consumers, which know it.
++        var isTree = resolved.Contains('*', StringComparison.Ordinal)
++            || !Path.GetFileName(resolved).Contains('.', StringComparison.Ordinal);
++        embed = new HostEmbedRef(rel, resolved.TrimEnd('/'), isTree, HostPackageTested: false);
++        return true;
+     }
+ 
+     /// <summary>Splits one <c>//go:embed</c> directive's argument list into patterns: whitespace-separated, with

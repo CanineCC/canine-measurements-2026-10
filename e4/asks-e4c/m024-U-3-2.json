@@ -1,0 +1,41 @@
+{
+ "run": "m024-U-3",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe three helpers keep the original control flow exactly: a listing failure is recorded and skipped, reading still stops at `maxFiles`, and subdirectories are still queued after a break. That brings `Files` well under 15. The `CHA0004` pragma still covers every catch, and both `out` parameters are assigned on every path, so it should build, though I couldn't find the source here to confirm the helper parameter types (`Func<string, bool>`, `long`, the tuple list) match the original signature.",
+ "cost_usd": 0.020205000000000004,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4985,
+  "output_tokens": 960,
+  "output_tokens_details": {
+   "thinking_tokens": 672
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 960,
+    "cache_read_input_tokens": 4985,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

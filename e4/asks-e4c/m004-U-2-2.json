@@ -1,0 +1,41 @@
+{
+ "run": "m004-U-2",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nEach extracted helper does exactly what the inline code did (the early `return` in `AddDirectDependency` matches the old `continue` because it was the last statement in the loop), `entry` is definitely assigned after the combined `||` guard, and moving out the indent check, both branch bodies and the trailing join loop removes at least 12 points while adding only 1, so the method is at or below 15. One caveat: the source file wasn't available to me, so the build verdict assumes the moved tail uses only `direct`, `resolved` and `lockPath`.",
+ "cost_usd": 0.0373892,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4406,
+  "output_tokens": 1825,
+  "output_tokens_details": {
+   "thinking_tokens": 1465
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1825,
+    "cache_read_input_tokens": 4406,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

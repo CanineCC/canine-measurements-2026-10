@@ -1,0 +1,58 @@
+diff --git a/engine/src/Core/ExplicitDebt/SourceCommentTaskScanner.cs b/engine/src/Core/ExplicitDebt/SourceCommentTaskScanner.cs
+index 0a8ed465..8aab9bbb 100644
+--- a/engine/src/Core/ExplicitDebt/SourceCommentTaskScanner.cs
++++ b/engine/src/Core/ExplicitDebt/SourceCommentTaskScanner.cs
+@@ -133,15 +133,7 @@ public static class SourceCommentTaskScanner
+             var c = line[i];
+             if (quote != '\0')
+             {
+-                if (c == '\\')
+-                {
+-                    i++;
+-                }
+-                else if (c == quote)
+-                {
+-                    quote = '\0';
+-                }
+-
++                quote = QuoteAfter(c, quote, ref i);
+                 continue;
+             }
+ 
+@@ -153,19 +145,29 @@ public static class SourceCommentTaskScanner
+ 
+             if (c == prefix[0] && line[i..].StartsWith(prefix, StringComparison.Ordinal))
+             {
+-                // `#!` — an interpreter directive, not authored prose.
+-                if (prefix == "#" && i + 1 < line.Length && line[i + 1] == '!')
+-                {
+-                    return -1;
+-                }
+-
+-                return i;
++                return IsInterpreterDirective(line, i, prefix) ? -1 : i;
+             }
+         }
+ 
+         return -1;
+     }
+ 
++    /// <summary>The quote state after <paramref name="c"/> while inside a quote; a backslash skips the next char.</summary>
++    private static char QuoteAfter(char c, char quote, ref int i)
++    {
++        if (c == '\\')
++        {
++            i++;
++            return quote;
++        }
++
++        return c == quote ? '\0' : quote;
++    }
++
++    /// <summary>`#!` — an interpreter directive, not authored prose.</summary>
++    private static bool IsInterpreterDirective(ReadOnlySpan<char> line, int i, string prefix) =>
++        prefix == "#" && i + 1 < line.Length && line[i + 1] == '!';
++
+     /// <summary>What a task-comment sweep of a set of extensions found, without scoring any of it.</summary>
+     /// <param name="FilesScanned">Files of those extensions this scanner could read and did read.</param>
+     /// <param name="FilesWithMarkers">How many of them carry at least one task marker.</param>

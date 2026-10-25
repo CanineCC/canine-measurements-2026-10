@@ -1,0 +1,41 @@
+{
+ "run": "m048-G-1",
+ "k": 2,
+ "verdict": "REJECT",
+ "text": "REJECT: `ShipAsync` returns `ship.MainMoved` as `Requeued` even when `ship.Unjudged` is also set, whereas the original set `requeued` only in the `else if` branch, so a result with both set now also marks the merged packages requeued and records `requeued` in turn.json; the method's remaining complexity also looks borderline, since I count about 15 increments in the visible code before the unseen lines.",
+ "cost_usd": 0.0487499,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 16259,
+  "output_tokens": 4712,
+  "output_tokens_details": {
+   "thinking_tokens": 4572
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 4712,
+    "cache_read_input_tokens": 16259,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

@@ -1,0 +1,19 @@
+14 cap choices that leave every language >= 3 repositories; 12 distinct orderings of 17 languages
+lang        rate min rate max rank best rank worst   (rank 1 = quietest)
+csharp          9.7%    24.7%         7         14
+dart            9.0%    13.2%         6         10
+elixir          9.0%    46.3%         6         17
+erlang         11.5%    11.9%         8         11
+fsharp          5.6%    28.7%         2         17
+go              9.9%    17.8%         5         14
+java            5.3%    24.5%         1         17
+javascript      6.5%    23.7%         3         16
+kotlin          5.8%    18.7%         2         11
+php            16.9%    26.9%        13         17
+python          9.5%    16.9%         6         15
+ruby            4.1%    20.0%         1         12
+rust            4.5%    12.2%         1         11
+scala           4.3%     7.4%         1          5
+swift           4.8%    10.3%         3          8
+typescript     11.1%    16.8%         8         15
+vbnet           3.9%    18.0%         1         15

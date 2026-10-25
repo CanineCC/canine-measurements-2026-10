@@ -1,0 +1,41 @@
+{
+ "run": "p11-before-1",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The extracted loop accounts for about 9 points of cognitive complexity (foreach, nested catch, inner foreach, nested if and `||`), which takes `CollectAsync` from 17 to roughly 8. The helper moves the loop, the `continue`, the `CHA0004` pragma scope and the cancellation token as-is, so behaviour is unchanged. Nothing in the diff should break the build, since `locked` is still declared in the caller and the loop-scoped `file` and `json` aren't used afterwards. I judged this from the diff alone and did not build or run the tests.",
+ "cost_usd": 0.0160584,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 2160,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 719,
+  "output_tokens_details": {
+   "thinking_tokens": 522
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2160,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 719,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 2160,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2160
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

@@ -1,0 +1,41 @@
+{
+ "run": "m032-U-3",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe method's complexity is now far below 15, behaviour is preserved because the extracted predicates match the original conditions and order exactly (the dropped `k > 0` guard always held in the expression path, since `k` starts at `body.Start + 1`), and the new helpers should compile cleanly, assuming `IsConstantSpan` only reads the shared `noLocals` set rather than adding to it.",
+ "cost_usd": 0.017319400000000002,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 5857,
+  "output_tokens": 807,
+  "output_tokens_details": {
+   "thinking_tokens": 673
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 807,
+    "cache_read_input_tokens": 5857,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

@@ -1,0 +1,41 @@
+{
+ "run": "m022-G-3",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The extracted helpers move the code over unchanged, and the lazy `Where(reported.Add(...))` after `DistinctBy` dedups in the same order as the old `if (!reported.Add) continue`. Moving the two loops and the site construction out removes roughly 18 points of nesting-weighted complexity, which should bring the method from 29 to about 11. I couldn't build it here, so the new helper signatures (`CiChangeFilter`, `TestInvocation`, `JsInventory.Inventory`, `List<string> missed`) are unchecked against the real types.",
+ "cost_usd": 0.0108457,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 5317,
+  "output_tokens": 1031,
+  "output_tokens_details": {
+   "thinking_tokens": 837
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1031,
+    "cache_read_input_tokens": 5317,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

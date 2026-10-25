@@ -1,0 +1,41 @@
+{
+ "run": "m009-U-1",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE\n`InScript` drops to roughly 2 and each extracted iterator stays well under 15. `AddRange` enumerates the deferred iterators straight away, so site order and contents are unchanged. One caveat: the source wasn't available here, so I could only check the build from the diff, and the new helpers' parameter types (`Func<Family, bool>`, `IReadOnlyDictionary<string, bool>`, `IReadOnlySet<string>`) must match what `InScript`'s locals actually are.",
+ "cost_usd": 0.0369648,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 2601,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 785,
+  "output_tokens_details": {
+   "thinking_tokens": 423
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2601,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 785,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 2601,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2601
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

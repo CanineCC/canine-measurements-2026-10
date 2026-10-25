@@ -1,0 +1,41 @@
+{
+ "run": "m022-G-1",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE: The extracted helpers (`WorkspaceDirsByName`, `WorkspaceDependencies`, `IsTestInput`, `Under`, `ChangeFilterSite`) carry the original logic unchanged, including the same condition order and the inverted `reported.Add` check, and removing roughly 15 points of nested loops and boolean chains should bring `ChangeFilters` under 15. I could not build or run the analyzer here, so the build and the exact complexity score are unverified. The type names used in the new signatures (`JsInventory.Inventory`, `TestInvocation`, `CiChangeFilter`) are assumed rather than checked.",
+ "cost_usd": 0.0097272,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 5632,
+  "output_tokens": 916,
+  "output_tokens_details": {
+   "thinking_tokens": 696
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 916,
+    "cache_read_input_tokens": 5632,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

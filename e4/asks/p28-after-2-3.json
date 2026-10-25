@@ -1,0 +1,41 @@
+{
+ "run": "p28-after-2",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE: The two try/catch blocks move into `TryList`, which still materializes inside the try, and the `continue` on failure plus the push-then-list order are preserved. The method's cognitive complexity drops from 17 to about 12, and the CHA0004 suppression stays around the catches, so the build should be unaffected.",
+ "cost_usd": 0.0079361,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4121,
+  "output_tokens": 752,
+  "output_tokens_details": {
+   "thinking_tokens": 645
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 752,
+    "cache_read_input_tokens": 4121,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

@@ -1,0 +1,41 @@
+{
+ "run": "m043-G-2",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe stages run in the original order with the same early-exit verdicts and the same final verdict fields, `JudgeAsync` now scores about 10 (well under 15), and nothing in the diff should break the build, though I reviewed the diff only and did not compile it.",
+ "cost_usd": 0.11749280000000001,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 11147,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 1393,
+  "output_tokens_details": {
+   "thinking_tokens": 1304
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 11147,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1393,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 11147,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 11147
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

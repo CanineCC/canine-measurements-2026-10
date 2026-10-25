@@ -1,0 +1,41 @@
+{
+ "run": "m012-U-3",
+ "k": 2,
+ "verdict": "REJECT",
+ "text": "REJECT\nThe extracted helpers only remove the boolean-operator increments (about 6 points: the `||` sequences in the opener and closer checks, plus the four `||`/`&&` sequences in the foreign-reference condition), while every `if`, `continue` and loop increment and its nesting stays in `Uses`, so the method lands around 23, still above the 15 threshold.",
+ "cost_usd": 0.019108800000000002,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4404,
+  "output_tokens": 911,
+  "output_tokens_details": {
+   "thinking_tokens": 787
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 911,
+    "cache_read_input_tokens": 4404,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

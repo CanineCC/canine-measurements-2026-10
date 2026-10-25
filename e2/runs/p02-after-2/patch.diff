@@ -1,0 +1,29 @@
+diff --git a/engine/src/Core/ExplicitDebt/SourceCommentTaskScanner.cs b/engine/src/Core/ExplicitDebt/SourceCommentTaskScanner.cs
+index 0a8ed465..652f440a 100644
+--- a/engine/src/Core/ExplicitDebt/SourceCommentTaskScanner.cs
++++ b/engine/src/Core/ExplicitDebt/SourceCommentTaskScanner.cs
+@@ -153,19 +153,17 @@ public static class SourceCommentTaskScanner
+ 
+             if (c == prefix[0] && line[i..].StartsWith(prefix, StringComparison.Ordinal))
+             {
+-                // `#!` — an interpreter directive, not authored prose.
+-                if (prefix == "#" && i + 1 < line.Length && line[i + 1] == '!')
+-                {
+-                    return -1;
+-                }
+-
+-                return i;
++                return IsInterpreterDirective(line, i, prefix) ? -1 : i;
+             }
+         }
+ 
+         return -1;
+     }
+ 
++    /// <summary>`#!` — an interpreter directive, not authored prose.</summary>
++    private static bool IsInterpreterDirective(ReadOnlySpan<char> line, int index, string prefix) =>
++        prefix == "#" && index + 1 < line.Length && line[index + 1] == '!';
++
+     /// <summary>What a task-comment sweep of a set of extensions found, without scoring any of it.</summary>
+     /// <param name="FilesScanned">Files of those extensions this scanner could read and did read.</param>
+     /// <param name="FilesWithMarkers">How many of them carry at least one task marker.</param>

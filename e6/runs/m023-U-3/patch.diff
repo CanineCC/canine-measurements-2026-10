@@ -1,0 +1,267 @@
+diff --git a/engine/src/Scanner/Security/D29/Scanners/CleartextTransmissionScan.cs b/engine/src/Scanner/Security/D29/Scanners/CleartextTransmissionScan.cs
+index 6597e2d2..eed3649f 100644
+--- a/engine/src/Scanner/Security/D29/Scanners/CleartextTransmissionScan.cs
++++ b/engine/src/Scanner/Security/D29/Scanners/CleartextTransmissionScan.cs
+@@ -827,139 +827,168 @@ internal static partial class CleartextTransmissionScan
+     /// (<c>CommentMask</c>), and comments plus literal contents blanked (<c>CodeMask</c>, quotes kept). Newlines are
+     /// never blanked, so offsets and lines agree with the source. Single- and double-quoted strings end at a newline,
+     /// so a regex literal or an apostrophe in JSX text cannot shift the rest of the file.</summary>
+-    private static Lexed Lex(string text, Kind kind)
+-    {
+-        var comment = text.ToCharArray();
+-        var code = text.ToCharArray();
+-        var literals = new List<Literal>();
+-        var cs = kind == Kind.CSharp;
+-        var js = kind is Kind.Script or Kind.Jsx;
+-        var i = 0;
+-        var n = text.Length;
++    private static Lexed Lex(string text, Kind kind) => new Lexer(text, kind).Run();
+ 
+-        void BlankBoth(int from, int to)
++    private sealed class Lexer(string text, Kind kind)
++    {
++        private readonly char[] _comment = text.ToCharArray();
++        private readonly char[] _code = text.ToCharArray();
++        private readonly List<Literal> _literals = [];
++        private readonly bool _cs = kind == Kind.CSharp;
++        private readonly bool _js = kind is Kind.Script or Kind.Jsx;
++        private readonly int _n = text.Length;
++
++        public Lexed Run()
+         {
+-            for (var k = from; k < to; k++)
++            var i = 0;
++            while (i < _n)
+             {
+-                if (text[k] != '\n')
++                var c = text[i];
++                var next = i + 1 < _n ? text[i + 1] : '\0';
++                if (c == '/' && next == '/')
+                 {
+-                    comment[k] = ' ';
+-                    code[k] = ' ';
++                    i = SkipLineComment(i);
++                }
++                else if (c == '/' && next == '*')
++                {
++                    i = SkipBlockComment(i);
++                }
++                else if (c is '"' or '\'' || (_js && c == '`'))
++                {
++                    i = ReadLiteral(i, c);
++                }
++                else
++                {
++                    i++;
+                 }
+             }
++
++            return new Lexed(_literals, new string(_comment), new string(_code));
+         }
+ 
+-        void BlankCode(int from, int to)
++        private int SkipLineComment(int start)
+         {
+-            for (var k = from; k < to; k++)
++            var end = text.IndexOf('\n', start);
++            end = end < 0 ? _n : end;
++            BlankBoth(start, end);
++            return end;
++        }
++
++        private int SkipBlockComment(int start)
++        {
++            var end = text.IndexOf("*/", start + 2, StringComparison.Ordinal);
++            end = end < 0 ? _n : end + 2;
++            BlankBoth(start, end);
++            return end;
++        }
++
++        /// <summary>Reads the literal opening at <paramref name="i"/> and returns the offset after it.</summary>
++        private int ReadLiteral(int i, char c)
++        {
++            var prefixStart = i;
++            var verbatim = false;
++            if (_cs)
+             {
+-                if (text[k] != '\n')
++                while (prefixStart > 0 && text[prefixStart - 1] is '$' or '@')
+                 {
+-                    code[k] = ' ';
++                    verbatim |= text[prefixStart - 1] == '@';
++                    prefixStart--;
+                 }
+             }
+-        }
+ 
+-        while (i < n)
+-        {
+-            var c = text[i];
+-            var next = i + 1 < n ? text[i + 1] : '\0';
+-            if (c == '/' && next == '/')
++            if (_cs && c == '"' && i + 2 < _n && text[i + 1] == '"' && text[i + 2] == '"')
+             {
+-                var end = text.IndexOf('\n', i);
+-                end = end < 0 ? n : end;
+-                BlankBoth(i, end);
+-                i = end;
+-                continue;
++                return ReadRawString(prefixStart, i);
+             }
+ 
+-            if (c == '/' && next == '*')
++            var j = FindLiteralEnd(i, c, verbatim && c == '"');
++            var terminated = j < _n && text[j] == c;
++            _literals.Add(new Literal(prefixStart, i + 1, j, terminated ? j + 1 : j));
++            BlankCode(i + 1, j);
++            return terminated ? j + 1 : j;
++        }
++
++        private int ReadRawString(int prefixStart, int i)
++        {
++            var q = 0;
++            while (i + q < _n && text[i + q] == '"')
+             {
+-                var end = text.IndexOf("*/", i + 2, StringComparison.Ordinal);
+-                end = end < 0 ? n : end + 2;
+-                BlankBoth(i, end);
+-                i = end;
+-                continue;
++                q++;
+             }
+ 
+-            if (c is '"' or '\'' || (js && c == '`'))
++            var fence = new string('"', q);
++            var close = text.IndexOf(fence, i + q, StringComparison.Ordinal);
++            var contentEnd = close < 0 ? _n : close;
++            var rawEnd = close < 0 ? _n : close + q;
++            _literals.Add(new Literal(prefixStart, i + q, contentEnd, rawEnd));
++            BlankCode(i + q, contentEnd);
++            return rawEnd;
++        }
++
++        /// <summary>Offset of the closing quote, or of the newline / end of text that ends an unterminated literal.</summary>
++        private int FindLiteralEnd(int open, char quote, bool verbatim)
++        {
++            var j = open + 1;
++            while (j < _n)
+             {
+-                var prefixStart = i;
+-                var verbatim = false;
+-                if (cs)
++                var ch = text[j];
++                if (verbatim)
+                 {
+-                    while (prefixStart > 0 && text[prefixStart - 1] is '$' or '@')
++                    if (ch != '"')
+                     {
+-                        verbatim |= text[prefixStart - 1] == '@';
+-                        prefixStart--;
++                        j++;
+                     }
+-                }
+-
+-                if (cs && c == '"' && i + 2 < n && text[i + 1] == '"' && text[i + 2] == '"')
+-                {
+-                    var q = 0;
+-                    while (i + q < n && text[i + q] == '"')
++                    else if (j + 1 < _n && text[j + 1] == '"')
+                     {
+-                        q++;
++                        j += 2;
++                    }
++                    else
++                    {
++                        break;
+                     }
+ 
+-                    var fence = new string('"', q);
+-                    var close = text.IndexOf(fence, i + q, StringComparison.Ordinal);
+-                    var contentEnd = close < 0 ? n : close;
+-                    var rawEnd = close < 0 ? n : close + q;
+-                    literals.Add(new Literal(prefixStart, i + q, contentEnd, rawEnd));
+-                    BlankCode(i + q, contentEnd);
+-                    i = rawEnd;
+                     continue;
+                 }
+ 
+-                var j = i + 1;
+-                while (j < n)
++                if (ch == '\\')
+                 {
+-                    var ch = text[j];
+-                    if (verbatim && c == '"')
+-                    {
+-                        if (ch == '"')
+-                        {
+-                            if (j + 1 < n && text[j + 1] == '"')
+-                            {
+-                                j += 2;
+-                                continue;
+-                            }
+-
+-                            break;
+-                        }
++                    j += 2;
++                    continue;
++                }
+ 
+-                        j++;
+-                        continue;
+-                    }
++                if (ch == quote || (ch == '\n' && quote != '`'))
++                {
++                    break;
++                }
+ 
+-                    if (ch == '\\')
+-                    {
+-                        j += 2;
+-                        continue;
+-                    }
++                j++;
++            }
+ 
+-                    if (ch == c || (ch == '\n' && c != '`'))
+-                    {
+-                        break;
+-                    }
++            return Math.Min(j, _n);
++        }
+ 
+-                    j++;
++        private void BlankBoth(int from, int to)
++        {
++            for (var k = from; k < to; k++)
++            {
++                if (text[k] != '\n')
++                {
++                    _comment[k] = ' ';
++                    _code[k] = ' ';
+                 }
+-
+-                j = Math.Min(j, n);
+-                var terminated = j < n && text[j] == c;
+-                literals.Add(new Literal(prefixStart, i + 1, j, terminated ? j + 1 : j));
+-                BlankCode(i + 1, j);
+-                i = terminated ? j + 1 : j;
+-                continue;
+             }
+-
+-            i++;
+         }
+ 
+-        return new Lexed(literals, new string(comment), new string(code));
++        private void BlankCode(int from, int to)
++        {
++            for (var k = from; k < to; k++)
++            {
++                if (text[k] != '\n')
++                {
++                    _code[k] = ' ';
++                }
++            }
++        }
+     }
+ 
+     private sealed class LineIndex

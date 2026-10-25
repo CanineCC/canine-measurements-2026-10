@@ -1,0 +1,250 @@
+diff --git a/engine/src/Scanner/Security/D29/Scanners/CleartextTransmissionScan.cs b/engine/src/Scanner/Security/D29/Scanners/CleartextTransmissionScan.cs
+index 6597e2d2..356742c3 100644
+--- a/engine/src/Scanner/Security/D29/Scanners/CleartextTransmissionScan.cs
++++ b/engine/src/Scanner/Security/D29/Scanners/CleartextTransmissionScan.cs
+@@ -837,129 +837,146 @@ internal static partial class CleartextTransmissionScan
+         var i = 0;
+         var n = text.Length;
+ 
+-        void BlankBoth(int from, int to)
++        while (i < n)
+         {
+-            for (var k = from; k < to; k++)
++            var c = text[i];
++            var next = i + 1 < n ? text[i + 1] : '\0';
++            if (c == '/' && next is '/' or '*')
+             {
+-                if (text[k] != '\n')
+-                {
+-                    comment[k] = ' ';
+-                    code[k] = ' ';
+-                }
++                var end = CommentEnd(text, i, next);
++                Blank(text, comment, i, end);
++                Blank(text, code, i, end);
++                i = end;
++            }
++            else if (c is '"' or '\'' || (js && c == '`'))
++            {
++                i = LexLiteral(text, code, literals, i, cs);
++            }
++            else
++            {
++                i++;
+             }
+         }
+ 
+-        void BlankCode(int from, int to)
++        return new Lexed(literals, new string(comment), new string(code));
++    }
++
++    private static void Blank(string text, char[] target, int from, int to)
++    {
++        for (var k = from; k < to; k++)
+         {
+-            for (var k = from; k < to; k++)
++            if (text[k] != '\n')
+             {
+-                if (text[k] != '\n')
+-                {
+-                    code[k] = ' ';
+-                }
++                target[k] = ' ';
+             }
+         }
++    }
+ 
+-        while (i < n)
++    private static int CommentEnd(string text, int i, char next)
++    {
++        if (next == '/')
+         {
+-            var c = text[i];
+-            var next = i + 1 < n ? text[i + 1] : '\0';
+-            if (c == '/' && next == '/')
+-            {
+-                var end = text.IndexOf('\n', i);
+-                end = end < 0 ? n : end;
+-                BlankBoth(i, end);
+-                i = end;
+-                continue;
+-            }
++            var eol = text.IndexOf('\n', i);
++            return eol < 0 ? text.Length : eol;
++        }
+ 
+-            if (c == '/' && next == '*')
+-            {
+-                var end = text.IndexOf("*/", i + 2, StringComparison.Ordinal);
+-                end = end < 0 ? n : end + 2;
+-                BlankBoth(i, end);
+-                i = end;
+-                continue;
+-            }
++        var close = text.IndexOf("*/", i + 2, StringComparison.Ordinal);
++        return close < 0 ? text.Length : close + 2;
++    }
+ 
+-            if (c is '"' or '\'' || (js && c == '`'))
+-            {
+-                var prefixStart = i;
+-                var verbatim = false;
+-                if (cs)
+-                {
+-                    while (prefixStart > 0 && text[prefixStart - 1] is '$' or '@')
+-                    {
+-                        verbatim |= text[prefixStart - 1] == '@';
+-                        prefixStart--;
+-                    }
+-                }
++    /// <summary>Lexes the literal starting at <paramref name="i"/>, records it, blanks its contents in
++    /// <paramref name="code"/>, and returns the index to continue from.</summary>
++    private static int LexLiteral(string text, char[] code, List<Literal> literals, int i, bool cs)
++    {
++        var n = text.Length;
++        var c = text[i];
++        var prefixStart = i;
++        var verbatim = false;
++        if (cs)
++        {
++            (prefixStart, verbatim) = ScanPrefix(text, i);
++        }
+ 
+-                if (cs && c == '"' && i + 2 < n && text[i + 1] == '"' && text[i + 2] == '"')
+-                {
+-                    var q = 0;
+-                    while (i + q < n && text[i + q] == '"')
+-                    {
+-                        q++;
+-                    }
++        if (cs && c == '"' && i + 2 < n && text[i + 1] == '"' && text[i + 2] == '"')
++        {
++            return LexRawLiteral(text, code, literals, i, prefixStart);
++        }
+ 
+-                    var fence = new string('"', q);
+-                    var close = text.IndexOf(fence, i + q, StringComparison.Ordinal);
+-                    var contentEnd = close < 0 ? n : close;
+-                    var rawEnd = close < 0 ? n : close + q;
+-                    literals.Add(new Literal(prefixStart, i + q, contentEnd, rawEnd));
+-                    BlankCode(i + q, contentEnd);
+-                    i = rawEnd;
+-                    continue;
+-                }
++        var j = Math.Min(FindLiteralEnd(text, i, verbatim && c == '"'), n);
++        var terminated = j < n && text[j] == c;
++        literals.Add(new Literal(prefixStart, i + 1, j, terminated ? j + 1 : j));
++        Blank(text, code, i + 1, j);
++        return terminated ? j + 1 : j;
++    }
+ 
+-                var j = i + 1;
+-                while (j < n)
+-                {
+-                    var ch = text[j];
+-                    if (verbatim && c == '"')
+-                    {
+-                        if (ch == '"')
+-                        {
+-                            if (j + 1 < n && text[j + 1] == '"')
+-                            {
+-                                j += 2;
+-                                continue;
+-                            }
+-
+-                            break;
+-                        }
+-
+-                        j++;
+-                        continue;
+-                    }
++    private static (int PrefixStart, bool Verbatim) ScanPrefix(string text, int i)
++    {
++        var prefixStart = i;
++        var verbatim = false;
++        while (prefixStart > 0 && text[prefixStart - 1] is '$' or '@')
++        {
++            verbatim |= text[prefixStart - 1] == '@';
++            prefixStart--;
++        }
+ 
+-                    if (ch == '\\')
+-                    {
+-                        j += 2;
+-                        continue;
+-                    }
++        return (prefixStart, verbatim);
++    }
+ 
+-                    if (ch == c || (ch == '\n' && c != '`'))
+-                    {
+-                        break;
+-                    }
++    private static int LexRawLiteral(string text, char[] code, List<Literal> literals, int i, int prefixStart)
++    {
++        var n = text.Length;
++        var q = 0;
++        while (i + q < n && text[i + q] == '"')
++        {
++            q++;
++        }
+ 
++        var close = text.IndexOf(new string('"', q), i + q, StringComparison.Ordinal);
++        var contentEnd = close < 0 ? n : close;
++        var rawEnd = close < 0 ? n : close + q;
++        literals.Add(new Literal(prefixStart, i + q, contentEnd, rawEnd));
++        Blank(text, code, i + q, contentEnd);
++        return rawEnd;
++    }
++
++    private static int FindLiteralEnd(string text, int i, bool verbatimQuote)
++    {
++        var n = text.Length;
++        var c = text[i];
++        var j = i + 1;
++        while (j < n)
++        {
++            var ch = text[j];
++            if (verbatimQuote)
++            {
++                if (ch != '"')
++                {
+                     j++;
+                 }
+-
+-                j = Math.Min(j, n);
+-                var terminated = j < n && text[j] == c;
+-                literals.Add(new Literal(prefixStart, i + 1, j, terminated ? j + 1 : j));
+-                BlankCode(i + 1, j);
+-                i = terminated ? j + 1 : j;
+-                continue;
++                else if (j + 1 < n && text[j + 1] == '"')
++                {
++                    j += 2;
++                }
++                else
++                {
++                    break;
++                }
++            }
++            else if (ch == '\\')
++            {
++                j += 2;
++            }
++            else if (ch == c || (ch == '\n' && c != '`'))
++            {
++                break;
++            }
++            else
++            {
++                j++;
+             }
+-
+-            i++;
+         }
+ 
+-        return new Lexed(literals, new string(comment), new string(code));
++        return j;
+     }
+ 
+     private sealed class LineIndex

@@ -1,0 +1,41 @@
+{
+ "run": "m036-G-1",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The extraction into `UnusedWriteScopeGrantsInFile` and `UnusedTopLevelGrants` keeps the control flow, ordering, cancellation check and results the same, and the tuple types and the definite assignment of `top` still compile. The original method's complexity drops well below 15, and the new helper comes to roughly 10\u201312 by my count.",
+ "cost_usd": 0.010656800000000001,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 5228,
+  "output_tokens": 1013,
+  "output_tokens_details": {
+   "thinking_tokens": 889
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1013,
+    "cache_read_input_tokens": 5228,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

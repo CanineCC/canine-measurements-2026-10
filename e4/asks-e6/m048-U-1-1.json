@@ -1,0 +1,41 @@
+{
+ "run": "m048-U-1",
+ "k": 1,
+ "verdict": "REJECT",
+ "text": "REJECT: `ShipAsync` returns `ship.MainMoved` as `Requeued` even when `ship.Unjudged` is set, whereas the original set `requeued` only in the `else if` branch (when `Unjudged` was null). If both are ever non-null, the new code also requeues the merged packages and overwrites their held state, which changes behaviour.",
+ "cost_usd": 0.0516844,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 7604,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 2104,
+  "output_tokens_details": {
+   "thinking_tokens": 1985
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 7604,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 2104,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 7604,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 7604
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

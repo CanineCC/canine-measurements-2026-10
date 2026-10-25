@@ -1,0 +1,41 @@
+{
+ "run": "p08-before-2",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The extracted `IsFirstPartySource` keeps the same checks in the same order, and `IsFirstPartySource(file, root) && --count == 0` short-circuits so `count` is still decremented only for first-party files. That leaves behaviour unchanged, and the loop body in `AtLeast` loses three nested `if`s, a lambda and a `||` chain, so it should drop below 15. I couldn't build or run the analyzer here, so the build and the new complexity score are judged from the diff alone. The new private static method has no unused or inconsistent members that would trip warnings-as-errors.",
+ "cost_usd": 0.0057478999999999985,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4039,
+  "output_tokens": 534,
+  "output_tokens_details": {
+   "thinking_tokens": 334
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 534,
+    "cache_read_input_tokens": 4039,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

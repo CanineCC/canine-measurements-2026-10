@@ -1,0 +1,41 @@
+{
+ "run": "m042-U-2",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe extracted helpers keep the same match order, fall-through behaviour and closure semantics, `BuildPlan`'s cognitive complexity drops to about 5, and all the new constructs compile cleanly.",
+ "cost_usd": 0.0178112,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4616,
+  "output_tokens": 844,
+  "output_tokens_details": {
+   "thinking_tokens": 769
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 844,
+    "cache_read_input_tokens": 4616,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

@@ -1,0 +1,63 @@
+diff --git a/engine/src/CodeHealth.Core/ExplicitDebt/YamlDisabledConfigScanner.cs b/engine/src/CodeHealth.Core/ExplicitDebt/YamlDisabledConfigScanner.cs
+index 3b4c442..cd41faf 100644
+--- a/engine/src/CodeHealth.Core/ExplicitDebt/YamlDisabledConfigScanner.cs
++++ b/engine/src/CodeHealth.Core/ExplicitDebt/YamlDisabledConfigScanner.cs
+@@ -428,35 +428,38 @@ public static class YamlDisabledConfigScanner
+     /// DEDENTS, which is where the enclosing block ends.</summary>
+     private static bool IsAlsoSetLive(YamlLine[] lines, int index, string key)
+     {
+-        foreach (var step in new[] { -1, 1 })
++        return IsSetLiveInDirection(lines, index, key, -1) || IsSetLiveInDirection(lines, index, key, 1);
++    }
++
++    private static bool IsSetLiveInDirection(YamlLine[] lines, int index, string key, int step)
++    {
++        for (var j = index + step; j >= 0 && j < lines.Length; j += step)
+         {
+-            for (var j = index + step; j >= 0 && j < lines.Length; j += step)
++            if (lines[j].Kind != LineKind.Live)
+             {
+-                if (lines[j].Kind != LineKind.Live)
+-                {
+-                    continue;
+-                }
+-
+-                if (lines[j].Indent < lines[index].Indent)
+-                {
+-                    break;
+-                }
++                continue;
++            }
+ 
+-                if (lines[j].Indent != lines[index].Indent)
+-                {
+-                    continue;
+-                }
++            if (lines[j].Indent < lines[index].Indent)
++            {
++                break;
++            }
+ 
+-                var live = LiveMappingEntry.Match(lines[j].Text);
+-                if (live.Success && live.Groups["key"].Value.Trim('"', '\'').Trim() == key)
+-                {
+-                    return true;
+-                }
++            if (lines[j].Indent == lines[index].Indent && IsLiveEntryForKey(lines[j].Text, key))
++            {
++                return true;
+             }
+         }
+ 
+         return false;
+     }
++
++    private static bool IsLiveEntryForKey(string text, string key)
++    {
++        var live = LiveMappingEntry.Match(text);
++        return live.Success && live.Groups["key"].Value.Trim('"', '\'').Trim() == key;
++    }
++
+     /// <summary>A convicted run: the disabled block's line span (0-based, inclusive) and the first key in it.</summary>
+     private readonly record struct DisabledBlock(int Start, int End, string Key);
+ 

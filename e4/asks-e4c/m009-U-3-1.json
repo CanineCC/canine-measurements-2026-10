@@ -1,0 +1,41 @@
+{
+ "run": "m009-U-3",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE\n`InScript` drops to two flat `if`s (complexity about 2), each extracted helper stays under 15, and the loops and conditions run in the same order, so behaviour is unchanged; I couldn't find the source file to compile, so the build is safe only if the new parameter types (`Func<Family, bool>`, `IReadOnlyDictionary<string, bool>`, `IReadOnlySet<string>`) match what `GuardBindings`, `Known`, `InStyleSheet`, `ReadsGuard` and `ScriptGuarded` actually take and return.",
+ "cost_usd": 0.043484800000000004,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 2451,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 1171,
+  "output_tokens_details": {
+   "thinking_tokens": 784
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2451,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1171,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 2451,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2451
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

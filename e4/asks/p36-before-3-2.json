@@ -1,0 +1,41 @@
+{
+ "run": "p36-before-3",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE\n\nThe extracted `BypassedCtorFqns` applies the same Scala-type filter, non-empty `CtorFqn` filter and ordinal `HashSet` as the removed loops, so behaviour is unchanged. Removing the nested loops and ifs (roughly 10 points) should bring the method well under 15, and the file already uses LINQ, so the build should be unaffected. I judged this from the diff alone, without building or running the tests.",
+ "cost_usd": 0.0065802,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 3762,
+  "output_tokens": 620,
+  "output_tokens_details": {
+   "thinking_tokens": 470
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 620,
+    "cache_read_input_tokens": 3762,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

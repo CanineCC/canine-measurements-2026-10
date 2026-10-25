@@ -1,0 +1,602 @@
+diff --git a/src/Kennel.Improve.Orchestrator/Turns/TurnRunner.cs b/src/Kennel.Improve.Orchestrator/Turns/TurnRunner.cs
+index ab250147..18968685 100644
+--- a/src/Kennel.Improve.Orchestrator/Turns/TurnRunner.cs
++++ b/src/Kennel.Improve.Orchestrator/Turns/TurnRunner.cs
+@@ -193,6 +193,14 @@ public sealed class TurnRunner(TurnPorts ports, OrchestratorOptions options, Tex
+             ? n
+             : null;
+ 
++    private sealed record TurnCtx(string TurnId, int Number, string TurnDir, string BaseSha, string BaseWt, string BaseLabel);
++
++    private sealed record ShellJob(Package P, string Wt, string Branch, string Dir, Task<ShellRun> Run);
++
++    private sealed record ShipOutcome(string? Landed, int? Exit, string? Unjudged, string? Requeued);
++
++    private sealed record CloseOutcome(IReadOnlyList<BacklogWrite> Writes, List<string>? OwedLeft, List<string>? RefusedNow);
++
+     private async Task<TurnRecord> RunTurnAsync(Selection selection, IReadOnlyList<Package> queue, bool dryRun,
+         OrchestratorState state, int turnNumber, string turnId, string turnDir, CancellationToken ct)
+     {
+@@ -220,278 +228,328 @@ public sealed class TurnRunner(TurnPorts ports, OrchestratorOptions options, Tex
+ 
+         try
+         {
+-            // The base arm is measured while the shells work: every per-shell delta and the turn delta pair against it.
+-            var baseArmTask = selection.Taken.Count == 0
+-                ? Task.FromResult<string?>(null)
+-                : ports.Gates.BenchAsync(baseWt, baseLabel, null, Path.Combine(turnDir, "bench-base.json"), ct);
+-
+-            var shells = new List<(Package P, string Wt, string Branch, string Dir, Task<ShellRun> Run)>();
+-            var histories = ports.State.LoadShared().Packages;
+-            var ledger = Path.Combine(baseWt, LedgerIds.Ledger);
+-            var ledgerText = File.Exists(ledger) ? await File.ReadAllTextAsync(ledger, ct).ConfigureAwait(false) : "";
+-            foreach (var (p, slot) in selection.Taken.Select((p, i) => (p, i)))
++            var ctx = new TurnCtx(turnId, turnNumber, turnDir, baseSha, baseWt, baseLabel);
++            return await ExecuteTurnAsync(selection, queue, dryRun, state, backlog, plan, ctx, worktrees, ct).ConfigureAwait(false);
++        }
++        finally
++        {
++            foreach (var wt in worktrees)
+             {
+-                var branch = $"improve/{turnId}/{p.Key.Slug}";
+-                var wt = Path.Combine(options.WorktreeRoot, $"{turnId}-{p.Key.Slug}");
+-                var dir = Path.Combine(turnDir, p.Key.Slug);
+-                Directory.CreateDirectory(dir);
+-                await ports.Git.AddWorktreeAsync(wt, branch, baseSha, ct).ConfigureAwait(false);
+-                worktrees.Add(wt);
+-                var suiteExists = Directory.Exists(Path.Combine(wt, "engine", "tests", "CodeHealth.Tests.Concepts", "suites", p.Key.Concept, p.Key.Language));
+-                var brief = Brief.Write(dir, turnId, p, baseSha, branch, Path.Combine(dir, "result.json"), suiteExists,
+-                    Related(p), Units(p), PreviousAttempt.Of(histories.GetValueOrDefault(p.Key.Slug), options.Host),
+-                    LedgerIds.Reserve(ledgerText, (options.Instance - 1) * options.MaxPackages + slot), options.Corpus);
+-                shells.Add((p, wt, branch, dir,
+-                    ports.Shells.RunAsync(new ShellSpec(p.Key, wt, brief, Path.Combine(dir, "shell.log"), options.Timeout), ct)));
++                await ports.Git.RemoveWorktreeAsync(wt, CancellationToken.None).ConfigureAwait(false);
+             }
++        }
++    }
+ 
+-            // ★ Each shell is judged as soon as it AND the base arm are done, side by side with the others. Until
+-            //   2026-10-19 the gates waited for the slowest shell and then ran one after another: in t0019 a shell done at
+-            //   12:16 was judged at 13:10, and the four gates took 57 min end to end. They share only the base arm, whose
+-            //   scans and scores go one at a time (OneAtATimeOnTheBaseArm). Verdicts keep the plan's order.
+-            var gate = new ShellGate(ports.Git, new OneAtATimeOnTheBaseArm(ports.Gates, baseLabel, baseWt), ports.Index, ports.Corpus);
+-            async Task<ShellVerdict> JudgeAsync((Package P, string Wt, string Branch, string Dir, Task<ShellRun> Run) s)
+-            {
+-                var run = await s.Run.ConfigureAwait(false);
+-                var arm = await baseArmTask.ConfigureAwait(false);
+-                var input = new ShellGateInput(s.P, s.Wt, s.Branch, baseSha, baseLabel, baseWt, s.Dir, run,
+-                    ShellReport.Read(Path.Combine(s.Dir, "result.json")));
+-                var v = arm is null
+-                    ? new ShellVerdict(s.P, s.Branch, null, ShellOutcome.Instrument, "the base arm could not be measured",
+-                        null, null, [], s.P.Items.Select(it => new ItemVerdict(it, false, "base arm unmeasured", [], null)).ToList(), [])
+-                    : await gate.JudgeAsync(input, ct).ConfigureAwait(false);
+-                Say($"  shell {s.P.Key}: {v.Outcome} — {v.Reason} ({v.Figure})");
+-                return v;
+-            }
++    private async Task<TurnRecord> ExecuteTurnAsync(Selection selection, IReadOnlyList<Package> queue, bool dryRun,
++        OrchestratorState state, IBacklog backlog, IReadOnlyList<string> plan, TurnCtx ctx, List<string> worktrees,
++        CancellationToken ct)
++    {
++        // The base arm is measured while the shells work: every per-shell delta and the turn delta pair against it.
++        var baseArmTask = selection.Taken.Count == 0
++            ? Task.FromResult<string?>(null)
++            : ports.Gates.BenchAsync(ctx.BaseWt, ctx.BaseLabel, null, Path.Combine(ctx.TurnDir, "bench-base.json"), ct);
++
++        var shells = await StartShellsAsync(selection, ctx, worktrees, ct).ConfigureAwait(false);
++
++        // ★ Each shell is judged as soon as it AND the base arm are done, side by side with the others. Until
++        //   2026-10-19 the gates waited for the slowest shell and then ran one after another: in t0019 a shell done at
++        //   12:16 was judged at 13:10, and the four gates took 57 min end to end. They share only the base arm, whose
++        //   scans and scores go one at a time (OneAtATimeOnTheBaseArm). Verdicts keep the plan's order.
++        var gate = new ShellGate(ports.Git, new OneAtATimeOnTheBaseArm(ports.Gates, ctx.BaseLabel, ctx.BaseWt), ports.Index, ports.Corpus);
++        var shellsDone = OnShellsDone is null
++            ? Task.CompletedTask
++            : Task.WhenAll(shells.Select(s => s.Run)).ContinueWith(_ => OnShellsDone(), CancellationToken.None,
++                TaskContinuationOptions.None, TaskScheduler.Default).Unwrap();
++        var verdicts = (await Task.WhenAll(shells.Select(s => JudgeShellAsync(s, gate, baseArmTask, ctx, ct))).ConfigureAwait(false)).ToList();
++        var runs = await Task.WhenAll(shells.Select(s => s.Run)).ConfigureAwait(false);
++        await AwaitRelayAsync(shellsDone).ConfigureAwait(false);
++        var baseArm = await baseArmTask.ConfigureAwait(false);
++        var limit = runs.Select(r => r.Limit).DefaultIfEmpty(UsageLimit.None).Max();
++
++        var result = await RunTurnGateAsync(verdicts, baseArm, ctx, worktrees, ct).ConfigureAwait(false);
++        foreach (var line in result.Log)
++        {
++            Say("  gate: " + line);
++        }
+ 
+-            var shellsDone = OnShellsDone is null
+-                ? Task.CompletedTask
+-                : Task.WhenAll(shells.Select(s => s.Run)).ContinueWith(_ => OnShellsDone(), CancellationToken.None,
+-                    TaskContinuationOptions.None, TaskScheduler.Default).Unwrap();
+-            var verdicts = (await Task.WhenAll(shells.Select(JudgeAsync)).ConfigureAwait(false)).ToList();
+-            var runs = await Task.WhenAll(shells.Select(s => s.Run)).ConfigureAwait(false);
+-            try
+-            {
+-                await shellsDone.ConfigureAwait(false);
+-            }
+-            catch (Exception e) when (e is not OperationCanceledException)
+-            {
+-                Say($"  relay: {e.Message}");
+-            }
+-            var baseArm = await baseArmTask.ConfigureAwait(false);
+-            var limit = runs.Select(r => r.Limit).DefaultIfEmpty(UsageLimit.None).Max();
+-
+-            var passing = verdicts.Where(v => v.Outcome == ShellOutcome.Passed).ToList();
+-            var workspace = new TurnWorkspace(ports.Git, options.WorktreeRoot, turnDir, turnId, baseSha, worktrees);
+-            var turnGate = new TurnGate(ports.Git, ports.Gates, workspace, ports.Index, ports.Corpus);
+-            var result = passing.Count == 0 || baseArm is null
+-                ? new TurnGateResult(null, null, [], [], null, ["no branch passed its own gate"])
+-                : await turnGate.RunAsync(new BenchArm(baseWt, baseLabel, null, baseArm), passing, v => Related(v.Package).ToHashSet(StringComparer.Ordinal), ct)
+-                    .ConfigureAwait(false);
+-            foreach (var line in result.Log)
+-            {
+-                Say("  gate: " + line);
+-            }
++        // Held: the branches a BROKEN turn gate was checking — or that a ship.sh which judged nothing was shipping.
++        // Not landed, not parked, no attempt counted, no backlog write: nothing was judged about them.
++        var held = (result.Held ?? []).ToList();
++        var broken = result.Broken;
++        var heldWhy = $"the turn gate is BROKEN ({result.Broken})";
++        if (result.Broken is not null)
++        {
++            Say($"  TURN GATE BROKEN — {result.Broken}. No package is blamed: {held.Count} held (not parked, no attempt "
++                + "counted, no backlog write) and nothing lands. Fix the gate before the next turn.");
++        }
+ 
+-            // Held: the branches a BROKEN turn gate was checking — or that a ship.sh which judged nothing was shipping.
+-            // Not landed, not parked, no attempt counted, no backlog write: nothing was judged about them.
+-            var held = (result.Held ?? []).ToList();
+-            var broken = result.Broken;
+-            var heldWhy = $"the turn gate is BROKEN ({result.Broken})";
+-            var shipUnjudged = false;
+-            string? requeued = null;
+-            if (result.Broken is not null)
+-            {
+-                Say($"  TURN GATE BROKEN — {result.Broken}. No package is blamed: {held.Count} held (not parked, no attempt "
+-                    + "counted, no backlog write) and nothing lands. Fix the gate before the next turn.");
+-            }
++        var ship = await ShipAsync(result, dryRun, ct).ConfigureAwait(false);
++        var shipUnjudged = ship.Unjudged is not null;
++        if (ship.Unjudged is { } unjudged)
++        {
++            broken = unjudged;
++            heldWhy = $"ship.sh judged nothing ({unjudged})";
++            held.AddRange(result.Merged);
++        }
+ 
+-            string? landed = null;
+-            int? shipExit = null;
+-            if (result.Worktree is not null && result.ProvedSha is not null)
+-            {
+-                if (dryRun)
+-                {
+-                    Say($"  DRY RUN: would ship {result.ProvedSha} ({result.Merged.Count} package(s)) with tools/train/ship.sh");
+-                }
+-                else
+-                {
+-                    var ship = await ports.Shipper!.ShipAsync(result.Worktree, result.ProvedSha, ct).ConfigureAwait(false);
+-                    if (ship.ExitCode == 1 && ship.Unjudged is null && ship.MainMoved is null)
+-                    {
+-                        // ★ The turn gate proved this set green, the full Unit suite included. 2026-10-19 (t0019): ship.sh's
+-                        //   re-run of that suite on the rebased tree met a test that flakes under load (it passed alone on
+-                        //   the base, so ship.sh called it the change's own) and four proven packages were parked, an
+-                        //   attempt each. A red that does not repeat says nothing about them: ship once more before any
+-                        //   package is blamed. A red that repeats is judged as before.
+-                        Say($"  ship.sh exit 1 on a set the turn gate proved — shipping once more before any package is blamed");
+-                        ship = await ports.Shipper.ShipAsync(result.Worktree, result.ProvedSha, ct).ConfigureAwait(false);
+-                    }
+-
+-                    shipExit = ship.ExitCode;
+-                    landed = ship.ExitCode == 0 ? ship.LandedSha : null;
+-                    Say($"  ship.sh exit {ship.ExitCode}{(landed is null ? "" : $": landed {landed}")}");
+-                    if (ship.Unjudged is { } unjudged)
+-                    {
+-                        // 2026-10-17: exit 4 (the ship lock's wait ran out) parked every merged package, an attempt each.
+-                        // A ship that judged nothing is a broken gate step: the turn exits 4 and `run` stops.
+-                        broken = unjudged;
+-                        shipUnjudged = true;
+-                        heldWhy = $"ship.sh judged nothing ({unjudged})";
+-                        held.AddRange(result.Merged);
+-                        Say($"  SHIP UNJUDGED — {unjudged}. No package is blamed: {result.Merged.Count} held (not parked, no attempt "
+-                            + "counted, no backlog write) and nothing landed. Clear the cause before the next turn.");
+-                    }
+-                    else if (ship.MainMoved is { } moved)
+-                    {
+-                        // Until 2026-10-17 exit 3 parked every merged package, an attempt each. Main moving under the turn says
+-                        // nothing about them: back to the queue, re-planned against the new main. Not a broken gate — `run`
+-                        // goes on, and its next turn starts from the new main.
+-                        requeued = moved;
+-                        Say($"  SHIP REQUEUED — {moved}. No package is blamed: {result.Merged.Count} back in the queue (not parked, "
+-                            + "no attempt counted, no backlog write) and nothing landed; the next turn re-plans them against the new main.");
+-                    }
+-                }
+-            }
++        // Who landed (in a dry run: who WOULD land, so the recorded writes show the closes), who is parked.
++        var wouldLand = dryRun ? result.ProvedSha : ship.Landed;
++        var shipped = wouldLand is null ? [] : result.Merged.ToList();
++
++        // ★ A branch that did not MERGE after the others is a collision of two passing packages, not a verdict on it.
++        //   2026-10-19, t0021: domain-depends-on-infrastructure/csharp passed its own gate, conflicted with the two
++        //   merged before it in the shared PROGRESS and ledger files, and was parked with an attempt counted — two
++        //   such turns would retire a correct package. It goes back to the queue unjudged; its next brief points at
++        //   this branch (PreviousAttempt), so the next shell merges it onto a main that has the others' rows.
++        var conflicted = result.Dropped.Where(d => d.MergeConflict).ToList();
++        var parked = CollectParked(verdicts, result, wouldLand, shipUnjudged || ship.Requeued is not null, ship.Exit);
++
++        var shippedKeys = shipped.Select(s => s.Package.Key).ToHashSet();
++        // Shipped by ANY instance: an item two packages share closes once both have shipped, wherever they ran.
++        var shared = ports.State.LoadShared();
++        var planned = new Closer(backlog, options.WorkerId, options.Host).Plan(shipped, parked, wouldLand, ctx.TurnId, result.FullDelta,
++            Sharers(queue), k => shippedKeys.Contains(k) || shared.Packages.TryGetValue(k.Slug, out var h) && h.ShippedSha is not null);
++
++        // State: shipped packages are done; a parked one counts an attempt unless the instrument, a usage limit or
++        // a dry run is why (none of those is the package's fault). ★ Saved BEFORE the first backlog write, with every
++        // write still owed: what landed on main is on record whatever happens to the close-out (2026-10-17: a
++        // connection reset after the push would otherwise have lost both).
++        if (!dryRun)
++        {
++            ApplyOutcomes(state, ctx.TurnId, ship, heldWhy, shipped, held, conflicted, result.Merged, parked, limit);
++            state.Turns = Math.Max(state.Turns, ctx.Number);
++            state.LastLimit = limit;
++            state.OwedWrites.AddRange(planned);
++            ports.State.Save(state);
++        }
+ 
+-            // Who landed (in a dry run: who WOULD land, so the recorded writes show the closes), who is parked.
+-            var wouldLand = dryRun ? result.ProvedSha : landed;
+-            var shipped = wouldLand is null ? [] : result.Merged.ToList();
+-            var parked = new List<(ShellVerdict, string)>();
+-            foreach (var v in verdicts.Where(v => v.Outcome != ShellOutcome.Passed))
+-            {
+-                parked.Add((v, $"{v.Outcome}: {v.Reason}"));
+-            }
++        var close = await CloseOutAsync(backlog, state, ctx.TurnId, planned, ship.Landed, ct).ConfigureAwait(false);
++        var record = new TurnRecord(ctx.TurnId, dryRun, ctx.BaseSha, GatePolicy.Declaration, plan,
++            verdicts.Select(Summarize).ToList(),
++            result.Log, result.ProvedSha, ship.Landed, ship.Exit, close.Writes, limit, broken, close.OwedLeft, close.RefusedNow, ship.Requeued);
++        await File.WriteAllTextAsync(Path.Combine(ctx.TurnDir, "turn.json"), JsonSerializer.Serialize(record, Json), CancellationToken.None)
++            .ConfigureAwait(false);
++        Say($"turn {ctx.TurnId} done: {shipped.Count} landed, {parked.Count} parked"
++            + (held.Count == 0 ? "" : shipUnjudged ? $", {held.Count} held: ship.sh judged nothing" : $", {held.Count} held by a BROKEN turn gate")
++            + (ship.Requeued is null ? "" : $", {result.Merged.Count} requeued: main moved under the ship")
++            + (conflicted.Count == 0 ? "" : $", {conflicted.Count} requeued: a merge conflict with the packages merged before it")
++            + $", {close.Writes.Count} backlog write(s){(dryRun ? " recorded, none made" : "")}");
++        return record;
++    }
+ 
+-            // ★ A branch that did not MERGE after the others is a collision of two passing packages, not a verdict on it.
+-            //   2026-10-19, t0021: domain-depends-on-infrastructure/csharp passed its own gate, conflicted with the two
+-            //   merged before it in the shared PROGRESS and ledger files, and was parked with an attempt counted — two
+-            //   such turns would retire a correct package. It goes back to the queue unjudged; its next brief points at
+-            //   this branch (PreviousAttempt), so the next shell merges it onto a main that has the others' rows.
+-            var conflicted = result.Dropped.Where(d => d.MergeConflict).ToList();
+-            parked.AddRange(result.Dropped.Where(d => !d.MergeConflict).Select(d => (d.Shell, $"dropped by the turn gate: {d.Reason}")));
+-            if (wouldLand is null && !shipUnjudged && requeued is null)
+-            {
+-                var why = shipExit is { } rc ? $"ship.sh exit {rc}, nothing landed" : "the turn gate passed nothing";
+-                parked.AddRange(result.Merged.Select(m => (m, why)));
+-            }
++    private static ShellSummary Summarize(ShellVerdict v) =>
++        new(v.Package.Key.ToString(), v.Branch, v.Head, v.Outcome.ToString(), v.Reason,
++            v.Figure, v.Delta?.Gains ?? [], v.Delta?.Regressions ?? [],
++            v.Items.Select(i => $"{i.Item.Id} {(i.Covered ? "COVERED" : "open")}: {i.Reason}").ToList());
+ 
+-            var shippedKeys = shipped.Select(s => s.Package.Key).ToHashSet();
+-            // Shipped by ANY instance: an item two packages share closes once both have shipped, wherever they ran.
+-            var shared = ports.State.LoadShared();
+-            var planned = new Closer(backlog, options.WorkerId, options.Host).Plan(shipped, parked, wouldLand, turnId, result.FullDelta,
+-                Sharers(queue), k => shippedKeys.Contains(k) || shared.Packages.TryGetValue(k.Slug, out var h) && h.ShippedSha is not null);
+-
+-            // State: shipped packages are done; a parked one counts an attempt unless the instrument, a usage limit or
+-            // a dry run is why (none of those is the package's fault). ★ Saved BEFORE the first backlog write, with every
+-            // write still owed: what landed on main is on record whatever happens to the close-out (2026-10-17: a
+-            // connection reset after the push would otherwise have lost both).
+-            if (!dryRun)
+-            {
+-                foreach (var s in shipped)
+-                {
+-                    var h = state.Of(s.Package.Key);
+-                    h.ShippedSha = landed;
+-                    h.LastOutcome = $"shipped in {turnId}";
+-                    h.WorkedItems = [.. h.WorkedItems.Union(s.Package.Items.Select(i => i.Id), StringComparer.Ordinal)];
+-                }
+-
+-                foreach (var v in held)
+-                {
+-                    var h = state.Of(v.Package.Key);
+-                    h.LastOutcome = $"{turnId}: held, unjudged — {heldWhy}";
+-                    h.ParkedBranch = $"{options.Host}:{v.Branch}@{v.Head ?? "no commit"}";
+-                }
+-
+-                foreach (var d in conflicted)
+-                {
+-                    var h = state.Of(d.Shell.Package.Key);
+-                    h.LastOutcome = $"{turnId}: requeued, unjudged — {d.Reason}";
+-                    h.ParkedBranch = $"{options.Host}:{d.Shell.Branch}@{d.Shell.Head ?? "no commit"}";
+-                }
+-
+-                if (requeued is not null)
+-                {
+-                    foreach (var m in result.Merged)
+-                    {
+-                        var h = state.Of(m.Package.Key);
+-                        h.LastOutcome = $"{turnId}: requeued, unjudged — {requeued}";
+-                        h.ParkedBranch = $"{options.Host}:{m.Branch}@{m.Head ?? "no commit"}";
+-                    }
+-                }
+-
+-                foreach (var (v, why) in parked)
+-                {
+-                    var h = state.Of(v.Package.Key);
+-                    if (v.Outcome != ShellOutcome.Instrument && !(v.Outcome == ShellOutcome.Unfinished && limit != UsageLimit.None))
+-                    {
+-                        h.FailedAttempts++;
+-                    }
+-
+-                    h.LastOutcome = $"{turnId}: {why}";
+-                    h.ParkedBranch = $"{options.Host}:{v.Branch}@{v.Head ?? "no commit"}";
+-                }
+-
+-                state.Turns = Math.Max(state.Turns, turnNumber);
+-                state.LastLimit = limit;
+-                state.OwedWrites.AddRange(planned);
+-                ports.State.Save(state);
+-            }
++    private async Task<List<ShellJob>> StartShellsAsync(Selection selection, TurnCtx ctx, List<string> worktrees, CancellationToken ct)
++    {
++        var shells = new List<ShellJob>();
++        var histories = ports.State.LoadShared().Packages;
++        var ledger = Path.Combine(ctx.BaseWt, LedgerIds.Ledger);
++        var ledgerText = File.Exists(ledger) ? await File.ReadAllTextAsync(ledger, ct).ConfigureAwait(false) : "";
++        foreach (var (p, slot) in selection.Taken.Select((p, i) => (p, i)))
++        {
++            var branch = $"improve/{ctx.TurnId}/{p.Key.Slug}";
++            var wt = Path.Combine(options.WorktreeRoot, $"{ctx.TurnId}-{p.Key.Slug}");
++            var dir = Path.Combine(ctx.TurnDir, p.Key.Slug);
++            Directory.CreateDirectory(dir);
++            await ports.Git.AddWorktreeAsync(wt, branch, ctx.BaseSha, ct).ConfigureAwait(false);
++            worktrees.Add(wt);
++            var suiteExists = Directory.Exists(Path.Combine(wt, "engine", "tests", "CodeHealth.Tests.Concepts", "suites", p.Key.Concept, p.Key.Language));
++            var brief = Brief.Write(dir, ctx.TurnId, p, ctx.BaseSha, branch, Path.Combine(dir, "result.json"), suiteExists,
++                Related(p), Units(p), PreviousAttempt.Of(histories.GetValueOrDefault(p.Key.Slug), options.Host),
++                LedgerIds.Reserve(ledgerText, (options.Instance - 1) * options.MaxPackages + slot), options.Corpus);
++            shells.Add(new ShellJob(p, wt, branch, dir,
++                ports.Shells.RunAsync(new ShellSpec(p.Key, wt, brief, Path.Combine(dir, "shell.log"), options.Timeout), ct)));
++        }
+ 
+-            IReadOnlyList<BacklogWrite> writes;
+-            List<string>? owedLeft = null;
+-            List<string>? refusedNow = null;
+-            if (backlog is RecordingBacklog rec)
+-            {
+-                await CloseOut.ExecuteAsync(rec, planned.ToList(), [], () => { }, log, ct).ConfigureAwait(false);
+-                writes = rec.Writes;
+-            }
+-            else
++        return shells;
++    }
++
++    private async Task<ShellVerdict> JudgeShellAsync(ShellJob s, ShellGate gate, Task<string?> baseArmTask, TurnCtx ctx, CancellationToken ct)
++    {
++        var run = await s.Run.ConfigureAwait(false);
++        var arm = await baseArmTask.ConfigureAwait(false);
++        var input = new ShellGateInput(s.P, s.Wt, s.Branch, ctx.BaseSha, ctx.BaseLabel, ctx.BaseWt, s.Dir, run,
++            ShellReport.Read(Path.Combine(s.Dir, "result.json")));
++        var v = arm is null
++            ? new ShellVerdict(s.P, s.Branch, null, ShellOutcome.Instrument, "the base arm could not be measured",
++                null, null, [], s.P.Items.Select(it => new ItemVerdict(it, false, "base arm unmeasured", [], null)).ToList(), [])
++            : await gate.JudgeAsync(input, ct).ConfigureAwait(false);
++        Say($"  shell {s.P.Key}: {v.Outcome} — {v.Reason} ({v.Figure})");
++        return v;
++    }
++
++    private async Task AwaitRelayAsync(Task shellsDone)
++    {
++        try
++        {
++            await shellsDone.ConfigureAwait(false);
++        }
++        catch (Exception e) when (e is not OperationCanceledException)
++        {
++            Say($"  relay: {e.Message}");
++        }
++    }
++
++    private async Task<TurnGateResult> RunTurnGateAsync(List<ShellVerdict> verdicts, string? baseArm, TurnCtx ctx, List<string> worktrees,
++        CancellationToken ct)
++    {
++        var passing = verdicts.Where(v => v.Outcome == ShellOutcome.Passed).ToList();
++        if (passing.Count == 0 || baseArm is null)
++        {
++            return new TurnGateResult(null, null, [], [], null, ["no branch passed its own gate"]);
++        }
++
++        var workspace = new TurnWorkspace(ports.Git, options.WorktreeRoot, ctx.TurnDir, ctx.TurnId, ctx.BaseSha, worktrees);
++        var turnGate = new TurnGate(ports.Git, ports.Gates, workspace, ports.Index, ports.Corpus);
++        return await turnGate.RunAsync(new BenchArm(ctx.BaseWt, ctx.BaseLabel, null, baseArm), passing, v => Related(v.Package).ToHashSet(StringComparer.Ordinal), ct)
++            .ConfigureAwait(false);
++    }
++
++    private async Task<ShipOutcome> ShipAsync(TurnGateResult result, bool dryRun, CancellationToken ct)
++    {
++        if (result.Worktree is null || result.ProvedSha is null)
++        {
++            return new ShipOutcome(null, null, null, null);
++        }
++
++        if (dryRun)
++        {
++            Say($"  DRY RUN: would ship {result.ProvedSha} ({result.Merged.Count} package(s)) with tools/train/ship.sh");
++            return new ShipOutcome(null, null, null, null);
++        }
++
++        var shipper = ports.Shipper!;
++        var ship = await shipper.ShipAsync(result.Worktree, result.ProvedSha, ct).ConfigureAwait(false);
++        if (ship.ExitCode == 1 && ship.Unjudged is null && ship.MainMoved is null)
++        {
++            // ★ The turn gate proved this set green, the full Unit suite included. 2026-10-19 (t0019): ship.sh's
++            //   re-run of that suite on the rebased tree met a test that flakes under load (it passed alone on
++            //   the base, so ship.sh called it the change's own) and four proven packages were parked, an
++            //   attempt each. A red that does not repeat says nothing about them: ship once more before any
++            //   package is blamed. A red that repeats is judged as before.
++            Say($"  ship.sh exit 1 on a set the turn gate proved — shipping once more before any package is blamed");
++            ship = await shipper.ShipAsync(result.Worktree, result.ProvedSha, ct).ConfigureAwait(false);
++        }
++
++        var landed = ship.ExitCode == 0 ? ship.LandedSha : null;
++        Say($"  ship.sh exit {ship.ExitCode}{(landed is null ? "" : $": landed {landed}")}");
++        if (ship.Unjudged is { } unjudged)
++        {
++            // 2026-10-17: exit 4 (the ship lock's wait ran out) parked every merged package, an attempt each.
++            // A ship that judged nothing is a broken gate step: the turn exits 4 and `run` stops.
++            Say($"  SHIP UNJUDGED — {unjudged}. No package is blamed: {result.Merged.Count} held (not parked, no attempt "
++                + "counted, no backlog write) and nothing landed. Clear the cause before the next turn.");
++        }
++        else if (ship.MainMoved is { } moved)
++        {
++            // Until 2026-10-17 exit 3 parked every merged package, an attempt each. Main moving under the turn says
++            // nothing about them: back to the queue, re-planned against the new main. Not a broken gate — `run`
++            // goes on, and its next turn starts from the new main.
++            Say($"  SHIP REQUEUED — {moved}. No package is blamed: {result.Merged.Count} back in the queue (not parked, "
++                + "no attempt counted, no backlog write) and nothing landed; the next turn re-plans them against the new main.");
++        }
++
++        return new ShipOutcome(landed, ship.ExitCode, ship.Unjudged, ship.MainMoved);
++    }
++
++    private static List<(ShellVerdict, string)> CollectParked(List<ShellVerdict> verdicts, TurnGateResult result, string? wouldLand,
++        bool shipHeldOrRequeued, int? shipExit)
++    {
++        var parked = new List<(ShellVerdict, string)>();
++        foreach (var v in verdicts.Where(v => v.Outcome != ShellOutcome.Passed))
++        {
++            parked.Add((v, $"{v.Outcome}: {v.Reason}"));
++        }
++
++        parked.AddRange(result.Dropped.Where(d => !d.MergeConflict).Select(d => (d.Shell, $"dropped by the turn gate: {d.Reason}")));
++        if (wouldLand is null && !shipHeldOrRequeued)
++        {
++            var why = shipExit is { } rc ? $"ship.sh exit {rc}, nothing landed" : "the turn gate passed nothing";
++            parked.AddRange(result.Merged.Select(m => (m, why)));
++        }
++
++        return parked;
++    }
++
++    private void ApplyOutcomes(OrchestratorState state, string turnId, ShipOutcome ship, string heldWhy,
++        List<ShellVerdict> shipped, List<ShellVerdict> held, List<Dropped> conflicted, IReadOnlyList<ShellVerdict> merged,
++        List<(ShellVerdict, string)> parked, UsageLimit limit)
++    {
++        foreach (var s in shipped)
++        {
++            var h = state.Of(s.Package.Key);
++            h.ShippedSha = ship.Landed;
++            h.LastOutcome = $"shipped in {turnId}";
++            h.WorkedItems = [.. h.WorkedItems.Union(s.Package.Items.Select(i => i.Id), StringComparer.Ordinal)];
++        }
++
++        foreach (var v in held)
++        {
++            Park(state, v, $"{turnId}: held, unjudged — {heldWhy}");
++        }
++
++        foreach (var d in conflicted)
++        {
++            Park(state, d.Shell, $"{turnId}: requeued, unjudged — {d.Reason}");
++        }
++
++        foreach (var m in merged.Where(_ => ship.Requeued is not null))
++        {
++            Park(state, m, $"{turnId}: requeued, unjudged — {ship.Requeued}");
++        }
++
++        foreach (var (v, why) in parked)
++        {
++            if (v.Outcome != ShellOutcome.Instrument && !(v.Outcome == ShellOutcome.Unfinished && limit != UsageLimit.None))
+             {
+-                var refusedBefore = state.RefusedWrites.Count;
+-                var close = await CloseOut.ExecuteAsync(backlog, state.OwedWrites, state.RefusedWrites, () => ports.State.Save(state), log, ct)
+-                    .ConfigureAwait(false);
+-                writes = close.Written;
+-                owedLeft = state.OwedWrites.Where(o => o.TurnId == turnId).Select(CloseOut.Describe).ToList();
+-                refusedNow = state.RefusedWrites.Skip(refusedBefore).Select(r => $"{CloseOut.Describe(r.Write)} — {r.Error}").ToList();
+-                if (owedLeft.Count + refusedNow.Count > 0)
+-                {
+-                    Say($"  close-out INCOMPLETE — {(landed is null ? "nothing landed" : $"landed {landed} (state.json says shipped)")}; "
+-                        + $"{writes.Count} write(s) made, {owedLeft.Count} OWED (state.json OwedWrites; the next live turn replays them first), "
+-                        + $"{refusedNow.Count} REFUSED (state.json RefusedWrites; a person must read them)");
+-                    foreach (var line in owedLeft)
+-                    {
+-                        Say("    owed: " + line);
+-                    }
+-
+-                    foreach (var line in refusedNow)
+-                    {
+-                        Say("    refused: " + line);
+-                    }
+-                }
++                state.Of(v.Package.Key).FailedAttempts++;
+             }
+ 
+-            var record = new TurnRecord(turnId, dryRun, baseSha, GatePolicy.Declaration, plan,
+-                verdicts.Select(v => new ShellSummary(v.Package.Key.ToString(), v.Branch, v.Head, v.Outcome.ToString(), v.Reason,
+-                    v.Figure, v.Delta?.Gains ?? [], v.Delta?.Regressions ?? [],
+-                    v.Items.Select(i => $"{i.Item.Id} {(i.Covered ? "COVERED" : "open")}: {i.Reason}").ToList())).ToList(),
+-                result.Log, result.ProvedSha, landed, shipExit, writes, limit, broken, owedLeft, refusedNow, requeued);
+-            await File.WriteAllTextAsync(Path.Combine(turnDir, "turn.json"), JsonSerializer.Serialize(record, Json), CancellationToken.None)
+-                .ConfigureAwait(false);
+-            Say($"turn {turnId} done: {shipped.Count} landed, {parked.Count} parked"
+-                + (held.Count == 0 ? "" : shipUnjudged ? $", {held.Count} held: ship.sh judged nothing" : $", {held.Count} held by a BROKEN turn gate")
+-                + (requeued is null ? "" : $", {result.Merged.Count} requeued: main moved under the ship")
+-                + (conflicted.Count == 0 ? "" : $", {conflicted.Count} requeued: a merge conflict with the packages merged before it")
+-                + $", {writes.Count} backlog write(s){(dryRun ? " recorded, none made" : "")}");
+-            return record;
++            Park(state, v, $"{turnId}: {why}");
+         }
+-        finally
++    }
++
++    private void Park(OrchestratorState state, ShellVerdict v, string outcome)
++    {
++        var h = state.Of(v.Package.Key);
++        h.LastOutcome = outcome;
++        h.ParkedBranch = $"{options.Host}:{v.Branch}@{v.Head ?? "no commit"}";
++    }
++
++    private async Task<CloseOutcome> CloseOutAsync(IBacklog backlog, OrchestratorState state, string turnId,
++        IReadOnlyList<OwedWrite> planned, string? landed, CancellationToken ct)
++    {
++        if (backlog is RecordingBacklog rec)
+         {
+-            foreach (var wt in worktrees)
++            await CloseOut.ExecuteAsync(rec, planned.ToList(), [], () => { }, log, ct).ConfigureAwait(false);
++            return new CloseOutcome(rec.Writes, null, null);
++        }
++
++        var refusedBefore = state.RefusedWrites.Count;
++        var close = await CloseOut.ExecuteAsync(backlog, state.OwedWrites, state.RefusedWrites, () => ports.State.Save(state), log, ct)
++            .ConfigureAwait(false);
++        var owedLeft = state.OwedWrites.Where(o => o.TurnId == turnId).Select(CloseOut.Describe).ToList();
++        var refusedNow = state.RefusedWrites.Skip(refusedBefore).Select(r => $"{CloseOut.Describe(r.Write)} — {r.Error}").ToList();
++        if (owedLeft.Count + refusedNow.Count > 0)
++        {
++            Say($"  close-out INCOMPLETE — {(landed is null ? "nothing landed" : $"landed {landed} (state.json says shipped)")}; "
++                + $"{close.Written.Count} write(s) made, {owedLeft.Count} OWED (state.json OwedWrites; the next live turn replays them first), "
++                + $"{refusedNow.Count} REFUSED (state.json RefusedWrites; a person must read them)");
++            foreach (var line in owedLeft)
+             {
+-                await ports.Git.RemoveWorktreeAsync(wt, CancellationToken.None).ConfigureAwait(false);
++                Say("    owed: " + line);
++            }
++
++            foreach (var line in refusedNow)
++            {
++                Say("    refused: " + line);
+             }
+         }
++
++        return new CloseOutcome(close.Written, owedLeft, refusedNow);
+     }
+ 
+     private IReadOnlyList<string> Related(Package p) =>

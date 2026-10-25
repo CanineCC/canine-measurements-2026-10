@@ -1,0 +1,41 @@
+{
+ "run": "m024-G-2",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The refactor splits the method into `TryList`, `ReadEntries` and `EnqueueSubdirectories` with identical control flow (unlisted directories are recorded in `unread`, the max-files break is unchanged, and subdirectories are enqueued regardless). Each new method scores well under 15 and the CHA0004 pragma still covers all of the catch blocks. I could only see the diff, so I have not confirmed that `maxFiles` is an `int` or that `wanted` is a `Func<string, bool>`, and I did not run a build.",
+ "cost_usd": 0.013360300000000002,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4763,
+  "output_tokens": 1288,
+  "output_tokens_details": {
+   "thinking_tokens": 1103
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1288,
+    "cache_read_input_tokens": 4763,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

@@ -1,0 +1,41 @@
+{
+ "run": "m027-U-3",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe decision logic, lazy evaluation order and loop-skip behaviour are preserved, and moving the inner loop and nested ternaries into helpers drops `Nest` well under 15; I couldn't build it because the source isn't in this environment, so I'm assuming `classDecorators` really is a `List<Decorator>`.",
+ "cost_usd": 0.047321999999999996,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 5070,
+  "output_tokens": 2315,
+  "output_tokens_details": {
+   "thinking_tokens": 1438
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 2315,
+    "cache_read_input_tokens": 5070,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

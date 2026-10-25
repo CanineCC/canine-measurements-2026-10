@@ -1,0 +1,41 @@
+{
+ "run": "m036-G-3",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The extraction keeps the original control flow (`continue` became `return` in the second helper and the first helper returns `inheriting`), and each of the three methods is well under 15 cognitive complexity. I could not check the build, because the repository isn't in this environment. The helper signatures assume `WorkflowJobs` returns a `List` of that tuple shape and that `unused` is a `List<UnusedScopeGrant>`, which the diff doesn't show.",
+ "cost_usd": 0.0197364,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 2892,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 794,
+  "output_tokens_details": {
+   "thinking_tokens": 641
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2892,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 794,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 2892,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2892
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

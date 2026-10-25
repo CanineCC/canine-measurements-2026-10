@@ -1,0 +1,41 @@
+{
+ "run": "m021-U-2",
+ "k": 3,
+ "verdict": "UNPARSEABLE",
+ "text": "<invoke name=\"Bash\">\n<parameter name=\"command\">ls /tmp; find / -path /proc -prune -o -name CiTestGateSites.cs -print 2>/dev/null | head</parameter>\n</invoke>\n. The removed code accounts for roughly 25 points of complexity, which isn't enough to get from 77 to 15.\n\nThe three extracted loops and the moved exclusion loops add up to about 25. That leaves around 50 for the untouched middle of the method, roughly lines 310\u2013400. That middle part holds the gating-run and dropped/outside/config-exclusion logic, which the diff shows has nested loops and conditions. The source file isn't available here, so I couldn't measure the result directly.\n\nThere's also a build risk: the new signatures name types like `JsInventory.Inventory` and `JsInventory.Selection`, and nothing in the diff confirms those exist.\n\nREJECT\nThe extractions remove only about 25 of the 77 complexity points, so `Js` is almost certainly still well above 15.",
+ "cost_usd": 0.0148726,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 7023,
+  "output_tokens": 673,
+  "output_tokens_details": {
+   "thinking_tokens": 322
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 673,
+    "cache_read_input_tokens": 7023,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

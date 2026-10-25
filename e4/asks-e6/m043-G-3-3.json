@@ -1,0 +1,41 @@
+{
+ "run": "m043-G-3",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE: Each extracted stage (unfinished, pin, engine, bench, delta, side) keeps the original check order, the same outcome and reason strings, and the same suite, delta, units and items on each verdict, and `JudgeAsync` is left with roughly a dozen top-level branches. I could only read the diff, not build or measure it. The remaining risks are the unseen declared types of `Related(p)` and `changed` against the new `IReadOnlyList<string>` parameters, and the exact complexity score.",
+ "cost_usd": 0.016998500000000003,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 11945,
+  "output_tokens": 1580,
+  "output_tokens_details": {
+   "thinking_tokens": 1411
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1580,
+    "cache_read_input_tokens": 11945,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

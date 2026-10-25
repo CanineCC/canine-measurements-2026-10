@@ -1,0 +1,57 @@
+diff --git a/engine/src/CodeHealth.Core/Frontend/FrontendWorkspaceFacts.cs b/engine/src/CodeHealth.Core/Frontend/FrontendWorkspaceFacts.cs
+index 77a657a..a403189 100644
+--- a/engine/src/CodeHealth.Core/Frontend/FrontendWorkspaceFacts.cs
++++ b/engine/src/CodeHealth.Core/Frontend/FrontendWorkspaceFacts.cs
+@@ -300,6 +300,26 @@ internal static class TsConfigGlob
+         return glob.TrimEnd('/');
+     }
+ 
++    // Appends the regex for the `*` at index `i` and returns the index of the last glob character consumed.
++    private static int AppendStar(System.Text.StringBuilder sb, string glob, int i)
++    {
++        if (i + 1 >= glob.Length || glob[i + 1] != '*')
++        {
++            sb.Append("[^/]*");
++            return i;
++        }
++
++        // `**/` spans zero or more directories; a trailing `**` spans the rest of the path.
++        if (i + 2 < glob.Length && glob[i + 2] == '/')
++        {
++            sb.Append("(?:[^/]*/)*");
++            return i + 2;
++        }
++
++        sb.Append(".*");
++        return i + 1;
++    }
++
+     private static string ToRegex(string glob)
+     {
+         var sb = new System.Text.StringBuilder("^");
+@@ -308,24 +328,7 @@ internal static class TsConfigGlob
+             var c = glob[i];
+             if (c == '*')
+             {
+-                if (i + 1 < glob.Length && glob[i + 1] == '*')
+-                {
+-                    // `**/` spans zero or more directories; a trailing `**` spans the rest of the path.
+-                    if (i + 2 < glob.Length && glob[i + 2] == '/')
+-                    {
+-                        sb.Append("(?:[^/]*/)*");
+-                        i += 2;
+-                    }
+-                    else
+-                    {
+-                        sb.Append(".*");
+-                        i++;
+-                    }
+-                }
+-                else
+-                {
+-                    sb.Append("[^/]*");
+-                }
++                i = AppendStar(sb, glob, i);
+             }
+             else if (c == '?')
+             {

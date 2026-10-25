@@ -1,0 +1,6 @@
+patches 120, asks 360: {'APPROVE': 338, 'REJECT': 21, 'UNPARSEABLE': 1}
+gate-good patches 115, gate-not-good 5 (frozen rule: anything but held with tests passed or untested)
+false approvals: 15 of 15 asks on not-good patches; false rejections: 21 of 345 asks on good patches (6.1 %)
+self-consistent (3 of 3 agree): 118 of 120 patches (98.3 %)
+false-rejection rate 95 % bootstrap over patches: 2.3 to 10.4 %
+patches with split verdicts: 2 ['p12-before-1', 'p14-after-1']

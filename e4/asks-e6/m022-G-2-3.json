@@ -1,0 +1,41 @@
+{
+ "run": "m022-G-2",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE: the three extracted helpers (`WorkspaceDirsByName`, `TransitiveWorkspaceDeps`, `ReportChangeFilters` with `ChangeFilterSite`) move the code over unchanged, including the `reported.Add` dedupe and the message text. That removes the nested loops and conditionals that made up most of the 29 points, which should bring `ChangeFilters` under 15. I could not see the rest of the file, so the build is unconfirmed: the new signatures assume `runs` is a `HashSet<TestInvocation>`, `missed` is a `List<string>`, and that `CiChangeFilter` and `JsInventory.Inventory` are the real type names.",
+ "cost_usd": 0.011429100000000001,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 5451,
+  "output_tokens": 1088,
+  "output_tokens_details": {
+   "thinking_tokens": 854
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1088,
+    "cache_read_input_tokens": 5451,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

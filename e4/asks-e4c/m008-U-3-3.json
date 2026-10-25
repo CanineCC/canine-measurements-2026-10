@@ -1,0 +1,41 @@
+{
+ "run": "m008-U-3",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe refactor keeps the same filtering and short-circuit order: non-print rules, then qualifying focus-state candidates, then exact-raw matching in the removing rule or key/universal matching elsewhere, then the draw-indicator or outranking check. It cuts `Replaced` to roughly 6\u20137 cognitive complexity using only constructs (LINQ, already in use via `Select`) that compile cleanly.",
+ "cost_usd": 0.012682800000000001,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4374,
+  "output_tokens": 590,
+  "output_tokens_details": {
+   "thinking_tokens": 448
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 590,
+    "cache_read_input_tokens": 4374,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

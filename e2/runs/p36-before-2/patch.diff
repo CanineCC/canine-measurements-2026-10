@@ -1,0 +1,52 @@
+diff --git a/engine/src/CodeHealth.Core/ModelAware/ScalaDomainConventions.cs b/engine/src/CodeHealth.Core/ModelAware/ScalaDomainConventions.cs
+index b3fc04d..3d540af 100644
+--- a/engine/src/CodeHealth.Core/ModelAware/ScalaDomainConventions.cs
++++ b/engine/src/CodeHealth.Core/ModelAware/ScalaDomainConventions.cs
+@@ -948,22 +948,7 @@ internal static class ScalaDomainConventions
+     public static IEnumerable<Nm.ICodeType> BypassableInvariantEntities(IReadOnlyList<Nm.ICodeType> types)
+     {
+         // The in-repo ctor FQNs constructed with an empty literal anywhere in the corpus — the bypass evidence.
+-        var bypassed = new HashSet<string>(StringComparer.Ordinal);
+-        foreach (var t in types)
+-        {
+-            if (!IsScalaType(t))
+-            {
+-                continue;
+-            }
+-
+-            foreach (var b in t.BypassConstructions)
+-            {
+-                if (b.CtorFqn.Length > 0)
+-                {
+-                    bypassed.Add(b.CtorFqn);
+-                }
+-            }
+-        }
++        var bypassed = BypassedCtorFqns(types);
+ 
+         if (bypassed.Count == 0)
+         {
+@@ -984,6 +969,23 @@ internal static class ScalaDomainConventions
+         }
+     }
+ 
++    private static HashSet<string> BypassedCtorFqns(IReadOnlyList<Nm.ICodeType> types)
++    {
++        var bypassed = new HashSet<string>(StringComparer.Ordinal);
++        foreach (var t in types.Where(IsScalaType))
++        {
++            foreach (var b in t.BypassConstructions)
++            {
++                if (b.CtorFqn.Length > 0)
++                {
++                    bypassed.Add(b.CtorFqn);
++                }
++            }
++        }
++
++        return bypassed;
++    }
++
+     private static bool AssertsNonEmptinessByName(string name) =>
+         NonEmptinessNameTokens.Any(tok => name.Contains(tok, StringComparison.Ordinal));
+ }

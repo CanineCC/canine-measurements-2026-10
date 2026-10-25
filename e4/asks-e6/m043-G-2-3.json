@@ -1,0 +1,41 @@
+{
+ "run": "m043-G-2",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE. Every early-exit path in the extracted helpers keeps the original order, conditions and verdict arguments, and the final Passed verdict is built the same way, so `JudgeAsync` is now a flat sequence of about 10 branches, well under 15. I could not build the project here, so the remaining risk is a type mismatch, such as `changed` or `related` being passed as `IReadOnlyList<string>`, that only the compiler would catch.",
+ "cost_usd": 0.0223435,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 13395,
+  "output_tokens": 2100,
+  "output_tokens_details": {
+   "thinking_tokens": 1952
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 2100,
+    "cache_read_input_tokens": 13395,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

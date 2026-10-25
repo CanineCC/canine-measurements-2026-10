@@ -1,0 +1,93 @@
+diff --git a/engine/src/Scanner/Accessibility/AC6/FocusOutlineRemoval.cs b/engine/src/Scanner/Accessibility/AC6/FocusOutlineRemoval.cs
+index ef757d96..4de210f8 100644
+--- a/engine/src/Scanner/Accessibility/AC6/FocusOutlineRemoval.cs
++++ b/engine/src/Scanner/Accessibility/AC6/FocusOutlineRemoval.cs
+@@ -367,43 +367,57 @@ internal static partial class FocusOutlineRemoval
+     {
+         foreach (var rule in rules)
+         {
+-            if (rule.Print)
++            if (!rule.Print && RuleReplaces(rule, removed, removing, removal))
+             {
+-                continue;
++                return true;
+             }
++        }
++
++        return false;
++    }
+ 
+-            foreach (var candidate in rule.Selectors.Select(Analyse))
++    private static bool RuleReplaces(Rule rule, SelectorFacts removed, Rule removing, Decl removal)
++    {
++        foreach (var candidate in rule.Selectors.Select(Analyse))
++        {
++            if (IsCandidateFor(candidate, rule, removed, removing) && DeclsReplace(candidate, rule, removed, removing, removal))
+             {
+-                if (!candidate.Qualifies || !candidate.FocusState)
+-                {
+-                    continue;
+-                }
++                return true;
++            }
++        }
+ 
+-                if (ReferenceEquals(rule, removing))
+-                {
+-                    if (candidate.Raw != removed.Raw)
+-                    {
+-                        continue;
+-                    }
+-                }
+-                else if (candidate.Key != removed.Key && !candidate.Universal)
+-                {
+-                    continue;
+-                }
++        return false;
++    }
+ 
+-                foreach (var d in rule.Decls)
+-                {
+-                    if (DrawsIndicator(d.Property, d.Value))
+-                    {
+-                        return true;
+-                    }
+-
+-                    if (!ReferenceEquals(rule, removing) && OutlineEffect(d.Property, d.Value) is false
+-                        && Outranks(candidate, rule, d, removed, removing, removal))
+-                    {
+-                        return true;
+-                    }
+-                }
++    private static bool IsCandidateFor(SelectorFacts candidate, Rule rule, SelectorFacts removed, Rule removing)
++    {
++        if (!candidate.Qualifies || !candidate.FocusState)
++        {
++            return false;
++        }
++
++        if (ReferenceEquals(rule, removing))
++        {
++            return candidate.Raw == removed.Raw;
++        }
++
++        return candidate.Key == removed.Key || candidate.Universal;
++    }
++
++    private static bool DeclsReplace(SelectorFacts candidate, Rule rule, SelectorFacts removed, Rule removing, Decl removal)
++    {
++        var sameRule = ReferenceEquals(rule, removing);
++        foreach (var d in rule.Decls)
++        {
++            if (DrawsIndicator(d.Property, d.Value))
++            {
++                return true;
++            }
++
++            if (!sameRule && OutlineEffect(d.Property, d.Value) is false
++                && Outranks(candidate, rule, d, removed, removing, removal))
++            {
++                return true;
+             }
+         }
+ 

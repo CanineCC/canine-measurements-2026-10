@@ -1,0 +1,132 @@
+diff --git a/engine/src/Scanner/Security/D29/Scanners/RouteAuthorizationScan.cs b/engine/src/Scanner/Security/D29/Scanners/RouteAuthorizationScan.cs
+index 503b0f39..8873886a 100644
+--- a/engine/src/Scanner/Security/D29/Scanners/RouteAuthorizationScan.cs
++++ b/engine/src/Scanner/Security/D29/Scanners/RouteAuthorizationScan.cs
+@@ -1322,26 +1322,9 @@ internal static class RouteAuthorizationScan
+         {
+             var t = f.T;
+             var response = parameters.Count > 1 ? parameters[1] : parameters.Count == 1 ? parameters[0] : "";
+-            var isBlock = t[body.Start].IsPunct("{");
+-            if (!isBlock)
++            if (!t[body.Start].IsPunct("{"))
+             {
+-                // `(_req, reply) => reply.send({ status: "ok" })`: one response-chain statement — judge its payloads.
+-                if (t[body.Start].IsIdentifier(response) && response.Length > 0)
+-                {
+-                    for (var k = body.Start + 1; k < body.End; k++)
+-                    {
+-                        if (t[k].IsName && t[k].Text is "json" or "send" or "end" or "jsonp" && t[k - 1].IsMemberAccessor
+-                            && k + 1 < t.Count && t[k + 1].IsPunct("(") && f.M[k + 1] > 0
+-                            && !IsConstantSpan(f, new Span(k + 2, f.M[k + 1]), new HashSet<string>(StringComparer.Ordinal)))
+-                        {
+-                            return false;
+-                        }
+-                    }
+-
+-                    return true;
+-                }
+-
+-                return IsConstantSpan(f, new Span(body.Start, body.End), new HashSet<string>(StringComparer.Ordinal));
++                return ExpressionBodyAnswersOnlyConstants(f, body, response);
+             }
+ 
+             var locals = new HashSet<string>(StringComparer.Ordinal);
+@@ -1355,39 +1338,78 @@ internal static class RouteAuthorizationScan
+                     locals.Add(t[k + 1].Text);
+                 }
+ 
+-                if (statementStart && t[k].IsName && t[k].Text != response && t[k].Text is not ("const" or "let" or "var" or "return" or "if"
+-                        or "else" or "await"))
++                if (!StatementIsAllowed(f, k, body, response, statementStart)
++                    || !SendPayloadIsConstant(f, k, locals)
++                    || !ReturnValueIsConstant(f, k, body, response, locals))
+                 {
+                     return false;
+                 }
++            }
+ 
+-                if (statementStart && t[k].IsWord("await") && k + 1 < body.End && t[k + 1].IsName && t[k + 1].Text != response)
+-                {
+-                    return false;
+-                }
++            return true;
++        }
+ 
+-                if (t[k].IsName && t[k].Text is "json" or "send" or "end" or "jsonp" && k > 0 && t[k - 1].IsMemberAccessor
+-                    && k + 1 < t.Count && t[k + 1].IsPunct("(") && f.M[k + 1] > 0)
+-                {
+-                    if (!IsConstantSpan(f, new Span(k + 2, f.M[k + 1]), locals))
+-                    {
+-                        return false;
+-                    }
+-                }
++        /// <summary>`(_req, reply) => reply.send({ status: "ok" })`: one response-chain statement — judge its payloads.</summary>
++        private static bool ExpressionBodyAnswersOnlyConstants(Lexed f, Span body, string response)
++        {
++            var t = f.T;
++            if (!(t[body.Start].IsIdentifier(response) && response.Length > 0))
++            {
++                return IsConstantSpan(f, new Span(body.Start, body.End), new HashSet<string>(StringComparer.Ordinal));
++            }
+ 
+-                if (t[k].IsWord("return") && k + 1 < body.End && !t[k + 1].IsPunct(";") && !t[k + 1].IsPunct("}")
+-                    && !(t[k + 1].IsIdentifier(response)))
++            for (var k = body.Start + 1; k < body.End; k++)
++            {
++                if (IsSenderCall(f, k) && !IsConstantSpan(f, new Span(k + 2, f.M[k + 1]), new HashSet<string>(StringComparer.Ordinal)))
+                 {
+-                    if (!IsConstantSpan(f, new Span(k + 1, f.StatementEnd(k + 1)), locals))
+-                    {
+-                        return false;
+-                    }
++                    return false;
+                 }
+             }
+ 
+             return true;
+         }
+ 
++        private static bool IsSenderCall(Lexed f, int k)
++        {
++            var t = f.T;
++            return t[k].IsName && t[k].Text is "json" or "send" or "end" or "jsonp" && k > 0 && t[k - 1].IsMemberAccessor
++                   && k + 1 < t.Count && t[k + 1].IsPunct("(") && f.M[k + 1] > 0;
++        }
++
++        private static bool StatementIsAllowed(Lexed f, int k, Span body, string response, bool statementStart)
++        {
++            var t = f.T;
++            if (!statementStart)
++            {
++                return true;
++            }
++
++            if (t[k].IsName && t[k].Text != response && t[k].Text is not ("const" or "let" or "var" or "return" or "if"
++                    or "else" or "await"))
++            {
++                return false;
++            }
++
++            return !(t[k].IsWord("await") && k + 1 < body.End && t[k + 1].IsName && t[k + 1].Text != response);
++        }
++
++        private static bool SendPayloadIsConstant(Lexed f, int k, HashSet<string> locals)
++        {
++            return !IsSenderCall(f, k) || IsConstantSpan(f, new Span(k + 2, f.M[k + 1]), locals);
++        }
++
++        private static bool ReturnValueIsConstant(Lexed f, int k, Span body, string response, HashSet<string> locals)
++        {
++            var t = f.T;
++            if (!t[k].IsWord("return") || k + 1 >= body.End || t[k + 1].IsPunct(";") || t[k + 1].IsPunct("}")
++                || t[k + 1].IsIdentifier(response))
++            {
++                return true;
++            }
++
++            return IsConstantSpan(f, new Span(k + 1, f.StatementEnd(k + 1)), locals);
++        }
++
+         /// <summary>Whether token <paramref name="k"/> sits inside an expression — a call's parentheses, an array, or an
+         /// object literal — rather than directly in a statement block between it and <paramref name="bodyStart"/>.</summary>
+         private static bool InsideExpression(Lexed f, int k, int bodyStart)

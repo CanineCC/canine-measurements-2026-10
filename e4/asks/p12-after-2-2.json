@@ -1,0 +1,41 @@
+{
+ "run": "p12-after-2",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE. Both versions return the first object entry when no version is requested, and the first object entry whose string `num` equals the requested version otherwise. The extracted `MatchesRequested` keeps that logic and the complexity drops well below 15, because the `continue` branches, the nested `if` and the `&&` chain move out of `Parse`. The new code is a plain static helper with valid nullable and pattern syntax, so I see nothing that would break the warnings-as-errors build.",
+ "cost_usd": 0.0061024,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 3784,
+  "output_tokens": 572,
+  "output_tokens_details": {
+   "thinking_tokens": 417
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 572,
+    "cache_read_input_tokens": 3784,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

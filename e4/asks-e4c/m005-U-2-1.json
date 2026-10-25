@@ -1,0 +1,41 @@
+{
+ "run": "m005-U-2",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe extracted helpers (`BoundLiteral`, `IsRejectedKeyValue`, `IsLookupKeyNotKeyMaterial`, `ClassifyCryptoKey`) keep every check in the same order with the same short-circuiting, and moving the nested ternaries, `||`/`&&` chains and the lookup-key `if` out of the method should bring it well under 15; the source isn't on this machine, though, so I couldn't build it to confirm that `name` is a `Match` and `lines` is a `string[]`, as the new signatures assume.",
+ "cost_usd": 0.0533208,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 3838,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 1108,
+  "output_tokens_details": {
+   "thinking_tokens": 693
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 3838,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1108,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 3838,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 3838
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

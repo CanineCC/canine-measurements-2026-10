@@ -1,0 +1,41 @@
+{
+ "run": "p12-before-3",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE: `IsWanted` preserves the original logic exactly (skip non-objects, take the first object when no version is requested, otherwise take only an exact ordinal `num` match), and moving those branches out lowers `Parse` well below 15 with no new build-warning risk.",
+ "cost_usd": 0.0114064,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 1552,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 497,
+  "output_tokens_details": {
+   "thinking_tokens": 405
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 1552,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 497,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 1552,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1552
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

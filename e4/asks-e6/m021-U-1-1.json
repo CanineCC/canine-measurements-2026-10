@@ -1,0 +1,41 @@
+{
+ "run": "m021-U-1",
+ "k": 1,
+ "verdict": "REJECT",
+ "text": "REJECT: the patch extracts only about 35 points of complexity, so the method would still be around 40, well above 15, because roughly 90 lines of nested loops and conditionals (the `gatingRuns`, `reached`, `collected`, `dropped` and `outside` logic) remain in the original method.",
+ "cost_usd": 0.0309224,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 4761,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 1165,
+  "output_tokens_details": {
+   "thinking_tokens": 1066
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 4761,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1165,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 4761,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 4761
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

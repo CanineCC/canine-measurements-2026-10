@@ -1,0 +1,102 @@
+diff --git a/engine/src/Core/Frontend/JsUnusedDeclarations.cs b/engine/src/Core/Frontend/JsUnusedDeclarations.cs
+index f844404e..3c1599e5 100644
+--- a/engine/src/Core/Frontend/JsUnusedDeclarations.cs
++++ b/engine/src/Core/Frontend/JsUnusedDeclarations.cs
+@@ -197,29 +197,27 @@ public static class JsUnusedDeclarations
+         for (var i = open + 1; i < close; i++)
+         {
+             var token = tokens[i];
+-            if (token.IsPunct("{") || token.IsPunct("(") || token.IsPunct("["))
++            if (IsOpeningBracket(token))
+             {
+-                if (depth == 0 && token.IsPunct("(") && i > open + 1 && tokens[i - 1].IsWord("constructor"))
++                if (depth == 0 && IsConstructorParameterList(tokens, i, open))
+                 {
+                     var end = Matching(tokens, i);
+                     members.AddRange(ParameterProperties(tokens, i, end));
+                     i = end;
+                     decorated = false;
+-                    continue;
++                }
++                else
++                {
++                    depth++;
+                 }
+ 
+-                depth++;
+                 continue;
+             }
+ 
+-            if (token.IsPunct("}") || token.IsPunct(")") || token.IsPunct("]"))
++            if (IsClosingBracket(token))
+             {
+                 depth--;
+-                if (depth == 0 && token.IsPunct("}"))
+-                {
+-                    decorated = false;
+-                }
+-
++                decorated &= !(depth == 0 && token.IsPunct("}"));
+                 continue;
+             }
+ 
+@@ -231,25 +229,14 @@ public static class JsUnusedDeclarations
+             if (token.IsPunct(";"))
+             {
+                 decorated = false;
+-                continue;
+             }
+-
+-            if (token.IsPunct("@"))
++            else if (token.IsPunct("@"))
+             {
+                 decorated = true;
+-                continue;
+             }
+-
+-            if (token.Kind == JsTokenKind.PrivateIdentifier && !tokens[i - 1].IsMemberAccessor)
++            else if (TryReadPrivateMember(tokens, i, close, decorated) is { } member)
+             {
+-                members.Add(new Member(token.Text, KindAfterName(tokens, i, close), i, IsEsPrivate: true, decorated));
+-                decorated = false;
+-                continue;
+-            }
+-
+-            if (token.IsWord("private") && TsPrivateMemberName(tokens, i, close) is { } named)
+-            {
+-                members.Add(new Member(tokens[named.Index].Text, named.Kind, named.Index, IsEsPrivate: false, decorated));
++                members.Add(member);
+                 decorated = false;
+             }
+         }
+@@ -257,6 +244,30 @@ public static class JsUnusedDeclarations
+         return members;
+     }
+ 
++    private static bool IsOpeningBracket(JsToken token) => token.IsPunct("{") || token.IsPunct("(") || token.IsPunct("[");
++
++    private static bool IsClosingBracket(JsToken token) => token.IsPunct("}") || token.IsPunct(")") || token.IsPunct("]");
++
++    private static bool IsConstructorParameterList(IReadOnlyList<JsToken> tokens, int i, int open) =>
++        tokens[i].IsPunct("(") && i > open + 1 && tokens[i - 1].IsWord("constructor");
++
++    /// <summary>The private member declared by the token at <paramref name="i"/>, or null when it does not start one.</summary>
++    private static Member? TryReadPrivateMember(IReadOnlyList<JsToken> tokens, int i, int close, bool decorated)
++    {
++        var token = tokens[i];
++        if (token.Kind == JsTokenKind.PrivateIdentifier && !tokens[i - 1].IsMemberAccessor)
++        {
++            return new Member(token.Text, KindAfterName(tokens, i, close), i, IsEsPrivate: true, decorated);
++        }
++
++        if (token.IsWord("private") && TsPrivateMemberName(tokens, i, close) is { } named)
++        {
++            return new Member(tokens[named.Index].Text, named.Kind, named.Index, IsEsPrivate: false, decorated);
++        }
++
++        return null;
++    }
++
+     private static readonly HashSet<string> Modifiers = new(StringComparer.Ordinal)
+     {
+         "static", "readonly", "override", "async", "declare", "accessor", "abstract",

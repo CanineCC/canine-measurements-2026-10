@@ -1,0 +1,41 @@
+{
+ "run": "m042-U-2",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE\n\n`BuildPlan` is now a single `foreach` with a short `if`/`else if`, far under 15. The extracted helpers keep the original Create/Apply conditions, parameter-index precedence and `returnsDocument` handling, so behaviour is unchanged. The `out var` indexes are definitely assigned inside the `&&`-guarded branch, so it should compile. I only read the diff and did not build it, so a StyleCop member-ordering rule (e.g. SA1201 for the const declared between methods) is the one thing I can't rule out.",
+ "cost_usd": 0.010206000000000002,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4620,
+  "output_tokens": 974,
+  "output_tokens_details": {
+   "thinking_tokens": 788
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 974,
+    "cache_read_input_tokens": 4620,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

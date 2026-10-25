@@ -1,0 +1,77 @@
+diff --git a/engine/src/Scanner/ArchitectureModel/AX7/SliceModuleSites.cs b/engine/src/Scanner/ArchitectureModel/AX7/SliceModuleSites.cs
+index fe891d04..5e8fde6a 100644
+--- a/engine/src/Scanner/ArchitectureModel/AX7/SliceModuleSites.cs
++++ b/engine/src/Scanner/ArchitectureModel/AX7/SliceModuleSites.cs
+@@ -291,13 +291,13 @@ internal static class SliceModuleSites
+             }
+ 
+             var tok = t[k];
+-            if (tok.IsPunct("(") || tok.IsPunct("{") || tok.IsPunct("["))
++            if (IsOpener(tok))
+             {
+                 depth++;
+                 continue;
+             }
+ 
+-            if (tok.IsPunct(")") || tok.IsPunct("}") || tok.IsPunct("]"))
++            if (IsCloser(tok))
+             {
+                 depth = Math.Max(0, depth - 1);
+                 continue;
+@@ -319,24 +319,51 @@ internal static class SliceModuleSites
+                 }
+             }
+ 
+-            if (!tok.IsAnyIdentifier || !foreign.TryGetValue(tok.Text, out var from)
+-                || (k > 0 && t[k - 1].IsMemberAccessor)
+-                || (k > 0 && k + 1 < t.Count && t[k + 1].IsPunct(":") && (t[k - 1].IsPunct("{") || t[k - 1].IsPunct(","))))
++            if (!IsForeignReference(t, k, foreign, out var from))
+             {
+                 continue;
+             }
+ 
+-            var enclosing = declaration ?? "(module)";
+             if (seen.Add(tok.Text))
+             {
+                 yield return new Finding(FindingLevel.Warning,
+                     $"Cross-slice coupling: {slice} → {from.Slice}",
+-                    $"`{enclosing}` (slice '{slice}') depends on `{from.Exported}` from slice '{from.Slice}'.",
++                    $"`{declaration ?? "(module)"}` (slice '{slice}') depends on `{from.Exported}` from slice '{from.Slice}'.",
+                     rel, tok.Line);
+             }
+         }
+     }
+ 
++    private static bool IsOpener(JsToken tok) => tok.IsPunct("(") || tok.IsPunct("{") || tok.IsPunct("[");
++
++    private static bool IsCloser(JsToken tok) => tok.IsPunct(")") || tok.IsPunct("}") || tok.IsPunct("]");
++
++    /// <summary>True when the token at <paramref name="k"/> names a foreign binding, and is not a property access
++    /// (<c>a.name</c>) or an object-literal key (<c>{ name: … }</c>).</summary>
++    private static bool IsForeignReference(IReadOnlyList<JsToken> t, int k, Dictionary<string, Foreign> foreign, out Foreign from)
++    {
++        from = default!;
++        var tok = t[k];
++        if (!tok.IsAnyIdentifier || !foreign.TryGetValue(tok.Text, out var found))
++        {
++            return false;
++        }
++
++        from = found;
++        if (k == 0)
++        {
++            return true;
++        }
++
++        if (t[k - 1].IsMemberAccessor)
++        {
++            return false;
++        }
++
++        var isObjectKey = k + 1 < t.Count && t[k + 1].IsPunct(":") && (t[k - 1].IsPunct("{") || t[k - 1].IsPunct(","));
++        return !isObjectKey;
++    }
++
+     /// <summary>A top-level declaration starting at <paramref name="k"/>: its name (or <c>default</c>) and the index of
+     /// the last token of its head, so the walk continues after the name.</summary>
+     private static (string Name, int NameIndex)? DeclarationAt(IReadOnlyList<JsToken> t, int k)

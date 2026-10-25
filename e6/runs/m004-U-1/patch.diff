@@ -1,0 +1,86 @@
+diff --git a/engine/src/Core/Languages/Swift/Security/SwiftPackageHygiene.CocoaPods.cs b/engine/src/Core/Languages/Swift/Security/SwiftPackageHygiene.CocoaPods.cs
+index abe6977f..e10f9551 100644
+--- a/engine/src/Core/Languages/Swift/Security/SwiftPackageHygiene.CocoaPods.cs
++++ b/engine/src/Core/Languages/Swift/Security/SwiftPackageHygiene.CocoaPods.cs
+@@ -93,39 +93,60 @@ public static partial class SwiftPackageHygiene
+                 continue;
+             }
+ 
+-            if (section is not ("PODS" or "DEPENDENCIES"))
++            if (section is not ("PODS" or "DEPENDENCIES") || TryGetListEntry(line) is not { } entry)
+             {
+                 continue;
+             }
+ 
+-            // PODS lists a pod at two-space indent and its own requirements at four; only the first is a resolution.
+-            var indent = line.Length - line.TrimStart().Length;
+-            var entry = line.Trim();
+-            if (indent != 2 || !entry.StartsWith("- ", StringComparison.Ordinal))
+-            {
+-                continue;
+-            }
+-
+-            entry = entry[2..].Trim().TrimEnd(':').Trim('"', '\'');
+             if (section == "PODS")
+             {
+-                if (SplitNameAndParenthesis(entry) is { Parenthesis: { } version } resolvedPod && !version.Contains(' '))
+-                {
+-                    resolved.TryAdd(resolvedPod.Name.Split('/')[0], version);
+-                }
++                AddResolvedPod(entry, resolved);
+             }
+             else
+             {
+-                var (name, requirement) = SplitNameAndParenthesis(entry);
+-                if (requirement is not null && requirement.StartsWith("from `", StringComparison.Ordinal))
+-                {
+-                    continue;
+-                }
+-
+-                direct.Add(name.Split('/')[0]);
++                AddDirectDependency(entry, direct);
+             }
+         }
+ 
++        return JoinDirectWithResolved(direct, resolved, lockPath);
++    }
++
++    /// <summary>The unquoted text of a top-level list item (<c>- …</c> at two-space indent), or null for any other line.
++    /// PODS lists a pod at two-space indent and its own requirements at four; only the first is a resolution.</summary>
++    private static string? TryGetListEntry(string line)
++    {
++        var indent = line.Length - line.TrimStart().Length;
++        var entry = line.Trim();
++        if (indent != 2 || !entry.StartsWith("- ", StringComparison.Ordinal))
++        {
++            return null;
++        }
++
++        return entry[2..].Trim().TrimEnd(':').Trim('"', '\'');
++    }
++
++    private static void AddResolvedPod(string entry, Dictionary<string, string> resolved)
++    {
++        if (SplitNameAndParenthesis(entry) is { Parenthesis: { } version } resolvedPod && !version.Contains(' '))
++        {
++            resolved.TryAdd(resolvedPod.Name.Split('/')[0], version);
++        }
++    }
++
++    private static void AddDirectDependency(string entry, List<string> direct)
++    {
++        var (name, requirement) = SplitNameAndParenthesis(entry);
++        if (requirement is not null && requirement.StartsWith("from `", StringComparison.Ordinal))
++        {
++            return;
++        }
++
++        direct.Add(name.Split('/')[0]);
++    }
++
++    private static List<CocoaPodDependency> JoinDirectWithResolved(
++        List<string> direct, Dictionary<string, string> resolved, string lockPath)
++    {
+         List<CocoaPodDependency> pods = [];
+         foreach (var name in direct.Distinct(StringComparer.Ordinal))
+         {

@@ -1,0 +1,41 @@
+{
+ "run": "p23-before-1",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE: The extracted `AddGoEmbedRef` keeps the original logic exactly, with each `continue` becoming a `return`, and it removes the nested ternary, two `if`s and two `||` operators from `CollectGoEmbedRefs`, which should bring it well under 15. The diff alone doesn't show the declared types of `rel`, `directory` and `hostEmbeds`, so I assumed they match the helper's `string`, `string` and `List<HostEmbedRef>` parameters, and I didn't build or test it.",
+ "cost_usd": 0.0059848,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4308,
+  "output_tokens": 555,
+  "output_tokens_details": {
+   "thinking_tokens": 376
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 555,
+    "cache_read_input_tokens": 4308,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

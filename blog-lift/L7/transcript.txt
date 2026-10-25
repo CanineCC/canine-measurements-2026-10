@@ -1,0 +1,128 @@
+$ git -C scorer-src/CodeAssuranceIndex log -1 --format=%H %cd
+c053a0260d7ba677e839ad9eb12c37d4048fd171 Thu Oct 22 11:13:56 2026 +0200
+[exit 0]
+
+$ sha256sum downloads/survey-akkatecture.html scorer-src/CodeAssuranceIndex/rubrics/rubric-2026.10.5/rubric-catalog.json scorer-src/CodeAssuranceIndex/examples/cai-delivery.sample.json scorer-src/CodeAssuranceIndex/examples/cai-delivery.keys.json
+7d0994ab563d3b10670997b91b60a29bab855c7acbf96328d71c36532dbb1b9d  downloads/survey-akkatecture.html
+16476f49f4b69d5dcac8ea69659957257c7488611eda9e69ad0636c7d93515c3  scorer-src/CodeAssuranceIndex/rubrics/rubric-2026.10.5/rubric-catalog.json
+bf94cd1127c109b990f18e52e85fa6b30db886266775320eef65dee87d90a324  scorer-src/CodeAssuranceIndex/examples/cai-delivery.sample.json
+864536d4c1981914349f67351e68df6319ec11e52ea8ceec6879691343d0337c  scorer-src/CodeAssuranceIndex/examples/cai-delivery.keys.json
+[exit 0]
+
+## 1. The command the /page-cli/ page prints
+$ scorer-src/CodeAssuranceIndex/src/Cai.Cli/bin/Release/net10.0/cai score scorer-src/CodeAssuranceIndex/examples/evidence.sample.json --rubric rubric-2026.10.5
+error: score needs --rubrics <dir> (the published rubric archive). A CAI number is only meaningful under the rubric it was computed with, so there is nothing to fold under without it.
+[exit 2]
+
+## 2. The signed sample delivery: signature + re-fold (reference program)
+$ scorer-src/CodeAssuranceIndex/src/Cai.Cli/bin/Release/net10.0/cai verify-delivery scorer-src/CodeAssuranceIndex/examples/cai-delivery.sample.json --keys scorer-src/CodeAssuranceIndex/examples/cai-delivery.keys.json --rubrics scorer-src/CodeAssuranceIndex/rubrics
+✓ signature verified — signed by codeassuranceindex.info (key cai-ed25519-sample), Ed25519
+  subject   acme/checkout-api @ 3f9a1c2
+  verdict   CAI 70.3 (Strong)  ·  rubric rubric-2026.08.15  ·  issued 2026-07-01T10:32:04Z
+✓ headline reproduces from embedded evidence (70.3 = claimed 70.3)
+[exit 0]
+
+## 3. The same signature, checked without the reference program
+$ python3 -I work/ed25519_check.py scorer-src/CodeAssuranceIndex/examples/cai-delivery.sample.json scorer-src/CodeAssuranceIndex/examples/cai-delivery.keys.json
+canon RFC8785-json | keyId cai-ed25519-sample | key status active
+sha256(canonical payload) 04ac0b86d794bdd5e1ff9c3fd845f98f8e61769b336b9c90911b850a1272aeb6
+Ed25519 signature: VALID
+[exit 0]
+
+## 4. One byte of the verdict changed (70.31 -> 79.31)
+$ python3 -I work/ed25519_check.py work/tampered.sample.json scorer-src/CodeAssuranceIndex/examples/cai-delivery.keys.json
+canon RFC8785-json | keyId cai-ed25519-sample | key status active
+sha256(canonical payload) 99b291bc4556d140e8170f2c8d18a80fe6b70accf53c90d56d99f38756539955
+Ed25519 signature: INVALID
+[exit 1]
+
+$ scorer-src/CodeAssuranceIndex/src/Cai.Cli/bin/Release/net10.0/cai verify-delivery work/tampered.sample.json --keys scorer-src/CodeAssuranceIndex/examples/cai-delivery.keys.json --rubrics scorer-src/CodeAssuranceIndex/rubrics
+✗ SIGNATURE INVALID: signature does not verify (tampered payload or wrong key)
+[exit 1]
+
+## 5. A real published survey: AfterLutz/Akkatecture, from the numbers its page publishes
+$ python3 -I work/extract_lenses.py downloads/survey-akkatecture.html work/akkatecture.lenses.json
+{
+  "rubricVersion": "rubric-2026.10.5",
+  "commit": "3b948b48a78db9b10565acae946690158571dd26",
+  "headlineScore": 57.8,
+  "lenses": [
+    {
+      "lens": "codeHealth",
+      "score": 54.5,
+      "owaWeight": 0
+    },
+    {
+      "lens": "architecture",
+      "score": 97.1,
+      "owaWeight": 0
+    },
+    {
+      "lens": "maturity",
+      "score": 51.5,
+      "owaWeight": 0
+    },
+    {
+      "lens": "productionReadiness",
+      "score": 70.7,
+      "owaWeight": 0
+    },
+    {
+      "lens": "securityCompliance",
+      "score": 67.1,
+      "owaWeight": 0
+    },
+    {
+      "lens": "domainModelling",
+      "score": 97.9,
+      "owaWeight": 0
+    },
+    {
+      "lens": "eventDriven",
+      "score": 83.2,
+      "owaWeight": 0
+    },
+    {
+      "lens": "performance",
+      "score": 66.1,
+      "owaWeight": 0
+    }
+  ]
+}
+[exit 0]
+
+$ scorer-src/CodeAssuranceIndex/src/Cai.Cli/bin/Release/net10.0/cai score work/akkatecture.lenses.json --rubrics scorer-src/CodeAssuranceIndex/rubrics
+CAI 57.8 (Adequate)  ·  rubric rubric-2026.10.5
+
+  lens                    scoreband          dims   weight   contrib
+  maturity                 51.5  Adequate       0    0.454     23.37
+  codeHealth               54.5  Adequate       0    0.250     13.60
+  performance              66.1  Adequate       0    0.137      9.07
+  securityCompliance       67.1  Adequate       0    0.076      5.07
+  productionReadiness      70.7  Strong         0    0.042      2.94
+  eventDriven              83.2  Strong         0    0.023      1.90
+  architecture             97.1  Exemplary      0    0.013      1.22
+  domainModelling          97.9  Exemplary      0    0.007      0.68
+[exit 0]
+
+$ scorer-src/CodeAssuranceIndex/src/Cai.Cli/bin/Release/net10.0/cai verify work/akkatecture.lenses.json --rubrics scorer-src/CodeAssuranceIndex/rubrics
+✓ reproduced: CAI 58 (Adequate) under rubric rubric-2026.10.5 (claimed 58, Δ0.05)
+[exit 0]
+
+$ python3 -I work/owa.py work/akkatecture.lenses.json scorer-src/CodeAssuranceIndex/rubrics/rubric-2026.10.5/rubric-catalog.json
+q=0.55 lenses=8 headline=57.8455 claimed=57.8 delta=0.0455
+[exit 0]
+
+## 6. The production key set vs the sample key
+$ cat downloads/registry-keys.json
+{
+  "keys": [
+    {
+      "keyId": "cai-ed25519-2026-07",
+      "alg": "Ed25519",
+      "publicKey": "AQzI0jyJzu_Dv8g3RB4feO50Pk_3ejsD-X3k5u-auJ4",
+      "status": "active"
+    }
+  ]
+}[exit 0]
+

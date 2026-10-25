@@ -1,0 +1,27 @@
+{
+ "mid": "m043",
+ "touched": [
+  "src/Kennel.Improve.Orchestrator/Gates/ShellGate.cs"
+ ],
+ "empty_patch": false,
+ "tests_edited": false,
+ "patch_applies": true,
+ "target_cognitive_after": 12,
+ "newly_over_threshold": [],
+ "touched_total_cognitive_before": 99,
+ "touched_total_cognitive_after": 90,
+ "build_ok": true,
+ "build_errors": [],
+ "tests_first": [
+  {
+   "project": "tests/Kennel.Improve.Orchestrator.Tests/Kennel.Improve.Orchestrator.Tests.csproj",
+   "exit": 0,
+   "passed": 41,
+   "failed": 0,
+   "total": 41,
+   "failedNames": []
+  }
+ ],
+ "behaviour": "passed",
+ "outcome": "held"
+}

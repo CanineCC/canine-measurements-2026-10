@@ -1,0 +1,41 @@
+{
+ "run": "m028-U-3",
+ "k": 1,
+ "verdict": "REJECT",
+ "text": "REJECT: `ClassifyNextFile` collapses the three independent flags into one exclusive enum, so a file that is both a Next.js route/API file and starts with `\"use server\"` used to have `isActions == true` but now has it false, which changes behaviour wherever the rest of `Next` reads `isActions`. The rest of the method isn't in the diff, so I couldn't check that, or whether it still reads the removed `isRouteFile`, `isApiRoute` or `inApp` locals, which would break the build.",
+ "cost_usd": 0.0223564,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 2907,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 1050,
+  "output_tokens_details": {
+   "thinking_tokens": 882
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2907,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1050,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 2907,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2907
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

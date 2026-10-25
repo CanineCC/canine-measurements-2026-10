@@ -1,0 +1,41 @@
+{
+ "run": "m045-G-3",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe extracted helpers keep the original order, short-circuits, messages and cache/log side effects, and the nullability is handled with `!` where flow analysis no longer reaches through `moved`; by my estimate `CheckAsync` drops from 32 to about 15, though I reviewed only the diff and did not build the project or run a complexity analyzer.",
+ "cost_usd": 0.0545848,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 4026,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 1096,
+  "output_tokens_details": {
+   "thinking_tokens": 977
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 4026,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1096,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 4026,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 4026
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

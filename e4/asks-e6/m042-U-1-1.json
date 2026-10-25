@@ -1,0 +1,41 @@
+{
+ "run": "m042-U-1",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE\n\nThe `BuildPlan` branching is reduced to roughly 5 cognitive complexity points, the extracted helpers preserve the original Create/Apply matching, index selection, skip-on-no-match and closure semantics, and the nullable-tuple `is var (\u2026)` pattern and target-typed `null` both compile cleanly. I could not build the project here, so the build condition rests on reading the code. A member-ordering analyzer, if enabled, could object to the `const` sitting between methods.",
+ "cost_usd": 0.0211764,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 2327,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 1164,
+  "output_tokens_details": {
+   "thinking_tokens": 999
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2327,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1164,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 2327,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2327
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

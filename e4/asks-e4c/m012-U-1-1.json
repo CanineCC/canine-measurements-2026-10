@@ -1,0 +1,41 @@
+{
+ "run": "m012-U-1",
+ "k": 1,
+ "verdict": "REJECT",
+ "text": "REJECT\nThe extraction preserves behaviour, but it only removes about 5 points of boolean-operator complexity (two `||` chains in the bracket checks and about 3 in the binding condition), so `Uses` would drop from 29 to roughly 24, still above the threshold of 15.",
+ "cost_usd": 0.0275528,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 1917,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 588,
+  "output_tokens_details": {
+   "thinking_tokens": 493
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 1917,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 588,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 1917,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1917
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

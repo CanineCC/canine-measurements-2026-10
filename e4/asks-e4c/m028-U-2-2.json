@@ -1,0 +1,41 @@
+{
+ "run": "m028-U-2",
+ "k": 2,
+ "verdict": "REJECT",
+ "text": "REJECT\nThe extraction removes only about 17 points from `Next` (the inlined path checks and the export-parsing branches), so the method still sits near 32, well above the threshold of 15. The behaviour-preservation and build conditions look fine, but the main goal of the refactor is not met.",
+ "cost_usd": 0.0134714,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4517,
+  "output_tokens": 628,
+  "output_tokens_details": {
+   "thinking_tokens": 534
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 628,
+    "cache_read_input_tokens": 4517,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

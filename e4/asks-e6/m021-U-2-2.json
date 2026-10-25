@@ -1,0 +1,41 @@
+{
+ "run": "m021-U-2",
+ "k": 2,
+ "verdict": "REJECT",
+ "text": "REJECT: the patch moves blocks verbatim, so behaviour and build look fine, but the method most likely stays well above 15. Only about 30\u201335 of its 77 points were extracted, and the unchanged remainder (the `gatingAny` logic and the nested loops before `AddExclusionSites`) still carries most of the complexity. The extracted `PartialShardMatrices` helper, with its nested loops, conditions and lambdas, probably exceeds 15 on its own and would trigger the same finding.",
+ "cost_usd": 0.0072967,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 7027,
+  "output_tokens": 659,
+  "output_tokens_details": {
+   "thinking_tokens": 492
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 659,
+    "cache_read_input_tokens": 7027,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

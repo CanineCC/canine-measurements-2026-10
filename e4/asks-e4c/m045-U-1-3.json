@@ -1,0 +1,41 @@
+{
+ "run": "m045-U-1",
+ "k": 3,
+ "verdict": "UNPARSEABLE",
+ "text": "**APPROVE**\n\nThe pin check, base-arm-at-pin and bench stages are moved out unchanged in order, messages and side effects, so `CheckAsync` should drop well under 15 and the nullable flow still compiles cleanly. The 22 unchanged stage lines were not visible to me, though, so the final score is an estimate rather than a measurement.",
+ "cost_usd": 0.067978,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 6650,
+  "output_tokens": 3332,
+  "output_tokens_details": {
+   "thinking_tokens": 2754
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 3332,
+    "cache_read_input_tokens": 6650,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

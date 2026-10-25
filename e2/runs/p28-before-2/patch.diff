@@ -1,0 +1,67 @@
+diff --git a/engine/src/CodeHealth.Core/Testing/GoModuleTestScanner.cs b/engine/src/CodeHealth.Core/Testing/GoModuleTestScanner.cs
+index 7c012bd..93e4556 100644
+--- a/engine/src/CodeHealth.Core/Testing/GoModuleTestScanner.cs
++++ b/engine/src/CodeHealth.Core/Testing/GoModuleTestScanner.cs
+@@ -225,27 +225,23 @@ public static class GoModuleTestScanner
+         {
+             var dir = stack.Pop();
+ 
+-            IReadOnlyList<string> subdirs;
+-#pragma warning disable CHA0004 // Best-effort scan: an unreadable directory is simply skipped.
+-            try { subdirs = [.. Directory.EnumerateDirectories(dir)]; }
+-            catch (IOException) { continue; }
+-            catch (UnauthorizedAccessException) { continue; }
+-#pragma warning restore CHA0004
+-            foreach (var sub in subdirs)
++            var subdirs = TryList(() => Directory.EnumerateDirectories(dir));
++            if (subdirs is null)
+             {
+-                if (SourceTreeWalk.ShouldWalkInto(sub)
+-                    && !string.Equals(Path.GetFileName(sub), "testdata", StringComparison.OrdinalIgnoreCase))
+-                {
+-                    stack.Push(sub);
+-                }
++                continue;
++            }
++
++            foreach (var sub in subdirs.Where(IsWalkable))
++            {
++                stack.Push(sub);
++            }
++
++            var files = TryList(() => Directory.EnumerateFiles(dir, "*_test.go"));
++            if (files is null)
++            {
++                continue;
+             }
+ 
+-            IReadOnlyList<string> files;
+-#pragma warning disable CHA0004 // Best-effort scan: an unreadable directory is simply skipped.
+-            try { files = [.. Directory.EnumerateFiles(dir, "*_test.go")]; }
+-            catch (IOException) { continue; }
+-            catch (UnauthorizedAccessException) { continue; }
+-#pragma warning restore CHA0004
+             foreach (var file in files)
+             {
+                 yield return file;
+@@ -253,6 +249,20 @@ public static class GoModuleTestScanner
+         }
+     }
+ 
++    private static bool IsWalkable(string sub) =>
++        SourceTreeWalk.ShouldWalkInto(sub)
++        && !string.Equals(Path.GetFileName(sub), "testdata", StringComparison.OrdinalIgnoreCase);
++
++    /// <summary>Materialises the enumeration, or returns null when the directory is unreadable.</summary>
++    private static List<string>? TryList(Func<IEnumerable<string>> enumerate)
++    {
++#pragma warning disable CHA0004 // Best-effort scan: an unreadable directory is simply skipped.
++        try { return [.. enumerate()]; }
++        catch (IOException) { return null; }
++        catch (UnauthorizedAccessException) { return null; }
++#pragma warning restore CHA0004
++    }
++
+     /// <summary>A one-line description of what will be run, for the dimension's narrative.</summary>
+     public static string Describe(IReadOnlyList<GoTestModule> modules)
+     {

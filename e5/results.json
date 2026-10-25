@@ -1,0 +1,276 @@
+{
+ "total": {
+  "absent_dimension_unknown": 416,
+  "did_not_clear": 588,
+  "unverified": 4,
+  "absent_not_measured": 542,
+  "cleared": 3701
+ },
+ "per_repo": {
+  "continuum": {
+   "absent_dimension_unknown": 229
+  },
+  "unfold": {
+   "absent_dimension_unknown": 133,
+   "did_not_clear": 2
+  },
+  "lawnofwar": {
+   "absent_dimension_unknown": 36
+  },
+  "RETIRED.watchdog": {
+   "unverified": 4
+  },
+  "CodeAssuranceIndex": {
+   "absent_dimension_unknown": 12,
+   "absent_not_measured": 16,
+   "cleared": 39,
+   "did_not_clear": 64
+  },
+  "kennel": {
+   "absent_dimension_unknown": 6,
+   "absent_not_measured": 526,
+   "cleared": 3662,
+   "did_not_clear": 522
+  }
+ },
+ "by_dimension": {
+  "": {
+   "absent_dimension_unknown": 416,
+   "unverified": 4
+  },
+  "P2": {
+   "did_not_clear": 2
+  },
+  "X2": {
+   "did_not_clear": 3
+  },
+  "D12": {
+   "absent_not_measured": 6
+  },
+  "AC3": {
+   "absent_not_measured": 47,
+   "did_not_clear": 1
+  },
+  "P3": {
+   "absent_not_measured": 1
+  },
+  "PF1": {
+   "absent_not_measured": 2
+  },
+  "PF3": {
+   "absent_not_measured": 4
+  },
+  "AC2": {
+   "absent_not_measured": 72
+  },
+  "AC7": {
+   "absent_not_measured": 2
+  },
+  "C2": {
+   "absent_not_measured": 1,
+   "did_not_clear": 2
+  },
+  "D29": {
+   "cleared": 71,
+   "did_not_clear": 15
+  },
+  "D8": {
+   "cleared": 11,
+   "did_not_clear": 1
+  },
+  "D22": {
+   "cleared": 3
+  },
+  "D10": {
+   "cleared": 6
+  },
+  "D19": {
+   "cleared": 20
+  },
+  "D1": {
+   "cleared": 1588,
+   "did_not_clear": 13
+  },
+  "D17": {
+   "cleared": 87,
+   "did_not_clear": 33
+  },
+  "D2": {
+   "cleared": 1777,
+   "did_not_clear": 12
+  },
+  "D3": {
+   "cleared": 35,
+   "did_not_clear": 8
+  },
+  "D28": {
+   "did_not_clear": 382,
+   "cleared": 15
+  },
+  "R2": {
+   "did_not_clear": 11,
+   "absent_not_measured": 89
+  },
+  "D15": {
+   "did_not_clear": 21,
+   "cleared": 24
+  },
+  "AX6": {
+   "did_not_clear": 2
+  },
+  "D4": {
+   "did_not_clear": 10,
+   "cleared": 14
+  },
+  "R10": {
+   "did_not_clear": 5,
+   "absent_not_measured": 12
+  },
+  "D36": {
+   "did_not_clear": 2,
+   "cleared": 4
+  },
+  "D13": {
+   "did_not_clear": 1,
+   "cleared": 15
+  },
+  "P10": {
+   "did_not_clear": 1
+  },
+  "P12": {
+   "did_not_clear": 1
+  },
+  "P4": {
+   "did_not_clear": 1
+  },
+  "D26": {
+   "did_not_clear": 3
+  },
+  "D30": {
+   "did_not_clear": 3,
+   "cleared": 3
+  },
+  "DM2": {
+   "absent_not_measured": 128
+  },
+  "DM9": {
+   "absent_not_measured": 67,
+   "did_not_clear": 11
+  },
+  "X7": {
+   "absent_not_measured": 21,
+   "did_not_clear": 3
+  },
+  "X9": {
+   "absent_not_measured": 18
+  },
+  "X3": {
+   "absent_not_measured": 17,
+   "did_not_clear": 16
+  },
+  "R4": {
+   "absent_not_measured": 12,
+   "did_not_clear": 9
+  },
+  "X1": {
+   "absent_not_measured": 10
+  },
+  "X10": {
+   "absent_not_measured": 5
+  },
+  "DM4": {
+   "absent_not_measured": 4
+  },
+  "AX2": {
+   "absent_not_measured": 2
+  },
+  "X13": {
+   "absent_not_measured": 2,
+   "did_not_clear": 2
+  },
+  "R7": {
+   "absent_not_measured": 2
+  },
+  "X28": {
+   "absent_not_measured": 2
+  },
+  "D21": {
+   "absent_not_measured": 2
+  },
+  "X18": {
+   "absent_not_measured": 1
+  },
+  "X5": {
+   "absent_not_measured": 1,
+   "did_not_clear": 1
+  },
+  "D40": {
+   "absent_not_measured": 1
+  },
+  "AC4": {
+   "absent_not_measured": 1,
+   "did_not_clear": 1
+  },
+  "D41": {
+   "absent_not_measured": 1
+  },
+  "C5": {
+   "absent_not_measured": 1
+  },
+  "ED1": {
+   "absent_not_measured": 1
+  },
+  "ED4": {
+   "absent_not_measured": 1,
+   "did_not_clear": 2
+  },
+  "ED5": {
+   "absent_not_measured": 1
+  },
+  "R1": {
+   "absent_not_measured": 1
+  },
+  "R3": {
+   "absent_not_measured": 1
+  },
+  "R6": {
+   "absent_not_measured": 1
+  },
+  "R9": {
+   "absent_not_measured": 1,
+   "did_not_clear": 1
+  },
+  "X14": {
+   "absent_not_measured": 1
+  },
+  "D31": {
+   "cleared": 15,
+   "did_not_clear": 1
+  },
+  "D39": {
+   "cleared": 7
+  },
+  "D38": {
+   "cleared": 3,
+   "did_not_clear": 2
+  },
+  "D24": {
+   "cleared": 2
+  },
+  "D5": {
+   "cleared": 1
+  },
+  "ES3": {
+   "did_not_clear": 2
+  },
+  "X23": {
+   "did_not_clear": 2
+  },
+  "D23": {
+   "did_not_clear": 1
+  },
+  "S1": {
+   "did_not_clear": 1
+  }
+ }
+}

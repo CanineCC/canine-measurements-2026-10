@@ -1,0 +1,41 @@
+{
+ "run": "m045-U-1",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE: The extraction preserves the moved-pin check, the cached and uncached base-arm-at-pin paths, the Broken results and the log lines, and it moves the bench stage into `CheckBenchAsync` so `CheckAsync` loses its nested branches. I could not see the elided middle of the method (including where `index` is defined) or measure the resulting complexity, so the threshold and build conditions are inferred from the visible diff.",
+ "cost_usd": 0.0196394,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 6654,
+  "output_tokens": 1897,
+  "output_tokens_details": {
+   "thinking_tokens": 1752
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1897,
+    "cache_read_input_tokens": 6654,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

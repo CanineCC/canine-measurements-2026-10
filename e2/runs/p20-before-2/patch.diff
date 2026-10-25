@@ -1,0 +1,54 @@
+diff --git a/engine/src/CodeHealth.Core/Frontend/JsScopeBindings.cs b/engine/src/CodeHealth.Core/Frontend/JsScopeBindings.cs
+index b6e1f5a..03fb4d7 100644
+--- a/engine/src/CodeHealth.Core/Frontend/JsScopeBindings.cs
++++ b/engine/src/CodeHealth.Core/Frontend/JsScopeBindings.cs
+@@ -604,30 +604,31 @@ public static class JsScopeBindings
+     private static (int Open, int Close) ArrowParameterRange(
+         IReadOnlyList<JsToken> tokens, Brackets match, int arrow)
+     {
+-        var close = -1;
+-        if (arrow > 0 && tokens[arrow - 1].IsPunct(")"))
+-        {
+-            close = arrow - 1;
+-        }
+-        else
++        var close = arrow > 0 && tokens[arrow - 1].IsPunct(")")
++            ? arrow - 1
++            : AnnotatedArrowParameterClose(tokens, arrow);
++
++        return close >= 0 && match.Backward.TryGetValue(close, out var open) ? (open, close) : (-1, -1);
++    }
++
++    /// <summary>`(x): void => {` — the same return annotation as a method, one arrow over. Returns the index of
++    /// the parameter list's <c>)</c>, or -1 when there is no such annotation.</summary>
++    private static int AnnotatedArrowParameterClose(IReadOnlyList<JsToken> tokens, int arrow)
++    {
++        for (var k = arrow - 1; k > 0 && arrow - k <= MaxReturnTypeTokens; k--)
+         {
+-            // `(x): void => {` — the same return annotation as a method, one arrow over.
+-            for (var k = arrow - 1; k > 0 && arrow - k <= MaxReturnTypeTokens; k--)
++            if (tokens[k].IsPunct(";") || tokens[k].IsPunct("{") || tokens[k].IsPunct("}"))
+             {
+-                if (tokens[k].IsPunct(";") || tokens[k].IsPunct("{") || tokens[k].IsPunct("}"))
+-                {
+-                    break;
+-                }
++                return -1;
++            }
+ 
+-                if (tokens[k].IsPunct(":") && tokens[k - 1].IsPunct(")"))
+-                {
+-                    close = k - 1;
+-                    break;
+-                }
++            if (tokens[k].IsPunct(":") && tokens[k - 1].IsPunct(")"))
++            {
++                return k - 1;
+             }
+         }
+ 
+-        return close >= 0 && match.Backward.TryGetValue(close, out var open) ? (open, close) : (-1, -1);
++        return -1;
+     }
+ 
+     private static void BindArrowParameters(

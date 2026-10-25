@@ -1,0 +1,7 @@
+files 17 rows 9071 repositories 268 languages 17
+FalsePositive    rows  5250 =  57.9 %  [repo-bootstrap 39.5 to 71.2]  leave-one-out 51.0 to 60.1  repositories 196 of 268
+ShapeIrrelevant  rows  1277 =  14.1 %  [repo-bootstrap 9.7 to 20.7]  leave-one-out 13.0 to 16.0  repositories 162 of 268
+OutOfScope       rows  1142 =  12.6 %  [repo-bootstrap 5.4 to 22.3]  leave-one-out 10.4 to 14.9  repositories 37 of 268
+Redundant        rows   958 =  10.6 %  [repo-bootstrap 7.2 to 15.7]  leave-one-out 10.2 to 12.4  repositories 144 of 268
+OpinionNotFact   rows   444 =   4.9 %  [repo-bootstrap 3.1 to 7.7]  leave-one-out 4.5 to 5.8  repositories 85 of 268
+scored vs advisory: {('FalsePositive', 'false'): 4439, ('ShapeIrrelevant', 'false'): 1272, ('Redundant', 'false'): 958, ('FalsePositive', 'true'): 811, ('OpinionNotFact', 'false'): 444, ('ShapeIrrelevant', 'true'): 5, ('OutOfScope', 'false'): 1142}

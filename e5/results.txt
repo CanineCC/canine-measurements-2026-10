@@ -1,0 +1,10 @@
+ALL {'cleared': 3701, 'did_not_clear': 588, 'absent_not_measured': 542, 'absent_dimension_unknown': 416, 'unverified': 4} total 5251
+did not clear, share of decided: 588/4289 = 13.7 %  Wilson (12.7, 14.8)
+repository-cluster bootstrap (3 repositories with decided resolutions): 12.5 to 100.0 %
+  CodeAssuranceIndex   {'cleared': 39, 'did_not_clear': 64, 'absent_not_measured': 16, 'absent_dimension_unknown': 12} share 62.1 %
+  RETIRED.watchdog     {'unverified': 4} (nothing decided)
+  continuum            {'absent_dimension_unknown': 229} (nothing decided)
+  kennel               {'cleared': 3662, 'did_not_clear': 522, 'absent_not_measured': 526, 'absent_dimension_unknown': 6} share 12.5 %
+  lawnofwar            {'absent_dimension_unknown': 36} (nothing decided)
+  unfold               {'did_not_clear': 2, 'absent_dimension_unknown': 133} share 100.0 %
+did not clear, by dimension: [(382, 'D28'), (33, 'D17'), (21, 'D15'), (16, 'X3'), (15, 'D29'), (13, 'D1'), (12, 'D2'), (11, 'R2'), (11, 'DM9'), (10, 'D4')]

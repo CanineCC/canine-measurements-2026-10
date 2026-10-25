@@ -1,0 +1,41 @@
+{
+ "run": "m027-G-3",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe extraction moves the per-method loop and nested ternary chain (most of the original 38) into `NestControllerMethods` and `NestDecision`, and preserves behaviour: `A || B ? \u2026` already parsed as `(A || B) ? \u2026`, and reordering the side-effect-free `||` operands changes nothing. It should build, provided `List<Decorator>` matches what `f.DecoratorsBefore` returns; the source wasn't available here, so I couldn't confirm that.",
+ "cost_usd": 0.0529968,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 2735,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 1533,
+  "output_tokens_details": {
+   "thinking_tokens": 1183
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2735,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1533,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 2735,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2735
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

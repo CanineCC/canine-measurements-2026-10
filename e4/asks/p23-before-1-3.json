@@ -1,0 +1,41 @@
+{
+ "run": "p23-before-1",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The extracted `AddGoEmbedRef` has the same logic as the old inner-loop body, with each `continue` correctly turned into `return`, and it removes the ternary, the `||` conditions and the nested `if`s from `CollectGoEmbedRefs`, so its cognitive complexity should fall well below 15. I could only see the diff, not the full file, so I assumed `hostEmbeds` is a `List<HostEmbedRef>` and that `rel` and `directory` are in scope in the caller. The call site passes them as if they are.",
+ "cost_usd": 0.0056148000000000005,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4308,
+  "output_tokens": 518,
+  "output_tokens_details": {
+   "thinking_tokens": 333
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 518,
+    "cache_read_input_tokens": 4308,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

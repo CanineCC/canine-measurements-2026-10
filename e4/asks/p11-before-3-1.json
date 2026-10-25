@@ -1,0 +1,41 @@
+{
+ "run": "p11-before-3",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The extracted loop accounts for about 9 points of cognitive complexity (nested foreach, catch, inner foreach, if and `||`), which brings `CollectAsync` from 17 to about 8. The moved code is verbatim, including the `#pragma` scope and the `continue` inside the catch, so behaviour is unchanged and the build should still pass. I could not see the declared type of `lockfiles`, so I assumed it is a `List<string>` to match the new helper's parameter.",
+ "cost_usd": 0.0166644,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 2119,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 796,
+  "output_tokens_details": {
+   "thinking_tokens": 631
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2119,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 796,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 2119,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2119
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

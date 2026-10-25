@@ -1,0 +1,41 @@
+{
+ "run": "p21-before-2",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE\n\nThe extracted `AppendStar` reproduces the original `*`, `**/` and trailing `**` branches and their index advances exactly (0, 2 and 1 extra characters), and it takes the nested branching out of `ToRegex`, bringing it under 15. The helper is private, static and used, and the doc comment has no `<param>` tags, so it should not raise XML-doc warnings. I haven't built the project or measured the complexity score; this is from reading the diff.",
+ "cost_usd": 0.006246300000000001,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 3823,
+  "output_tokens": 586,
+  "output_tokens_details": {
+   "thinking_tokens": 428
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 586,
+    "cache_read_input_tokens": 3823,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

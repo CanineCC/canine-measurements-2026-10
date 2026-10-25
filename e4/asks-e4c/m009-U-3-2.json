@@ -1,0 +1,41 @@
+{
+ "run": "m009-U-3",
+ "k": 2,
+ "verdict": "REJECT",
+ "text": "REJECT\nThe extraction preserves behaviour and drops `InScript` well below 15, but the new helpers hard-code parameter types (`Func<Family, bool>`, `IReadOnlyDictionary<string, bool>`, `IReadOnlySet<string>`) for `projectReset`, `keyframes` and `guards`, whose declarations aren't in the diff and which I couldn't check because the file isn't available here, so the build can't be confirmed (for example, it breaks if `GuardBindings` returns an `ISet<string>` or `Known` takes a concrete `Dictionary`).",
+ "cost_usd": 0.034227,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4695,
+  "output_tokens": 1664,
+  "output_tokens_details": {
+   "thinking_tokens": 1247
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1664,
+    "cache_read_input_tokens": 4695,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

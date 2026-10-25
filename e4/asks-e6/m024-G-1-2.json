@@ -1,0 +1,41 @@
+{
+ "run": "m024-G-1",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE: The extracted helpers keep the original control flow (including enqueueing subdirectories after the `maxFiles` break and recording unreadable paths in `unread`), `Files` drops well below 15, and the new signatures, `out` parameters and `CHA0004` pragma scope should build cleanly.",
+ "cost_usd": 0.0102875,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4835,
+  "output_tokens": 980,
+  "output_tokens_details": {
+   "thinking_tokens": 877
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 980,
+    "cache_read_input_tokens": 4835,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

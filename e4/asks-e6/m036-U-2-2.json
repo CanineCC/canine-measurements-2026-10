@@ -1,0 +1,41 @@
+{
+ "run": "m036-U-2",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The extraction keeps behaviour identical: `inheriting.Add` still runs eagerly because `UnusedJobGrants` is not an iterator, the top-level grants are still appended after the job grants for each file, and the method's nesting and branching drop well below 15. I could not build it here, so the build condition rests on the types lining up (the private record is only used by private methods and `[]` converts to `IEnumerable<T>`), not on a compile.",
+ "cost_usd": 0.009264300000000001,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 5103,
+  "output_tokens": 875,
+  "output_tokens_details": {
+   "thinking_tokens": 725
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 875,
+    "cache_read_input_tokens": 5103,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

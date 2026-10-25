@@ -1,0 +1,41 @@
+{
+ "run": "m012-G-3",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE. Each extracted helper (`SkippedRangeEnd`, `TrackDepth`, `TopLevelStep`, `IsForeignReference`) reproduces the original condition and side-effect order exactly, and the removed branches leave `Uses` well under 15. The diff doesn't show the declared type of `skip` or the types it is called with, so I couldn't confirm that `List<(int From, int To)>` matches the call site, and I didn't build the project.",
+ "cost_usd": 0.0197084,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 2655,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 886,
+  "output_tokens_details": {
+   "thinking_tokens": 730
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 2655,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 886,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 2655,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 2655
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

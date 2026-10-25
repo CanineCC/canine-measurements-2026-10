@@ -1,0 +1,80 @@
+diff --git a/engine/src/Scanner/SecurityPosture/D36/SupplyChainProvenanceAnalyzer.TokenSites.cs b/engine/src/Scanner/SecurityPosture/D36/SupplyChainProvenanceAnalyzer.TokenSites.cs
+index f11fc02e..6719fbdd 100644
+--- a/engine/src/Scanner/SecurityPosture/D36/SupplyChainProvenanceAnalyzer.TokenSites.cs
++++ b/engine/src/Scanner/SecurityPosture/D36/SupplyChainProvenanceAnalyzer.TokenSites.cs
+@@ -343,20 +343,7 @@ public sealed partial class SupplyChainProvenanceAnalyzer
+             var inheriting = new List<(string Name, bool Opaque, HashSet<string> Used)>();
+             foreach (var (name, body, _) in jobs)
+             {
+-                if (body.Count == 0) { continue; }
+-                var keyIndent = body.Where(l => l.Line.Trim().Length > 0).Min(l => LeadingSpaces(l.Line));
+-                var own = body.FirstOrDefault(l => LeadingSpaces(l.Line) == keyIndent && PermissionsBlock.IsMatch(l.Line));
+-                var (opaque, used) = JobTokenUse(body);
+-                if (own.Line is null)
+-                {
+-                    inheriting.Add((name, opaque, used));
+-                    continue;
+-                }
+-
+-                if (opaque) { continue; }
+-                unused.AddRange(JudgedWriteGrants(body, own)
+-                    .Where(g => !used.Contains(g.Scope))
+-                    .Select(g => new UnusedScopeGrant(file, g.Line, g.Scope, $"job `{name}`")));
++                unused.AddRange(UnusedJobOwnGrants(file, name, body, inheriting));
+             }
+ 
+             // A top-level grant is judged only through the jobs that inherit it, and only when every one of them can be
+@@ -366,14 +353,46 @@ public sealed partial class SupplyChainProvenanceAnalyzer
+                 continue;
+             }
+ 
+-            List<(int Index, string Line)> lines = text.Replace("\r\n", "\n").Split('\n').Select((l, i) => (i, l)).ToList();
+-            foreach (var (scope, line) in JudgedWriteGrants(lines, lines[top]))
++            unused.AddRange(UnusedInheritedGrants(file, text, top, inheriting));
++        }
++
++        return unused;
++    }
++
++    /// <summary>The unused grants of one job's own <c>permissions:</c> block; a job without one is recorded in
++    /// <paramref name="inheriting"/> instead.</summary>
++    private static List<UnusedScopeGrant> UnusedJobOwnGrants(string file, string name,
++        List<(int Index, string Line)> body, List<(string Name, bool Opaque, HashSet<string> Used)> inheriting)
++    {
++        var unused = new List<UnusedScopeGrant>();
++        if (body.Count == 0) { return unused; }
++        var keyIndent = body.Where(l => l.Line.Trim().Length > 0).Min(l => LeadingSpaces(l.Line));
++        var own = body.FirstOrDefault(l => LeadingSpaces(l.Line) == keyIndent && PermissionsBlock.IsMatch(l.Line));
++        var (opaque, used) = JobTokenUse(body);
++        if (own.Line is null)
++        {
++            inheriting.Add((name, opaque, used));
++            return unused;
++        }
++
++        if (opaque) { return unused; }
++        unused.AddRange(JudgedWriteGrants(body, own)
++            .Where(g => !used.Contains(g.Scope))
++            .Select(g => new UnusedScopeGrant(file, g.Line, g.Scope, $"job `{name}`")));
++        return unused;
++    }
++
++    private static List<UnusedScopeGrant> UnusedInheritedGrants(string file, string text, int top,
++        List<(string Name, bool Opaque, HashSet<string> Used)> inheriting)
++    {
++        var unused = new List<UnusedScopeGrant>();
++        List<(int Index, string Line)> lines = text.Replace("\r\n", "\n").Split('\n').Select((l, i) => (i, l)).ToList();
++        foreach (var (scope, line) in JudgedWriteGrants(lines, lines[top]))
++        {
++            var idle = inheriting.Where(j => !j.Used.Contains(scope)).Select(j => j.Name).ToList();
++            if (idle.Count > 0)
+             {
+-                var idle = inheriting.Where(j => !j.Used.Contains(scope)).Select(j => j.Name).ToList();
+-                if (idle.Count > 0)
+-                {
+-                    unused.Add(new UnusedScopeGrant(file, line, scope, $"inheriting job(s) {FirstThree(idle, j => $"`{j}`")}"));
+-                }
++                unused.Add(new UnusedScopeGrant(file, line, scope, $"inheriting job(s) {FirstThree(idle, j => $"`{j}`")}"));
+             }
+         }
+ 

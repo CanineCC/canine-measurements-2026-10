@@ -1,0 +1,41 @@
+{
+ "run": "m045-G-2",
+ "k": 2,
+ "verdict": "REJECT",
+ "text": "REJECT\nThe new private `BaseAtPinAsync` takes a `wt` parameter it never uses, and with warnings treated as errors the unused-parameter warning would likely break the build. The analyzer reporting cognitive complexity here is probably Sonar's S3776, which pairs with S1172 (unused parameters in private methods).",
+ "cost_usd": 0.017449000000000003,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 6905,
+  "output_tokens": 803,
+  "output_tokens_details": {
+   "thinking_tokens": 692
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 803,
+    "cache_read_input_tokens": 6905,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

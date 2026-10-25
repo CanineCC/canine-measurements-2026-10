@@ -1,0 +1,41 @@
+{
+ "run": "p36-after-1",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The extracted `BypassedCtorFqns` is a straight LINQ translation of the removed loops (same Scala-type filter, same non-empty `CtorFqn` check, same ordinal `HashSet`), so behaviour is unchanged, and it drops the nested `foreach`/`if` constructs that drove the complexity well below 15. I could only see the diff, not the full file, so the build rests on `System.Linq` already being imported (the neighbouring `.Any(...)` suggests it is) and `IsScalaType` having a single overload.",
+ "cost_usd": 0.0060194,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 3754,
+  "output_tokens": 564,
+  "output_tokens_details": {
+   "thinking_tokens": 379
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 564,
+    "cache_read_input_tokens": 3754,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

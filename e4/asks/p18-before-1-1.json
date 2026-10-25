@@ -1,0 +1,41 @@
+{
+ "run": "p18-before-1",
+ "k": 1,
+ "verdict": "APPROVE",
+ "text": "APPROVE: the extraction moves the element-scanning loop, the bulk of the nesting, into a private helper that takes only `call`, `open` and `close`, which should bring the original method well under 15. Behavior looks unchanged because the original method returns the helper's result directly, but I could only see this hunk, so I couldn't confirm that the moved loop uses no other locals or run a build.",
+ "cost_usd": 0.0103444,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 1119,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 564,
+  "output_tokens_details": {
+   "thinking_tokens": 438
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 1119,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 564,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 1119,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 1119
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

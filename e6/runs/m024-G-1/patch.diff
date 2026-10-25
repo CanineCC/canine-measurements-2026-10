@@ -1,0 +1,147 @@
+diff --git a/engine/src/Scanner/Security/D29/Scanners/EngineRuleWalk.cs b/engine/src/Scanner/Security/D29/Scanners/EngineRuleWalk.cs
+index 5905adc5..10e2c566 100644
+--- a/engine/src/Scanner/Security/D29/Scanners/EngineRuleWalk.cs
++++ b/engine/src/Scanner/Security/D29/Scanners/EngineRuleWalk.cs
+@@ -41,74 +41,99 @@ internal static class EngineRuleWalk
+         {
+             return new Read(files, unread);
+         }
+-#pragma warning disable CHA0004 // Not swallowed: every failed path is recorded in Unread and disclosed on D29's card (Disclose).
+-
+         var pending = new Queue<string>();
+         pending.Enqueue(root);
+         while (pending.Count > 0 && files.Count < maxFiles)
+         {
+             var directory = pending.Dequeue();
+-            string[] entries;
+-            string[] subdirectories;
+-            try
++            if (!TryList(directory, out var entries, out var subdirectories))
+             {
+-                entries = Directory.GetFiles(directory);
+-                subdirectories = Directory.GetDirectories(directory);
++                unread.Add(Relative(root, directory) + "/");
++                continue;
+             }
+-            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
++
++            ReadEntries(root, entries, wanted, maxFiles, maxBytes, files, unread);
++            EnqueueSubdirectories(root, subdirectories, pending, unread);
++        }
++
++        return new Read(files, unread);
++    }
++
++#pragma warning disable CHA0004 // Not swallowed: every failed path is recorded in Unread and disclosed on D29's card (Disclose).
++    private static bool TryList(string directory, out string[] entries, out string[] subdirectories)
++    {
++        try
++        {
++            entries = Directory.GetFiles(directory);
++            subdirectories = Directory.GetDirectories(directory);
++            return true;
++        }
++        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
++        {
++            entries = [];
++            subdirectories = [];
++            return false;
++        }
++    }
++
++    private static void ReadEntries(
++        string root,
++        string[] entries,
++        Func<string, bool> wanted,
++        int maxFiles,
++        long maxBytes,
++        List<(string Relative, string Text)> files,
++        List<string> unread)
++    {
++        foreach (var path in entries)
++        {
++            var relative = Relative(root, path);
++            if (!wanted(relative))
+             {
+-                unread.Add(Relative(root, directory) + "/");
+                 continue;
+             }
+ 
+-            foreach (var path in entries)
++            try
+             {
+-                var relative = Relative(root, path);
+-                if (!wanted(relative))
++                if (new FileInfo(path).Length > maxBytes)
+                 {
+                     continue;
+                 }
+ 
+-                try
+-                {
+-                    if (new FileInfo(path).Length > maxBytes)
+-                    {
+-                        continue;
+-                    }
+-
+-                    files.Add((relative, File.ReadAllText(path)));
+-                }
+-                catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+-                {
+-                    unread.Add(relative);
+-                    continue;
+-                }
++                files.Add((relative, File.ReadAllText(path)));
++            }
++            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
++            {
++                unread.Add(relative);
++                continue;
++            }
+ 
+-                if (files.Count >= maxFiles)
+-                {
+-                    break;
+-                }
++            if (files.Count >= maxFiles)
++            {
++                break;
+             }
++        }
++    }
+ 
+-            foreach (var subdirectory in subdirectories)
++    private static void EnqueueSubdirectories(
++        string root, string[] subdirectories, Queue<string> pending, List<string> unread)
++    {
++        foreach (var subdirectory in subdirectories)
++        {
++            try
+             {
+-                try
++                if (new DirectoryInfo(subdirectory).LinkTarget is null)
+                 {
+-                    if (new DirectoryInfo(subdirectory).LinkTarget is null)
+-                    {
+-                        pending.Enqueue(subdirectory);
+-                    }
+-                }
+-                catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+-                {
+-                    unread.Add(Relative(root, subdirectory) + "/");
++                    pending.Enqueue(subdirectory);
+                 }
+             }
++            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
++            {
++                unread.Add(Relative(root, subdirectory) + "/");
++            }
+         }
+-
+-#pragma warning restore CHA0004
+-        return new Read(files, unread);
+     }
++#pragma warning restore CHA0004
+ 
+     /// <summary>The gaps and the narrative sentence D29's card carries for every rule that could not read part of the
+     /// checkout. Empty when every rule read everything.</summary>

@@ -1,0 +1,41 @@
+{
+ "run": "m048-G-2",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE\n\nThe extracted helpers preserve the original control flow and state mutations (`broken`/`heldWhy`/`requeued` map to `ship.Unjudged`/`ship.Requeued`), and my count puts `RunTurnAsync` at about 14 (nearly all ternaries and ifs), under the 15 threshold. This rests on reading the diff alone: I couldn't build it, and the type names `OwedWrite`, `Dropped` and `ShipResult` are unverified.",
+ "cost_usd": 0.049160800000000004,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 17568,
+  "output_tokens": 4740,
+  "output_tokens_details": {
+   "thinking_tokens": 4575
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 4740,
+    "cache_read_input_tokens": 17568,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

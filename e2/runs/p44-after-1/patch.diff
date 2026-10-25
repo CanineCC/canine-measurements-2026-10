@@ -1,0 +1,67 @@
+diff --git a/engine/src/Core/RuntimeBoot/ContainerHardeningParser.cs b/engine/src/Core/RuntimeBoot/ContainerHardeningParser.cs
+index 8e8aadb5..54a83f0f 100644
+--- a/engine/src/Core/RuntimeBoot/ContainerHardeningParser.cs
++++ b/engine/src/Core/RuntimeBoot/ContainerHardeningParser.cs
+@@ -74,31 +74,9 @@ public static class ContainerHardeningParser
+                 ? doc.RootElement.EnumerateArray().ToList()
+                 : doc.RootElement.ValueKind == JsonValueKind.Object ? [doc.RootElement] : [];
+ 
+-            foreach (var item in items)
+-            {
+-                if (item.ValueKind != JsonValueKind.Object)
+-                {
+-                    continue;
+-                }
+-
+-                var name = Str(item, "Name").TrimStart('/');
+-                var config = Obj(item, "Config");
+-                var host = Obj(item, "HostConfig");
+-
+-                var securityOpt = Strings(host, "SecurityOpt");
+-                containers.Add(new ObservedContainer(
+-                    name,
+-                    config is null ? "" : Str(config.Value, "Image"),
+-                    config is null ? "" : Str(config.Value, "User"),
+-                    host is not null && Bool(host.Value, "Privileged"),
+-                    Strings(host, "CapAdd"),
+-                    Strings(host, "CapDrop"),
+-                    host is not null && Bool(host.Value, "ReadonlyRootfs"),
+-                    config is not null && config.Value.TryGetProperty("Healthcheck", out var hc) && hc.ValueKind == JsonValueKind.Object,
+-                    securityOpt.Any(o =>
+-                        o.Contains("no-new-privileges", StringComparison.OrdinalIgnoreCase)
+-                        && !string.Equals(o, DockerAddedLabelDisable, StringComparison.OrdinalIgnoreCase))));
+-            }
++            containers.AddRange(items
++                .Where(item => item.ValueKind == JsonValueKind.Object)
++                .Select(ParseContainer));
+         }
+ #pragma warning disable CHA0004 // graceful: unreadable inspect output yields no containers; the tier degrades
+         catch (JsonException) { }
+@@ -107,6 +85,27 @@ public static class ContainerHardeningParser
+         return containers;
+     }
+ 
++    private static ObservedContainer ParseContainer(JsonElement item)
++    {
++        var name = Str(item, "Name").TrimStart('/');
++        var config = Obj(item, "Config");
++        var host = Obj(item, "HostConfig");
++
++        var securityOpt = Strings(host, "SecurityOpt");
++        return new ObservedContainer(
++            name,
++            config is null ? "" : Str(config.Value, "Image"),
++            config is null ? "" : Str(config.Value, "User"),
++            host is not null && Bool(host.Value, "Privileged"),
++            Strings(host, "CapAdd"),
++            Strings(host, "CapDrop"),
++            host is not null && Bool(host.Value, "ReadonlyRootfs"),
++            config is not null && config.Value.TryGetProperty("Healthcheck", out var hc) && hc.ValueKind == JsonValueKind.Object,
++            securityOpt.Any(o =>
++                o.Contains("no-new-privileges", StringComparison.OrdinalIgnoreCase)
++                && !string.Equals(o, DockerAddedLabelDisable, StringComparison.OrdinalIgnoreCase)));
++    }
++
+     private static JsonElement? Obj(JsonElement parent, string name) =>
+         parent.TryGetProperty(name, out var v) && v.ValueKind == JsonValueKind.Object ? v : null;
+ 

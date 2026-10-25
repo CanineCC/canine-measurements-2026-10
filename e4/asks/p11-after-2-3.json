@@ -1,0 +1,41 @@
+{
+ "run": "p11-after-2",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The extracted nested loop, try/catch and version comparison carry about 9 points of the method's cognitive complexity, which puts `CollectAsync` near 8, and the helper copies the code verbatim, so behaviour (the `continue` on IO errors, highest-version-wins, cancellation) and the CHA0004 pragma scoping are unchanged. I couldn't confirm that `lockfiles` is a `List<string>`, so the build is judged from the diff alone.",
+ "cost_usd": 0.006944,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4300,
+  "output_tokens": 651,
+  "output_tokens_details": {
+   "thinking_tokens": 490
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 651,
+    "cache_read_input_tokens": 4300,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

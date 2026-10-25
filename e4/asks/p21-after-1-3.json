@@ -1,0 +1,41 @@
+{
+ "run": "p21-after-1",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE: the extracted `AppendStar` is logically equivalent to the removed nested block (the `i + 1 >= glob.Length || glob[i + 1] != '*'` guard is the De Morgan inverse, and the returned indices match the old `i += 2`, `i++` and unchanged `i`), and moving the nested branches out drops the method's cognitive complexity below the threshold. The new private static helper uses the fully qualified `System.Text.StringBuilder`, so nothing in the diff should break the build, though I did not run it.",
+ "cost_usd": 0.006939,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 3750,
+  "output_tokens": 656,
+  "output_tokens_details": {
+   "thinking_tokens": 477
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 656,
+    "cache_read_input_tokens": 3750,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

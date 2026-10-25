@@ -1,0 +1,29 @@
+{
+ "side": "before",
+ "pair": "p36",
+ "touched": [
+  "engine/src/CodeHealth.Core/ModelAware/ScalaDomainConventions.cs"
+ ],
+ "empty_patch": false,
+ "tests_edited": false,
+ "patch_applies": true,
+ "target_cognitive_after": 8,
+ "target_present": true,
+ "newly_over_threshold": [],
+ "max_cognitive_in_touched_files_after": 30,
+ "build_ok": true,
+ "build_errors": [],
+ "test_classes": [
+  "ScalaProviderConventionsTests",
+  "is"
+ ],
+ "tests": {
+  "exit": 1,
+  "passed": 746,
+  "failed": 1,
+  "total": 747,
+  "tail": "Test run for <scratch>/blog-method/e2/lanes/gate-before/engine/tests/CodeHealth.Tests.Unit/bin/Debug/net10.0/CodeHealth.Tests.Unit.dll (.NETCoreApp,Version=v10.0)\nVSTest version 18.0.2 (x64)\n\nStarting test execution, please wait...\nA total of 1 test files matched the specified pattern.\n\nFailed!  - Failed:     1, Passed:   746, Skipped:     0, Total:   747, Duration: 2 s - CodeHealth.Tests.Unit.dll (net10.0)\nbuild-lock.sh: dotnet is <home>/.dotnet-microsoft (Microsoft build): /usr/lib/dotnet's runtime links the system libunwind, whose race aborts concurrent throws with 'Internal CLR error (0x80131506)' (dotnet/runtime#130577)\n[xUnit.net 00:00:03.78]     CodeHealth.Tests.Unit.Isolation.IsolatedWorkspaceTests.CreateAsync_OnNonGitDir_UnderAnExcludedANCESTOR_StillCopiesTheTree(ancestor: \"obj\") [FAIL]\n"
+ },
+ "outcome": "held",
+ "behaviour": "tests_failed"
+}

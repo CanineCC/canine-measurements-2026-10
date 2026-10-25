@@ -1,0 +1,41 @@
+{
+ "run": "m043-U-3",
+ "k": 2,
+ "verdict": "REJECT",
+ "text": "REJECT\n`JudgeAsync` still scores about 17 cognitive complexity, above the threshold of 15: it keeps eight top-level `if` guards (+8), the `units.Count` and `pin.Added.Count` ternaries (+2), the `&&` chain in the `Where` lambda (+1), and the four-ternary `reason` concatenation with a ternary nested inside another (+6), even though the extracted helpers seem to preserve behaviour.",
+ "cost_usd": 0.031409,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 13405,
+  "output_tokens": 1436,
+  "output_tokens_details": {
+   "thinking_tokens": 1283
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1436,
+    "cache_read_input_tokens": 13405,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

@@ -1,0 +1,31 @@
+n = 304  {'aoi': 73, 'argoUML': 74, 'diarymanagement': 11, 'jsweet': 73, 'junit4': 73}  bootstrap B = 10000
+
+axis                             cog_sum               cog_max                over15               cyc_sum                 lines       cog_sum | lines
+readability            0.593 [0.51,0.67]     0.599 [0.51,0.67]     0.554 [0.48,0.62]     0.512 [0.42,0.59]     0.541 [0.45,0.62]     0.315 [0.19,0.43]
+understandability      0.702 [0.63,0.76]     0.697 [0.63,0.76]     0.596 [0.53,0.65]     0.648 [0.58,0.71]     0.615 [0.54,0.69]     0.442 [0.33,0.55]
+complexity             0.783 [0.73,0.83]     0.779 [0.72,0.83]     0.643 [0.59,0.69]     0.732 [0.67,0.78]     0.631 [0.55,0.70]     0.598 [0.49,0.69]
+modularization         0.712 [0.64,0.77]     0.687 [0.61,0.75]     0.627 [0.57,0.68]     0.690 [0.62,0.75]     0.672 [0.60,0.73]     0.387 [0.27,0.50]
+overall                0.731 [0.67,0.79]     0.719 [0.65,0.78]     0.627 [0.57,0.68]     0.681 [0.61,0.74]     0.709 [0.65,0.76]     0.382 [0.27,0.49]
+
+primary − size baseline on overall: +0.022 [-0.032, +0.074]
+
+per project, primary on overall (and size baseline):
+  aoi              n= 73  ρ=+0.846  size ρ=+0.789
+  argoUML          n= 74  ρ=+0.772  size ρ=+0.831
+  diarymanagement  n= 11  ρ=+0.196  size ρ=+0.000
+  jsweet           n= 73  ρ=+0.287  size ρ=+0.335
+  junit4           n= 73  ρ=+0.511  size ρ=+0.387
+leave-one-project-out range, primary on overall: 0.547–0.804
+sensitivity without the 0 method-less files: ρ=0.731
+
+10 largest rank disagreements (primary vs overall badness):
+  jsweet         def.dom.HTMLIFrameElement                                    cog_sum=0 lines=295 overall_badness=2.87  rank 58 vs 288
+  junit4         junit.textui.TestRunner                                      cog_sum=14 lines=177 overall_badness=0.00  rank 214 vs 10
+  diarymanagement TBA.Exceptions.NetworkDataException                          cog_sum=0 lines=41 overall_badness=1.85  rank 58 vs 246
+  junit4         org.junit.internal.AssumptionViolatedException               cog_sum=7 lines=75 overall_badness=0.00  rank 182 vs 8
+  argoUML        org.argouml.ui.SettingsTabLayout                             cog_sum=0 lines=192 overall_badness=1.22  rank 58 vs 231
+  junit4         org.junit.runner.Description                                 cog_sum=14 lines=278 overall_badness=0.01  rank 214 vs 42
+  junit4         junit.framework.TestCase                                     cog_sum=9 lines=492 overall_badness=0.01  rank 192 vs 24
+  jsweet         def.dom.HTMLFrameElement                                     cog_sum=0 lines=283 overall_badness=1.13  rank 58 vs 225
+  junit4         org.junit.internal.TextListener                              cog_sum=8 lines=83 overall_badness=0.01  rank 186 vs 24
+  jsweet         def.dom.HTMLUListElement                                     cog_sum=0 lines=7 overall_badness=1.00  rank 58 vs 210

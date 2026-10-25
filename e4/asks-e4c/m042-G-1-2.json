@@ -1,0 +1,41 @@
+{
+ "run": "m042-G-1",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nExtracting the `Apply` branch (its nested ternaries, early-exit `if`, and lambda ternaries) removes most of the 25 points, and dropping `var m = method;` is safe because C# `foreach` variables are captured per iteration; I couldn't verify the build because the source isn't on this machine, so it assumes the file already imports `System.Reflection` and that `appliers` really is a `Dictionary<Type, Func<object, object, object, object?>>`.",
+ "cost_usd": 0.040519,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4055,
+  "output_tokens": 1985,
+  "output_tokens_details": {
+   "thinking_tokens": 1608
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1985,
+    "cache_read_input_tokens": 4055,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

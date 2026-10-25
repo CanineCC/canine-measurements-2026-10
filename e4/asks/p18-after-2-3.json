@@ -1,0 +1,41 @@
+{
+ "run": "p18-after-2",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The extracted helper moves the label, bracket and trailing-operator checks over verbatim with identical null-return conditions, and the caller keeps the same `open`/`close` values. That removes about six complexity points for one added, so the method lands well under 15, and the nullable tuple plus `var (open, close) = bounds.Value;` should compile without warnings. I could only review the diff, not build it, so I'm assuming the unseen rest of the method doesn't use the removed `at` or `after` locals.",
+ "cost_usd": 0.006068499999999999,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4445,
+  "output_tokens": 562,
+  "output_tokens_details": {
+   "thinking_tokens": 395
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 562,
+    "cache_read_input_tokens": 4445,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

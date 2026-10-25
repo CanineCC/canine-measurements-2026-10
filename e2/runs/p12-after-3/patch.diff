@@ -1,0 +1,53 @@
+diff --git a/engine/src/Core/Dependencies/CratesIoClient.cs b/engine/src/Core/Dependencies/CratesIoClient.cs
+index 77ec3b7b..11f26d5d 100644
+--- a/engine/src/Core/Dependencies/CratesIoClient.cs
++++ b/engine/src/Core/Dependencies/CratesIoClient.cs
+@@ -398,29 +398,32 @@ public sealed class CratesIoClient : ICratesRegistry, IDisposable
+         {
+             foreach (var entry in versions.EnumerateArray())
+             {
+-                if (entry.ValueKind != JsonValueKind.Object)
++                if (IsWantedEntry(entry, requestedVersion))
+                 {
+-                    continue;
++                    return ReadVersion(crateName, entry);
+                 }
++            }
++        }
+ 
+-                // With a requested version, take that one and nothing else — settling for the newest would answer a
+-                // question about a release this repository does not use.
+-                if (requestedVersion is { Length: > 0 })
+-                {
+-                    if (entry.TryGetProperty("num", out var num) && num.ValueKind == JsonValueKind.String
+-                        && string.Equals(num.GetString(), requestedVersion, StringComparison.Ordinal))
+-                    {
+-                        return ReadVersion(crateName, entry);
+-                    }
++        return null;
++    }
+ 
+-                    continue;
+-                }
++    private static bool IsWantedEntry(JsonElement entry, string? requestedVersion)
++    {
++        if (entry.ValueKind != JsonValueKind.Object)
++        {
++            return false;
++        }
+ 
+-                return ReadVersion(crateName, entry);
+-            }
++        // With a requested version, take that one and nothing else — settling for the newest would answer a
++        // question about a release this repository does not use.
++        if (requestedVersion is not { Length: > 0 })
++        {
++            return true;
+         }
+ 
+-        return null;
++        return entry.TryGetProperty("num", out var num) && num.ValueKind == JsonValueKind.String
++            && string.Equals(num.GetString(), requestedVersion, StringComparison.Ordinal);
+     }
+ 
+     private static CratesRelease? ReadVersion(string crateName, JsonElement version)

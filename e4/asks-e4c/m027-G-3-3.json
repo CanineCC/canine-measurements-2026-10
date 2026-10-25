@@ -1,0 +1,41 @@
+{
+ "run": "m027-G-3",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe loop body (its nested `if`s, boolean chains and the nested ternary) moves into `NestControllerMethods`/`NestDecision` with identical logic, swapping the order of the side-effect-free `UseGuards` checks and renaming `i` to `classAt`. That should drop `Nest` from 38 to well under 15 without changing behaviour or the lazy-evaluation order, though I couldn't find the repo to build it or confirm that `classDecorators` is a `List<Decorator>`.",
+ "cost_usd": 0.027943800000000005,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4979,
+  "output_tokens": 1347,
+  "output_tokens_details": {
+   "thinking_tokens": 1088
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1347,
+    "cache_read_input_tokens": 4979,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

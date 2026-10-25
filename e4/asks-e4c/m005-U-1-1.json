@@ -1,0 +1,41 @@
+{
+ "run": "m005-U-1",
+ "k": 1,
+ "verdict": "REJECT",
+ "text": "REJECT\nThe diff probably leaves `CryptoKeyBindingType` above 15. The source isn't available here, so this is estimated from the diff, not measured. Behaviour looks unchanged, and whether it builds depends on `lines` being a `string[]`, which I couldn't confirm. Under Sonar rules, the extracted ternaries, the `&&` in the lookup check and the switch remove only about 10\u201312 of the 28 points. The `for` and the remaining `continue` ifs, each with its own `&&`/`||` sequence, still add up to about 15 on their own. The earlier `continue` guard(s) outside the diff's context push it to roughly 16\u201318.",
+ "cost_usd": 0.0857608,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 3983,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 2672,
+  "output_tokens_details": {
+   "thinking_tokens": 2316
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 3983,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 2672,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 3983,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 3983
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

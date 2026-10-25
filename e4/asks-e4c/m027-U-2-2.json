@@ -1,0 +1,41 @@
+{
+ "run": "m027-U-2",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nThe extracted loop, body-span and decision helpers preserve the original logic exactly, so `Nest` should drop to roughly 11 and the helpers stay well under 15; I couldn't find the repo to build it, though, so `List<Decorator>` matching what `DecoratorsBefore` returns is the one assumption to confirm.",
+ "cost_usd": 0.04026520000000001,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 5086,
+  "output_tokens": 1962,
+  "output_tokens_details": {
+   "thinking_tokens": 1604
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1962,
+    "cache_read_input_tokens": 5086,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

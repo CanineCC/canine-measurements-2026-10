@@ -1,0 +1,41 @@
+{
+ "run": "m014-U-1",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The logic moves into a private nested `Reader` class with identical branch order, indent checks, state resets and `i + 1` line numbers, so behaviour is unchanged. Every resulting method is well under 15 cognitive complexity, and nothing in the diff should break the build.\n\nI could not see the body of `IsDependencySection`, so I assumed it matches the inline `\"dependencies\" or \"devDependencies\" or \"optionalDependencies\"` check it replaces in `StartTopLevel`. I also did not build the project.",
+ "cost_usd": 0.013150100000000001,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 5161,
+  "output_tokens": 1263,
+  "output_tokens_details": {
+   "thinking_tokens": 1089
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1263,
+    "cache_read_input_tokens": 5161,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

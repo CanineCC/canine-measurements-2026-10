@@ -1,0 +1,38 @@
+diff --git a/engine/src/CodeHealth.Core/Dependencies/CratesIoClient.cs b/engine/src/CodeHealth.Core/Dependencies/CratesIoClient.cs
+index 9839667..3fa39e0 100644
+--- a/engine/src/CodeHealth.Core/Dependencies/CratesIoClient.cs
++++ b/engine/src/CodeHealth.Core/Dependencies/CratesIoClient.cs
+@@ -525,14 +525,8 @@ public sealed class CratesIoClient : ICratesRegistry, IDisposable
+ 
+                 // With a requested version, take that one and nothing else — settling for the newest would answer a
+                 // question about a release this repository does not use.
+-                if (requestedVersion is { Length: > 0 })
++                if (!MatchesRequestedVersion(entry, requestedVersion))
+                 {
+-                    if (entry.TryGetProperty("num", out var num) && num.ValueKind == JsonValueKind.String
+-                        && string.Equals(num.GetString(), requestedVersion, StringComparison.Ordinal))
+-                    {
+-                        return ReadVersion(crateName, entry);
+-                    }
+-
+                     continue;
+                 }
+ 
+@@ -543,6 +537,17 @@ public sealed class CratesIoClient : ICratesRegistry, IDisposable
+         return null;
+     }
+ 
++    private static bool MatchesRequestedVersion(JsonElement entry, string? requestedVersion)
++    {
++        if (requestedVersion is not { Length: > 0 })
++        {
++            return true;
++        }
++
++        return entry.TryGetProperty("num", out var num) && num.ValueKind == JsonValueKind.String
++            && string.Equals(num.GetString(), requestedVersion, StringComparison.Ordinal);
++    }
++
+     private static CratesRelease? ReadVersion(string crateName, JsonElement version)
+     {
+         var num = version.TryGetProperty("num", out var n) && n.ValueKind == JsonValueKind.String

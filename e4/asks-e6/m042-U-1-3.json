@@ -1,0 +1,41 @@
+{
+ "run": "m042-U-1",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE: Each extracted helper keeps the original logic, including the Create and Apply branch order, the (0,1) then (1,0) index preference, and the skip when neither order fits. `BuildPlan`'s complexity drops to roughly 6, and the `is var (eventIndex, documentIndex)` pattern on the nullable tuple compiles and leaves both variables definitely assigned in the branch body. I only reviewed the diff and did not build it, so the one residual risk is a member-ordering analyzer objecting to the `const` placed between methods.",
+ "cost_usd": 0.0128111,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4571,
+  "output_tokens": 1235,
+  "output_tokens_details": {
+   "thinking_tokens": 1052
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1235,
+    "cache_read_input_tokens": 4571,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

@@ -1,0 +1,41 @@
+{
+ "run": "p24-after-2",
+ "k": 3,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The loop body moved into `AddComputedDirFragmentRefs` with each `continue` becoming `return`, which is equivalent and leaves both methods well under 15 (the extracted one scores about 10). I could not see the original signature, so I'm assuming the `List<SourceTextRef>` and `IReadOnlySet<string>` parameter types match the caller and that the build is clean.",
+ "cost_usd": 0.008381799999999998,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 6378,
+  "output_tokens": 774,
+  "output_tokens_details": {
+   "thinking_tokens": 641
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 774,
+    "cache_read_input_tokens": 6378,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

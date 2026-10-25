@@ -1,0 +1,27 @@
+{
+ "mid": "m009",
+ "touched": [
+  "engine/src/Scanner/Accessibility/AC6/ReducedMotion.cs"
+ ],
+ "empty_patch": false,
+ "tests_edited": false,
+ "patch_applies": true,
+ "target_cognitive_after": 5,
+ "newly_over_threshold": [],
+ "touched_total_cognitive_before": 191,
+ "touched_total_cognitive_after": 184,
+ "build_ok": true,
+ "build_errors": [],
+ "tests_first": [
+  {
+   "project": "engine/tests/CodeHealth.Tests.Unit/CodeHealth.Tests.Unit.csproj",
+   "exit": 0,
+   "passed": 60,
+   "failed": 0,
+   "total": 60,
+   "failedNames": []
+  }
+ ],
+ "behaviour": "passed",
+ "outcome": "held"
+}

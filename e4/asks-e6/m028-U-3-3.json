@@ -1,0 +1,41 @@
+{
+ "run": "m028-U-3",
+ "k": 3,
+ "verdict": "REJECT",
+ "text": "REJECT: `ClassifyNextFile` returns a single exclusive kind, so `isActions` is now false for a route file or API route that also starts with `\"use server\"`, whereas the original computed the three flags independently and `isActions` could be true alongside the others, which changes behaviour wherever the rest of the loop uses it.",
+ "cost_usd": 0.0083791,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 5151,
+  "output_tokens": 786,
+  "output_tokens_details": {
+   "thinking_tokens": 680
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 786,
+    "cache_read_input_tokens": 5151,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

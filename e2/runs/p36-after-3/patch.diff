@@ -1,0 +1,42 @@
+diff --git a/engine/src/Core/Languages/Scala/Domain/ScalaDomainConventions.cs b/engine/src/Core/Languages/Scala/Domain/ScalaDomainConventions.cs
+index 4d659620..a3b26904 100644
+--- a/engine/src/Core/Languages/Scala/Domain/ScalaDomainConventions.cs
++++ b/engine/src/Core/Languages/Scala/Domain/ScalaDomainConventions.cs
+@@ -944,22 +944,7 @@ internal static class ScalaDomainConventions
+     public static IEnumerable<Nm.ICodeType> BypassableInvariantEntities(IReadOnlyList<Nm.ICodeType> types)
+     {
+         // The in-repo ctor FQNs constructed with an empty literal anywhere in the corpus — the bypass evidence.
+-        var bypassed = new HashSet<string>(StringComparer.Ordinal);
+-        foreach (var t in types)
+-        {
+-            if (!IsScalaType(t))
+-            {
+-                continue;
+-            }
+-
+-            foreach (var b in t.BypassConstructions)
+-            {
+-                if (b.CtorFqn.Length > 0)
+-                {
+-                    bypassed.Add(b.CtorFqn);
+-                }
+-            }
+-        }
++        var bypassed = BypassedCtorFqns(types);
+ 
+         if (bypassed.Count == 0)
+         {
+@@ -980,6 +965,13 @@ internal static class ScalaDomainConventions
+         }
+     }
+ 
++    private static HashSet<string> BypassedCtorFqns(IReadOnlyList<Nm.ICodeType> types) =>
++        types.Where(IsScalaType)
++            .SelectMany(t => t.BypassConstructions)
++            .Where(b => b.CtorFqn.Length > 0)
++            .Select(b => b.CtorFqn)
++            .ToHashSet(StringComparer.Ordinal);
++
+     private static bool AssertsNonEmptinessByName(string name) =>
+         NonEmptinessNameTokens.Any(tok => name.Contains(tok, StringComparison.Ordinal));
+ }

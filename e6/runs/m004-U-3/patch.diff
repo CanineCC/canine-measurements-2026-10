@@ -1,0 +1,82 @@
+diff --git a/engine/src/Core/Languages/Swift/Security/SwiftPackageHygiene.CocoaPods.cs b/engine/src/Core/Languages/Swift/Security/SwiftPackageHygiene.CocoaPods.cs
+index abe6977f..a23ff098 100644
+--- a/engine/src/Core/Languages/Swift/Security/SwiftPackageHygiene.CocoaPods.cs
++++ b/engine/src/Core/Languages/Swift/Security/SwiftPackageHygiene.CocoaPods.cs
+@@ -98,31 +98,18 @@ public static partial class SwiftPackageHygiene
+                 continue;
+             }
+ 
+-            // PODS lists a pod at two-space indent and its own requirements at four; only the first is a resolution.
+-            var indent = line.Length - line.TrimStart().Length;
+-            var entry = line.Trim();
+-            if (indent != 2 || !entry.StartsWith("- ", StringComparison.Ordinal))
++            if (TryReadTopLevelEntry(line) is not { } entry)
+             {
+                 continue;
+             }
+ 
+-            entry = entry[2..].Trim().TrimEnd(':').Trim('"', '\'');
+             if (section == "PODS")
+             {
+-                if (SplitNameAndParenthesis(entry) is { Parenthesis: { } version } resolvedPod && !version.Contains(' '))
+-                {
+-                    resolved.TryAdd(resolvedPod.Name.Split('/')[0], version);
+-                }
++                AddResolvedPod(resolved, entry);
+             }
+-            else
++            else if (DirectDependencyName(entry) is { } name)
+             {
+-                var (name, requirement) = SplitNameAndParenthesis(entry);
+-                if (requirement is not null && requirement.StartsWith("from `", StringComparison.Ordinal))
+-                {
+-                    continue;
+-                }
+-
+-                direct.Add(name.Split('/')[0]);
++                direct.Add(name);
+             }
+         }
+ 
+@@ -138,6 +125,41 @@ public static partial class SwiftPackageHygiene
+         return pods;
+     }
+ 
++    /// <summary>The text of a two-space-indented <c>- entry</c> line, unquoted and without its trailing colon; null for
++    /// any other line. PODS lists a pod at two-space indent and its own requirements at four; only the first counts.</summary>
++    private static string? TryReadTopLevelEntry(string line)
++    {
++        var indent = line.Length - line.TrimStart().Length;
++        var entry = line.Trim();
++        if (indent != 2 || !entry.StartsWith("- ", StringComparison.Ordinal))
++        {
++            return null;
++        }
++
++        return entry[2..].Trim().TrimEnd(':').Trim('"', '\'');
++    }
++
++    /// <summary>Records a PODS entry's resolved version under its base pod name; the first resolution wins.</summary>
++    private static void AddResolvedPod(Dictionary<string, string> resolved, string entry)
++    {
++        if (SplitNameAndParenthesis(entry) is { Parenthesis: { } version } pod && !version.Contains(' '))
++        {
++            resolved.TryAdd(pod.Name.Split('/')[0], version);
++        }
++    }
++
++    /// <summary>The base pod name of a DEPENDENCIES entry, or null when it comes from an explicit <c>from `…`</c> source.</summary>
++    private static string? DirectDependencyName(string entry)
++    {
++        var (name, requirement) = SplitNameAndParenthesis(entry);
++        if (requirement is not null && requirement.StartsWith("from `", StringComparison.Ordinal))
++        {
++            return null;
++        }
++
++        return name.Split('/')[0];
++    }
++
+     private static (string Name, string? Parenthesis) SplitNameAndParenthesis(string entry)
+     {
+         var open = entry.IndexOf(" (", StringComparison.Ordinal);

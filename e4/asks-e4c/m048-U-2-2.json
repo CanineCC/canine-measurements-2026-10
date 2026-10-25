@@ -1,0 +1,41 @@
+{
+ "run": "m048-U-2",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE\nFrom the diff alone (the repo isn't on this machine, so I couldn't build it or run a complexity tool), the extracted helpers keep the original order of messages, state writes and parked entries, and the fields carried out of `ShipAsync` drive the same values as before, which plausibly brings `RunTurnAsync` under 15 without changing behaviour.",
+ "cost_usd": 0.1162486,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 15103,
+  "output_tokens": 5661,
+  "output_tokens_details": {
+   "thinking_tokens": 5406
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 5661,
+    "cache_read_input_tokens": 15103,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

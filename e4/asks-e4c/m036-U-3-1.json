@@ -1,0 +1,41 @@
+{
+ "run": "m036-U-3",
+ "k": 1,
+ "verdict": "REJECT",
+ "text": "REJECT\nThe patch breaks the build: at the end of `UnusedTopLevelGrants` the old brace that closed the per-file `foreach` is kept, so the method closes early and the original trailing `return unused; }` is left stranded outside any method.",
+ "cost_usd": 0.0549248,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 3001,
+  "cache_read_input_tokens": 2244,
+  "output_tokens": 1523,
+  "output_tokens_details": {
+   "thinking_tokens": 1440
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 3001,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1523,
+    "cache_read_input_tokens": 2244,
+    "cache_creation_input_tokens": 3001,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 3001
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}

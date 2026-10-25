@@ -1,0 +1,41 @@
+{
+ "run": "m027-U-1",
+ "k": 2,
+ "verdict": "APPROVE",
+ "text": "APPROVE. The extraction preserves control flow: the failure paths still advance `k` by one, the success path still jumps to `bodySpan.End - 1`, and the hoisted `guarded` expression is equivalent to the original condition. Both methods look to be at or below 15, though `NestRoute` is borderline by my hand count. Without a build I'm assuming `Judged` is a reference type and nullable annotations are enabled, since `Judged?` would not compile with `yield return judged` otherwise.",
+ "cost_usd": 0.0164949,
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 4809,
+  "output_tokens": 1601,
+  "output_tokens_details": {
+   "thinking_tokens": 1436
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 2,
+    "output_tokens": 1601,
+    "cache_read_input_tokens": 4809,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ }
+}
