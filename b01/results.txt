@@ -1,0 +1,43 @@
+ALL (n=1857)
+  csharp: n=644 median=22.0 mean=53.9 per-KLOC median=1.06 median LoC=16364 max=1161 zero=38
+  go: n=520 median=52.5 mean=205.5 per-KLOC median=2.11 median LoC=25552 max=8083 zero=5
+  rust: n=693 median=57 mean=103.5 per-KLOC median=0.70 median LoC=76438 max=1925 zero=12
+  C#/Go median 0.42 mean 0.26 | C#/Rust median 0.39 mean 0.52 | per KLOC C#/Rust 1.52 C#/Go 0.50
+ENGINE measure-2026.11.97 (n=473)
+  csharp: n=269 median=22 mean=44.5 per-KLOC median=2.76 median LoC=8260 max=1161 zero=15
+  go: n=132 median=34.0 mean=189.7 per-KLOC median=2.09 median LoC=9192 max=8083 zero=3
+  rust: n=72 median=72.5 mean=111.4 per-KLOC median=0.65 median LoC=76576 max=574 zero=1
+  C#/Go median 0.65 mean 0.23 | C#/Rust median 0.30 mean 0.40 | per KLOC C#/Rust 4.22 C#/Go 1.32
+ENGINE measure-2026.11.89 (n=267)
+  csharp: n=118 median=17.0 mean=46.4 per-KLOC median=3.36 median LoC=5912 max=754 zero=4
+  go: n=113 median=28 mean=94.6 per-KLOC median=5.16 median LoC=5089 max=3579 zero=1
+  rust: n=36 median=72.0 mean=96.3 per-KLOC median=1.12 median LoC=74044 max=375 zero=0
+  C#/Go median 0.61 mean 0.49 | C#/Rust median 0.24 mean 0.48 | per KLOC C#/Rust 3.00 C#/Go 0.65
+ENGINE measure-2026.11.87 (n=211)
+  csharp: n=74 median=27.5 mean=78.5 per-KLOC median=0.32 median LoC=60785 max=1090 zero=5
+  go: n=60 median=100.0 mean=214.5 per-KLOC median=2.22 median LoC=62875 max=4061 zero=0
+  rust: n=77 median=53 mean=82.2 per-KLOC median=0.43 median LoC=105450 max=506 zero=2
+  C#/Go median 0.28 mean 0.37 | C#/Rust median 0.52 mean 0.95 | per KLOC C#/Rust 0.75 C#/Go 0.14
+ENGINE measure-2026.11.84 (n=104)
+  csharp: n=33 median=19 mean=86.5 per-KLOC median=0.40 median LoC=122786 max=555 zero=3
+  go: n=37 median=87 mean=199.7 per-KLOC median=1.36 median LoC=53920 max=1269 zero=0
+  rust: n=34 median=80.5 mean=177.9 per-KLOC median=0.58 median LoC=188104 max=1637 zero=0
+  C#/Go median 0.22 mean 0.43 | C#/Rust median 0.24 mean 0.49 | per KLOC C#/Rust 0.68 C#/Go 0.29
+ENGINE measure-2026.11.85 (n=98)
+  csharp: n=37 median=22 mean=41.4 per-KLOC median=0.43 median LoC=45389 max=273 zero=3
+  go: n=28 median=204.5 mean=214.8 per-KLOC median=1.98 median LoC=46990 max=1345 zero=0
+  rust: n=33 median=68 mean=95.0 per-KLOC median=0.44 median LoC=109543 max=349 zero=1
+  C#/Go median 0.11 mean 0.19 | C#/Rust median 0.32 mean 0.44 | per KLOC C#/Rust 0.99 C#/Go 0.22
+ENGINE measure-2026.11.86 (n=77)
+  csharp: n=18 median=24.5 mean=37.3 per-KLOC median=0.30 median LoC=72233 max=149 zero=3
+  go: n=33 median=106 mean=466.0 per-KLOC median=2.02 median LoC=46394 max=6498 zero=1
+  rust: n=26 median=58.5 mean=66.0 per-KLOC median=0.37 median LoC=135368 max=225 zero=0
+  C#/Go median 0.23 mean 0.08 | C#/Rust median 0.42 mean 0.57 | per KLOC C#/Rust 0.79 C#/Go 0.15
+ENGINE measure-2026.11.83 (n=49)
+  csharp: n=16 median=48.5 mean=107.8 per-KLOC median=0.48 median LoC=54446 max=427 zero=1
+  go: n=15 median=79 mean=282.8 per-KLOC median=1.66 median LoC=50179 max=2070 zero=0
+  rust: n=18 median=74.5 mean=109.1 per-KLOC median=0.71 median LoC=76266 max=373 zero=0
+  C#/Go median 0.61 mean 0.38 | C#/Rust median 0.65 mean 0.99 | per KLOC C#/Rust 0.68 C#/Go 0.29
+csharp: log-log r=0.36, doubling size multiplies findings by 1.19 (n=606)
+go: log-log r=0.67, doubling size multiplies findings by 1.39 (n=515)
+rust: log-log r=0.47, doubling size multiplies findings by 1.23 (n=681)

@@ -12,6 +12,7 @@ an interest in good results. That is why the analyses were fixed in advance wher
 | Folder | Experiment | Article |
 |---|---|---|
 | `PREREGISTRATION-WP-40.md` | The pre-registrations (E1 to E7, E4b, E4c), with every dated amendment | all |
+| `b01/` | Findings per repository in C#, Go and Rust, 1,857 public repositories of our production corpus (November 2026) | *Findings count is not analysis depth* |
 | `e1/`, `e1-encfix/` | E1: complexity against expert maintainability ratings (304 Java classes); the re-run after our encoding fix (exploratory) | *Does a maintainability score agree with experts?* |
 | `e2/` | E2: the same 20 methods before and after we split our codebase into slices, 120 agent runs | *Does the shape of a codebase change what an agent spends?* |
 | `e4/` | E4, E4b, E4c: an AI reviewer against the deterministic gate, on easy and hard patches, two reviewer models | *A gate an agent cannot talk its way past* |
@@ -19,7 +20,7 @@ an interest in good results. That is why the analyses were fixed in advance wher
 | `e6/` | E6: an agent given our finding against an agent asked plainly, 20 hard methods, 120 runs | the same two articles |
 | `e7/` | E7: the pre-registered run on public repositories (not yet run) | (forthcoming) |
 | `b2-classes/` | The five-class split of one verification cycle's noise | *What a false positive actually is* |
-| `b26-b27/` | Concentration of noise in a few repositories; the findings-cap sweep | *Ten repositories wrote half the result* |
+| `b26-b27/` | Concentration of noise in a few repositories; the findings-cap sweep | *Nine repositories wrote half our result* |
 | `blog-lift/` | Worked examples and production queries behind the revised articles (B1, B5, B6, B8, B9, B10, B11, B13, B15, B16) | each article's method card |
 
 ## What is not here, and why
